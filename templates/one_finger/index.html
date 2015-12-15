@@ -1,0 +1,485 @@
+{% extends 'one_finger/base.html' %}
+
+{% block css %}
+  <style type="text/css">
+  .block-status{
+    padding: 10px;
+  }
+
+
+  </style>
+{% endblock %}
+
+{%  block content %}
+
+
+  <div class="row  border-bottom white-bg dashboard-header">
+
+    <div class="col-sm-3">
+      <div>
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2> Cloud Status</h2><br>
+                <i class="fa fa-cloud fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+
+
+    <div class="col-sm-2">
+      <div>
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2>Neutron</h2><br>
+                <i class="fa fa-exchange fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+
+    <div class="col-sm-2">
+      <div>
+{#         <h1> Cloud Status</h1>#}
+
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2> Nova</h2><br>
+                <i class="fa fa-desktop fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div>
+{#         <h1> Cloud Status</h1>#}
+
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2>Cinder</h2><br>
+                <i class="fa fa-hdd-o fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+     <div class="col-sm-2">
+      <div>
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2>Ceph</h2><br>
+                <i class="fa fa-sitemap fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+
+
+
+<div class="ibox float-e-margins"> {#Neutron dashboard#}
+{#  着个是nova具体状态信息#}
+  <div class="ibox-title">
+      <h5></h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+              <li><a href="#">Config option 1</a>
+              </li>
+              <li><a href="#">Config option 2</a>
+              </li>
+          </ul>
+          <a class="close-link">
+              <i class="fa fa-times"></i>
+          </a>
+      </div>
+  </div>
+  <div class="ibox-content">
+    <div class="col-sm-2">
+      <div>
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2>Neutron</h2><br>
+                <i class="fa fa-hdd-o fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+    <div class="col-sm-2">
+        <h2>Neutron Status</h2>
+        <ul class="list-group clear-list m-t">
+
+            <li class="list-group-item fist-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">1</span>L3 Agent
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">2</span>DHCP Agent
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">3</span>Neutron API
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                   <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">4</span>river status
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">5</span>Comput Status
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-sm-3">
+{#      <div id="neutron-manager" style="min-width:200px;height:300px"></div>#}
+      <div id="neutron_manager_status" style="height:300px">dzfzfffff</div>
+
+    </div>
+    <div class="col-sm-3">
+        <div id="neutron_comput_status" style="height:300px"></div>
+    </div>
+
+  </div>
+</div>{#Nutron dashboard#}
+
+
+<div class="ibox float-e-margins"> {#Nova dashboard#}
+{#  着个是nova具体状态信息#}
+  <div class="ibox-title">
+      <h5></h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+              <li><a href="#">Config option 1</a>
+              </li>
+              <li><a href="#">Config option 2</a>
+              </li>
+          </ul>
+          <a class="close-link">
+              <i class="fa fa-times"></i>
+          </a>
+      </div>
+  </div>
+  <div class="ibox-content">
+    <div class="col-sm-2">
+      <div>
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2>Nova</h2><br>
+                <i class="fa fa-hdd-o fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+    <div class="col-sm-2">
+        <h2>Nova Status</h2>
+        <ul class="list-group clear-list m-t">
+
+            <li class="list-group-item fist-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">1</span>Nova API
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">2</span>Nova Consoleauth
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">3</span>Nova Scheduler
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                   <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">4</span>Nova Compute
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">5</span>Nova License
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-sm-3">
+{#      <div id="neutron-manager" style="min-width:200px;height:300px"></div>#}
+      <div id="nova_manager_status" style="height:300px">dzfzfffff</div>
+
+    </div>
+    <div class="col-sm-3">
+        <div id="nova_compute_status" style="height:300px"></div>
+    </div>
+
+  </div>
+</div> {#Nova dashboard#}
+
+<div class="ibox float-e-margins"> {#Neutron dashboard#}
+{#  着个是nova具体状态信息#}
+  <div class="ibox-title">
+      <h5></h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+              <li><a href="#">Config option 1</a>
+              </li>
+              <li><a href="#">Config option 2</a>
+              </li>
+          </ul>
+          <a class="close-link">
+              <i class="fa fa-times"></i>
+          </a>
+      </div>
+  </div>
+  <div class="ibox-content">
+    <div class="col-sm-2">
+      <div>
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2>Cinder</h2><br>
+                <i class="fa fa-hdd-o fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+    <div class="col-sm-2">
+        <h2>Cinder Status</h2>
+        <ul class="list-group clear-list m-t">
+
+            <li class="list-group-item fist-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">1</span>Cinder API
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">2</span>Cinder Scheduler
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                   <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">4</span>Cinder Volume
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-sm-3">
+{#      <div id="neutron-manager" style="min-width:200px;height:300px"></div>#}
+      <div id="cinder_manager_status" style="height:300px">dzfzfffff</div>
+
+    </div>
+    <div class="col-sm-3">
+        <div id="cinder_volume_status" style="height:300px"></div>
+    </div>
+
+  </div>
+</div> {#Cinder dashboard#}
+
+<div class="ibox float-e-margins"> {#Neutron dashboard#}
+{#  着个是nova具体状态信息#}
+  <div class="ibox-title">
+      <h5></h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+              <li><a href="#">Config option 1</a>
+              </li>
+              <li><a href="#">Config option 2</a>
+              </li>
+          </ul>
+          <a class="close-link">
+              <i class="fa fa-times"></i>
+          </a>
+      </div>
+  </div>
+  <div class="ibox-content">
+    <div class="col-sm-2">
+      <div>
+         <div class="widget navy-bg block-status text-center">
+            <div class="m-b-md">
+               <h2>Ceph</h2><br>
+                <i class="fa fa-hdd-o fa-4x"></i>
+                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+
+            </div>
+         </div>
+      </div>
+    </div>
+    <div class="col-sm-2">
+        <h2>Ceph Status</h2>
+        <ul class="list-group clear-list m-t">
+
+            <li class="list-group-item fist-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">1</span>Ceph API
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">2</span>Ceph Mon
+            </li>
+
+            <li class="list-group-item">
+                <span class="pull-right">
+                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                </span>
+                <span class="label label-primary">3</span>Ceph OSD
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-sm-3">
+{#      <div id="neutron-manager" style="min-width:200px;height:300px"></div>#}
+      <div id="ceph_mon_status" style="height:300px">dzfzfffff</div>
+
+    </div>
+    <div class="col-sm-3">
+        <div id="ceph_osd_status" style="height:300px"></div>
+    </div>
+
+  </div>
+</div> {#Ceph dashboard#}
+
+
+
+<div class="ibox float-e-margins">
+{#  着个是nova具体状态信息#}
+  <div class="ibox-title">
+      <h5>3D Buttons</h5>
+      <div class="ibox-tools">
+          <a class="collapse-link">
+              <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+              <li><a href="#">Config option 1</a>
+              </li>
+              <li><a href="#">Config option 2</a>
+              </li>
+          </ul>
+          <a class="close-link">
+              <i class="fa fa-times"></i>
+          </a>
+      </div>
+  </div>
+  <div class="ibox-content">
+      <p>
+          To add three diminsion to buttons You can add <code>.dim</code> class to button.
+      </p>
+      <h3 class="font-bold">Three diminsion button</h3>
+
+              <button class="btn btn-primary dim btn-large-dim" type="button"><i class="fa fa-money"></i></button>
+              <button class="btn btn-warning dim btn-large-dim" type="button"><i class="fa fa-warning"></i></button>
+              <button class="btn btn-danger  dim btn-large-dim" type="button"><i class="fa fa-heart"></i></button>
+              <button class="btn btn-primary  dim btn-large-dim" type="button"><i class="fa fa-dollar"></i>6</button>
+              <button class="btn btn-info  dim btn-large-dim btn-outline" type="button"><i class="fa fa-ruble"></i></button>
+              <button class="btn btn-primary dim" type="button"><i class="fa fa-money"></i></button>
+              <button class="btn btn-warning dim" type="button"><i class="fa fa-warning"></i></button>
+              <button class="btn btn-primary dim" type="button"><i class="fa fa-check"></i></button>
+              <button class="btn btn-success  dim" type="button"><i class="fa fa-upload"></i></button>
+              <button class="btn btn-info  dim" type="button"><i class="fa fa-paste"></i> </button>
+              <button class="btn btn-warning  dim" type="button"><i class="fa fa-warning"></i></button>
+              <button class="btn btn-default  dim " type="button"><i class="fa fa-star"></i></button>
+              <button class="btn btn-danger  dim " type="button"><i class="fa fa-heart"></i></button>
+
+              <button class="btn btn-outline btn-primary dim" type="button"><i class="fa fa-money"></i></button>
+              <button class="btn btn-outline btn-warning dim" type="button"><i class="fa fa-warning"></i></button>
+              <button class="btn btn-outline btn-primary dim" type="button"><i class="fa fa-check"></i></button>
+              <button class="btn btn-outline btn-success  dim" type="button"><i class="fa fa-upload"></i></button>
+              <button class="btn btn-outline btn-info  dim" type="button"><i class="fa fa-paste"></i> </button>
+              <button class="btn btn-outline btn-warning  dim" type="button"><i class="fa fa-warning"></i></button>
+              <button class="btn btn-outline btn-danger  dim " type="button"><i class="fa fa-heart"></i></button>
+
+  </div>
+</div>
+
+
+{#  最外部的div#}
+</div>
+{% endblock %}
+
+
+{% block js %}
+  <script type="text/javascript" src="/static/js/plugins/highcharts/highcharts.js"></script>
+  <script type="text/javascript" src="/static/js/only_finger/plugins/echarts/echarts.js"></script>
+  <script type="text/javascript" src="/static/js/only_finger/dashiboard/dashboard.js"></script>
+  <script>
+
+  </script>
+{% endblock %}

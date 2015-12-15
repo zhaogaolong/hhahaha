@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script type="text/javascript" src="../../static/js/jquery-2.1.1.js"></script>
+  <script type="text/javascript" src="../../static/js/plugins/highcharts/highcharts.js"></script>
+
+  <script>
+
+
+
+ $(function () {
+                $('#container').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    colors:[
+                        'Teal',//第一个颜色，欢迎加入Highcharts学习交流群294191384
+                        'blue',//第二个颜色
+                        'yellow',//第三个颜色
+                        'aadce', //。。。。
+                           '#492970',
+                           '#f28f43',
+                           '#77a1e5',
+                           '#c42525',
+                           '#a6c96a'
+                      ],
+                    title: {
+                        text: 'Browser market shares at a specific website, 2010'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Browser share',
+                        data: [
+                            ['Firefox',   45.0],
+                            ['IE',       26.8],
+                            ['Opera',     6.2],
+                            ['Opsdfdsf',     6.2],
+                            ['Opersdfdsa',     6.2]
+                        ]
+                    }]
+                });
+            });
+  </script>
+</head>
+<body>
+  <div id="container" style="min-width:700px;height:400px"></div>
+</body>
+</html>

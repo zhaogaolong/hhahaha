@@ -1,0 +1,168 @@
+<!doctype html> 
+<html> 
+<head> 
+<meta charset="utf-8"> 
+<title>pie--静态和动态，包括原始饼图，环形饼图，钟表饼图</title> 
+<script  src="../js/esl.js"></script> 
+<script src="../js/jquery-1.7.1.js"></script> 
+<script type="text/javascript"> 
+              
+require.config({ 
+packages:[ 
+{ 
+name:'echarts', 
+location:'../echarts-master/src', 
+main:'echarts' 
+}, 
+{ 
+name:'zrender', 
+location:'../zrender-master/src', 
+main:'zrender' 
+} 
+] 
+}); 
+var option1 = { 
+    tooltip : { 
+        trigger: 'item', 
+        formatter: "{a} <br/>{b} : {c} ({d}%)" 
+    }, 
+    legend: { 
+        orient : 'vertical', 
+        x : 'left', 
+        data:['<a href="http://www.it165.net/qq/" target="_blank" class="keylink">qq</a>','msn','pps','ie','360'] 
+    }, 
+        
+    calculable : true, 
+    series : [ 
+        { 
+            name:'访问来源', 
+            type:'pie', 
+            radius : [80, 120],//半径，默认为Min(width, height) / 2 - 50, 传数组实现环形图，[内半径，外半径] 
+            itemStyle :　{ 
+                normal : {//默认样式 
+                    label : { 
+                        show : true 
+                    }, 
+                    labelLine : { 
+                        show : false 
+                    } 
+                }, 
+                emphasis : {//强调样式（悬浮时样式 
+                    label : { 
+                        show : true, 
+                        position : 'center', 
+                        textStyle : { 
+                            fontSize : '30', 
+                            fontWeight : 'bold' 
+                        } 
+                    } 
+                } 
+            }, 
+            data:[ 
+                {value:335, name:'<a href="http://www.it165.net/qq/" target="_blank" class="keylink">qq</a>'}, 
+                {value:310, name:'msn'}, 
+                {value:234, name:'pps'}, 
+                {value:135, name:'ie'}, 
+                {value:1548, name:'360'} 
+            ] 
+        } 
+    ] 
+}; 
+var option2 = { 
+    title : { 
+        text: '动态数据', 
+        subtext: '纯属虚构' 
+    }, 
+    tooltip : { 
+        trigger: 'item' 
+    }, 
+    legend: { 
+        data:['随机数据1','随机数据2','随机数据3','随机数据4','随机数据5'] 
+    }, 
+         
+    calculable : false, 
+    series : [ 
+        { 
+            name:'pie', 
+            type:'pie', 
+            radius : [0, 110], 
+            center: [250, 225], 
+            data: (function(){ 
+                var res = []; 
+                var len = 0; 
+                while (len++ < 5) { 
+                    res.push({ 
+                        name: '随机数据' + len, 
+                        value: Math.round(Math.random()*10) 
+                    }); 
+                } 
+                return res; 
+            })() 
+        } 
+    ] 
+}; 
+                                        
+var myChart1; 
+var myChart2; 
+require( 
+[ 
+'echarts', 
+'echarts/chart/pie' 
+], 
+function(ec){ 
+myChart1=ec.init(document.getElementById('main1')); 
+myChart1.setOption(option1); 
+myChart2=ec.init(document.getElementById('main2')); 
+myChart2.setOption(option2); 
+var timeTicket2; 
+//var lastIndex = 5; 
+clearInterval(timeTicket2); 
+timeTicket2 = setInterval(function(){ 
+    //ajax请求一个数据。插入数组后面。每时间间隔请求一个 
+    RandPie(ec); 
+          
+    }, 2000); 
+} 
+) 
+//全局定义 
+var lastIndex = 5; 
+function RandPie(ec){ 
+          
+     $.ajax({ 
+                url:"../control/AjaxService.php?method=RandANum", 
+                dataType:"text", 
+                success:function(data) 
+                { 
+                          
+                     Rdata=eval(data); 
+                    // alert(Rdata); 
+                      lastIndex += 1; 
+                    // 动态数据接口 addData 
+                    myChart2.addData([ 
+                        [ 
+                            0,        // 系列索引 
+                            {         // 新增数据 
+                                name: '随机数据' + lastIndex, 
+                                value: Rdata 
+                            }, 
+                            false,     // 新增数据是否从队列头部插入 
+                            false,     // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头 
+                            '随机数据' + lastIndex 
+                        ] 
+                      
+                     ]); 
+                }           
+            }); 
+          
+          
+    } 
+          
+</script> 
+</head> 
+<body> 
+<div id="main1" style="height:350px;width:700px; border:1px solid #ccc; padding:10px;"></div> 
+<div id="main2" style="height:350px;width:700px; border:1px solid #ccc; padding:10px;"></div> 
+<div id="main3" style="height:350px;width:640px; border:1px solid #ccc; padding:10px;right:10px;top:9px;position:absolute;"></div> 
+<div id="main4" style="height:350px;width:640px; border:1px solid #ccc; padding:10px;right:10px;top:380px;position:absolute;"></div> 
+</body> 
+</html>
