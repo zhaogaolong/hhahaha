@@ -101,7 +101,7 @@ class Token():
                 'internal_url': endpoint_data['internalurl'],
                 'public_url': endpoint_data['publicurl']
             }
-
+            
             endpoint_obj = one_finger_models.OpenStackKeyStoneEndpoint(**endpoint_db_data)
             # print '%s_save' % endpoint_data['id']
             endpoint_data = {}
@@ -138,7 +138,11 @@ class Token():
         # service_obj.save()
         # print 'save_server'
 
-    def get_host(self):
+    def get_hosts(self):
+        self.add_hosts()
+        # self.add_nova_host()
+
+    def add_hosts(self):
         # 获取keystone的服务的数据库对象
         service_obj = one_finger_models.OpenStackKeystoneService.objects.filter(name='nova')
 
@@ -166,20 +170,79 @@ class Token():
 
                     })
         data = json.loads(urllib2.urlopen(request, timeout=5).read())
-        host_list_dic = {
-            'manage': {},
-            'compute': {},
-        }
+
+        # 创建主机
         host_list = []
-        count = 1
+        for item in data['services']:
+            # print item
+            if item['host'] in host_list:
+                continue
+            else:
+                host_list.append(item['host'])
+
+        # host_db_obj = openstack_models.Host.objects()
+        for host in host_list:
+            openstack_models.Host.objects.create(hostname=host)
+        # host_db_obj.save()
+
+        print host_list
+
+
+
+
+
+
+
+
+
+    def add_nova_host(self):
+        # 获取keystone的服务的数据库对象
+        service_obj = one_finger_models.OpenStackKeystoneService.objects.filter(name='nova')
+
+        # pdb.set_trace()
+        # 获取 service id
+        service_id = service_obj.values()[0]['service_id']
+
+        # 获取endpoint的对象
+        endpoint_obj = one_finger_models.OpenStackKeyStoneEndpoint.objects.filter(service_id=service_id)
+
+        # 获取URL
+        url = endpoint_obj.values()[0]['public_url']
+        # print url, self.tenant_id
+
+        # 拼接url ：http://192.168.254.242:8774/v2/239667eee2124453b69309e9cefae142/os-services
+        url = url % {'tenant_id': self.tenant_id} + '/os-services'
+
+        print url
+        request = urllib2.Request(url,
+                headers={
+                    'X-Auth-Project-Id': self.username,
+                    'Accept': 'application/json',
+                    'User-Agent': 'python-novaclient',
+                    'X-Auth-Token': self.token,
+
+                    })
+        data = json.loads(urllib2.urlopen(request, timeout=5).read())
+
+        # 创建主机
+        host_list = []
         for item in data['services']:
             print item
             if item['host'] in host_list:
                 continue
             else:
                 host_list.append(item['host'])
-
         print host_list
+
+        # 定义角色的服务，稍后根据不同规划不同的角色
+        manager = ['nova-consoleauth', 'nova-scheduler', 'nova-conductor', 'nova-cert']
+        compute = ['nova-compute']
+
+        # 开始分类啦
+        for item in data['services']:
+            if item['binary'] in compute:
+                pass
+
 
 
 

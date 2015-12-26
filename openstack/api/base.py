@@ -17,17 +17,13 @@
 #    under the License.
 
 from collections import Sequence  # noqa
-
 from django.conf import settings
-
 from horizon import exceptions
-
 import six
 
 
 __all__ = ('APIResourceWrapper', 'APIDictWrapper',
            'get_service_from_catalog', 'url_for',)
-
 
 
 class APIVersionManager(object):

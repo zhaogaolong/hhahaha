@@ -14,17 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
-from one_finger import views as one_finger_views
-from openstack import urls as openstack_url
+from openstack import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^openstack/', include(openstack_url)),
-    url(r'^$', one_finger_views.index, name='index'),
-    url(r'^base/', one_finger_views.base, name='base'),
-    url(r'^back/', one_finger_views.back, name='back'),
-    url(r'^get_openstack_info/', one_finger_views.get_openstack_info, name='get_openstack_info'),
-    # url(r'^cinder_service/', one_finger_views.get_cinder_service, name='cinder_service'),
+    # url(r'^admin/', include(admin.site.urls)),
+    # url(r'^openstack/', include(admin.site.urls)),
+    # url(r'^$', one_finger_views.index, name='index'),
+    url(r'^info/', views.info, name='info'),
+
 
 ]

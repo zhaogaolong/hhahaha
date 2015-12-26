@@ -33,7 +33,7 @@ class OpenStackKeyStoneEndpoint(models.Model):
     enabled = models.BooleanField()
 
     def __unicode__(self):
-        return self.service_id
+        return self.public_url
 
 
 class OpenStackKeystoneService(models.Model):
