@@ -321,7 +321,9 @@ class Host(models.Model):
     ip_storage = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     ip_public = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     ip_pxe = models.GenericIPAddressField(max_length=64, blank=True, null=True)
-    # group = models.ForeignKey('Group')
+    username = models.CharField(max_length=64, blank=True, null=True)
+    # password = models.CharField(max_length=64, blank=True, null=True)
+
     status_level = (
         ('Ok', "ok"),
         ('Warning ', "Warning"),

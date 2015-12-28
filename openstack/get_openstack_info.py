@@ -87,9 +87,13 @@ class Token():
         data = data['endpoints']
         endpoint_data = {}
         for val in data:
-            for i,v in val.items():
+            for i, v in val.items():
+                # 迭代整个item 生成完整的字典
                 endpoint_data[i] = v
-            # print endpoint_data
+
+            if one_finger_models.OpenStackKeyStoneEndpoint.objects.filter(endpoint_id=endpoint_data['id']):
+                # 测试该记录是否已存存在
+                continue
 
             # 创建数据库数据字典
             endpoint_db_data = {
@@ -123,7 +127,12 @@ class Token():
         service_obj = one_finger_models.OpenStackKeystoneService.objects
         for val in data:
             for k, v in val.items():
+                # 迭代整个item 生成完整的字典
                 service_data[k] = v
+
+            if one_finger_models.OpenStackKeystoneService.objects.filter(service_id=service_data['id']):
+                # 测试该记录是否已存存在
+                continue
 
             service_db_data = {
                 'service_id': service_data['id'],
@@ -161,10 +170,9 @@ class Token():
         url = url % {'tenant_id': self.tenant_id} + '/os-services'
 
         print url
-        request = urllib2.Request(url,
-                headers={
+        request = urllib2.Request(url,                headers={
                     'X-Auth-Project-Id': self.username,
-                    'Accept': 'application/json',
+                  'Accept': 'application/json',
                     'User-Agent': 'python-novaclient',
                     'X-Auth-Token': self.token,
 
@@ -180,19 +188,13 @@ class Token():
             else:
                 host_list.append(item['host'])
 
-        # host_db_obj = openstack_models.Host.objects()
         for host in host_list:
-            openstack_models.Host.objects.create(hostname=host)
-        # host_db_obj.save()
-
-        print host_list
-
+            if not openstack_models.Host.objects.filter(hostname=host):
+                # 监测该主机是否存在数据库中
+                openstack_models.Host.objects.create(hostname=host)
 
 
-
-
-
-
+        # print host_list
 
 
     def add_nova_host(self):
