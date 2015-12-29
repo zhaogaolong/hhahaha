@@ -10,5 +10,5 @@ def info(request):
     b.get_token()
     b.get_endpoint()
     b.get_service()
-    b.get_hosts()
+    b.add_hosts('192.168.201.3')
     return HttpResponse('Openstack Info')

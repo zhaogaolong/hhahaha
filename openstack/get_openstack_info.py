@@ -6,9 +6,11 @@
 import urllib2
 import sys
 import json
+import commands
 import pdb
 from one_finger import models as one_finger_models
 from openstack import models as openstack_models
+
 
 
 class Token():
@@ -147,11 +149,7 @@ class Token():
         # service_obj.save()
         # print 'save_server'
 
-    def get_hosts(self):
-        self.add_hosts()
-        # self.add_nova_host()
-
-    def add_hosts(self):
+    def add_hosts(self, ip):
         # 获取keystone的服务的数据库对象
         service_obj = one_finger_models.OpenStackKeystoneService.objects.filter(name='nova')
 
@@ -169,10 +167,10 @@ class Token():
         # 拼接url ：http://192.168.254.242:8774/v2/239667eee2124453b69309e9cefae142/os-services
         url = url % {'tenant_id': self.tenant_id} + '/os-services'
 
-        print url
+        # print url
         request = urllib2.Request(url,                headers={
                     'X-Auth-Project-Id': self.username,
-                  'Accept': 'application/json',
+                    'Accept': 'application/json',
                     'User-Agent': 'python-novaclient',
                     'X-Auth-Token': self.token,
 
@@ -192,10 +190,45 @@ class Token():
             if not openstack_models.Host.objects.filter(hostname=host):
                 # 监测该主机是否存在数据库中
                 openstack_models.Host.objects.create(hostname=host)
-
+        self.add_hosts_ip(ip)
 
         # print host_list
 
+    def add_hosts_ip(self, ip):
+        host_db_obj = openstack_models.Host.objects.all()
+
+        for host in host_db_obj:
+            if host.ip_manager and host.ip_pxe and host.ip_storage:
+                continue
+
+            # 通过hosts文件获取其他主机的管理IP地址
+            discover_host_name_comm = "ssh %s cat /etc/hosts |grep %s |awk '{print $1}'" % (ip, host.hostname)
+            status, manage_ip_out = commands.getstatusoutput(discover_host_name_comm)
+
+            if status:
+                # 如果执行错误就return 结束
+                return 'comm error: %s' % discover_host_name_comm
+            host_ip_info = self.get_host_ip(manage_ip_out)
+            # print 'host_ip_info'
+
+            host.ip_manager = host_ip_info['br-mgmt']
+            host.ip_pxe = host_ip_info['br-fw-admin']
+            host.ip_storage = host_ip_info['br-storage']
+            host.ip_public = host_ip_info['br-ex']
+            host.save()
+
+    def get_host_ip(self, manager_ip):
+        host_ip_dic = {}
+        interface_list = ['br-mgmt', 'br-storage', 'br-fw-admin', 'br-ex']
+
+        for interface_name in interface_list:
+            comm = "ssh %s ifconfig %s |grep inet |awk -F ':' '{print$2}' |awk '{print $1}'" % (manager_ip,
+                                                                                                interface_name)
+            status, ip = commands.getstatusoutput(comm)
+            if not status:
+                host_ip_dic[interface_name] = ip
+
+        return host_ip_dic
 
     def add_nova_host(self):
         # 获取keystone的服务的数据库对象
