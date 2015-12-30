@@ -11,4 +11,5 @@ def info(request):
     b.get_endpoint()
     b.get_service()
     b.add_hosts('192.168.201.3')
+    b.add_nova_host()
     return HttpResponse('Openstack Info')

@@ -114,35 +114,45 @@ class NovaStatus(models.Model):
 class NovaManagerServiceStatus(models.Model):
     host = models.ForeignKey('Host')
     status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
+        ('up', "up"),
+        ('down ', "down"),
+        ('error ', "error"),
     )
     status = models.CharField(choices=status_level, max_length=64)
-    nova_api_status = models.CharField(choices=status_level, max_length=64)
-    nova_no_vnc_proxy_status = models.CharField(choices=status_level, max_length=64)
-    nova_console_auth_status = models.CharField(choices=status_level, max_length=64)
+    nova_api_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    nova_no_vnc_proxy_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    nova_license_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+
+    nova_consoleauth_status = models.CharField(choices=status_level, max_length=64)
+    enabled_nova_consoleauth = models.BooleanField()
+
     nova_scheduler_status = models.CharField(choices=status_level, max_length=64)
+    enabled_nova_scheduler = models.BooleanField()
+
     nova_conductor_status = models.CharField(choices=status_level, max_length=64)
-    nova_license_status = models.CharField(choices=status_level, max_length=64)
+    enabled_nova_conductor = models.BooleanField()
+
+    nova_cert_status = models.CharField(choices=status_level, max_length=64)
+    enabled_nova_cert = models.BooleanField()
 
     def __unicode__(self):
-        return self.host.name
+        return self.host.hostname
 
 
 class NovaComputeServiceStatus(models.Model):
     # compute node nova status
-    group_name = models.ForeignKey('Host')
+    host = models.ForeignKey('Host')
     status_level = (
         ('Ok', "ok"),
         ('Warning ', "Warning"),
         ('Error ', "Error"),
     )
-    status = models.CharField(choices=status_level, max_length=64)
-    libvirtd_staus = models.CharField(choices=status_level, max_length=64)
+    nova_compute_status = models.CharField(choices=status_level, max_length=64)
+    enabled_nova_compute = models.BooleanField()
+    libvirtd_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
 
     def __unicode__(self):
-        return self.status
+        return self.host.hostname
 
 
 # ####openstack_mode: rabbitmq##########

@@ -259,26 +259,100 @@ class Token():
                     })
         data = json.loads(urllib2.urlopen(request, timeout=5).read())
 
-        # 创建主机
+        # 创建主机列表
         host_list = []
+
+        # 创建主机db对象列表
+        host_db_list = {}
         for item in data['services']:
-            print item
             if item['host'] in host_list:
                 continue
             else:
                 host_list.append(item['host'])
+                host_db_list[item['host']] = openstack_models.Host.objects.get(hostname=item['host'])
+
+        # print host_db_list
         print host_list
 
+        # pdb.set_trace()
         # 定义角色的服务，稍后根据不同规划不同的角色
-        manager = ['nova-consoleauth', 'nova-scheduler', 'nova-conductor', 'nova-cert']
-        compute = ['nova-compute']
+        manager_binary = ['nova-consoleauth', 'nova-scheduler', 'nova-conductor', 'nova-cert']
+        compute_binary = ['nova-compute']
+
+        nova_manager_obj = openstack_models.NovaManagerServiceStatus()
 
         # 开始分类啦
+        print data['services']
+        manager_db_dic = {}
+        compute_db_dic = {}
         for item in data['services']:
-            if item['binary'] in compute:
-                pass
+            if item['binary'] in manager_binary:
+                if openstack_models.NovaManagerServiceStatus.objects.filter(
+                        host_id=host_db_list[item['host']].id):
+                    # 判断该记录是否存在，如果存在就继续下次循环
+                    continue
+                if not item['host'] in manager_db_dic:
+                    # 监测该主机名是否在字典中，如果没有添加该主机，添加一个ForeignKey的host_id
+                    manager_db_dic[item['host']] = {}
+                    manager_db_dic[item['host']]['host_id'] = host_db_list[item['host']].id
+                binary_name_status = '%s_status' % '_'.join(item['binary'].split('-'))
+                binary_enabled = 'enabled_%s' % '_'.join(item['binary'].split('-'))
+                # print binary_name_status
+                # print binary_enabled
 
+                if item['status'] == 'enabled':
+                    binary_enabled_status = 1
+                else:
+                    binary_enabled_status = 0
+                manager_db_dic[item['host']][binary_name_status] = item['state']
+                manager_db_dic[item['host']][binary_enabled] = binary_enabled_status
 
+                # print binary_name_status, type(binary_name_status)
+                # print binary_enabled, type(binary_enabled)
+                print 'start if hostname: %s' % item['host']
+
+            elif item['binary'] in compute_binary:
+                if openstack_models.NovaComputeServiceStatus.objects.filter(
+                        host_id=host_db_list[item['host']].id):
+                    continue
+                if not item['host'] in compute_db_dic:
+                    compute_db_dic[item['host']] = {}
+                    compute_db_dic[item['host']]['host_id'] = host_db_list[item['host']].id
+
+                binary_name_status = '%s_status' % '_'.join(item['binary'].split('-'))
+                binary_enabled = 'enabled_%s' % '_'.join(item['binary'].split('-'))
+                # print binary_name_status, type(binary_name_status)
+                # print binary_enabled, type(binary_enabled)
+                if item['status'] == 'enabled':
+                    binary_enabled_status = 1
+                else:
+                    binary_enabled_status = 0
+                # pdb.set_trace()
+                compute_db_dic[item['host']][binary_name_status] = item['state']
+                compute_db_dic[item['host']][binary_enabled] = binary_enabled_status
+
+        # print manager_db_dic
+        # print 'compute_db_dic', compute_db_dic
+
+        # 把数据存储到数据库中
+
+        for k, v in manager_db_dic.items():
+            # print k
+            # print v
+            if not openstack_models.NovaManagerServiceStatus.objects.filter(
+                    host_id=openstack_models.Host.objects.get(hostname=k).id):
+                openstack_models.NovaManagerServiceStatus.objects.create(**v)
+
+        # print(compute_db_dic)
+        for k, v in compute_db_dic.items():
+            # print k
+            # print v
+            if not openstack_models.NovaComputeServiceStatus.objects.filter(
+                    host_id=openstack_models.Host.objects.get(hostname=k).id):
+                openstack_models.NovaComputeServiceStatus.objects.create(**v)
+
+    def add_cinder_host(self):
+        pass
 
 
     def check_api(self, url, service):
