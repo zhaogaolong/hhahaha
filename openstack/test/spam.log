@@ -1,0 +1,10 @@
+2015-12-31 13:29:39,608 - dfsdfsf - DEBUG - debug message
+2015-12-31 13:29:39,608 - dfsdfsf - INFO - info message
+2015-12-31 13:29:39,608 - dfsdfsf - WARNING - warn message
+2015-12-31 13:29:39,608 - dfsdfsf - ERROR - error message
+2015-12-31 13:29:39,608 - dfsdfsf - CRITICAL - critical message
+2015-12-31 13:30:32,164 - dfsdfsf - DEBUG - debug message
+2015-12-31 13:30:32,164 - dfsdfsf - INFO - info message
+2015-12-31 13:30:32,164 - dfsdfsf - WARNING - warn message
+2015-12-31 13:30:32,164 - dfsdfsf - ERROR - error message
+2015-12-31 13:30:32,164 - dfsdfsf - CRITICAL - critical message

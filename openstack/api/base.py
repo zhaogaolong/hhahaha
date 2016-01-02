@@ -7,11 +7,14 @@ class Base(object):
 
 
 class KeyStoneBase(Base):
-    pass
+    version = 2
 
 
 class NovaBase(Base):
+
+
     pass
+
 
 
 class CinderBase(Base):

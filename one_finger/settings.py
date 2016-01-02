@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'one_finger.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite9'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'one_finger',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': 3306,
     }
 }
 
@@ -108,3 +112,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+LOG_DIR = '/var/log/one_finger/one_finger.log'

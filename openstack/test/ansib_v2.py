@@ -4,8 +4,8 @@
 import tornado.ioloop
 from tornado.options import define, options
 import tornado.web
-import ansible.runner
-from ansible.inventory import Inventory
+import opentack_ansible.runner
+from opentack_ansible.inventory import Inventory
 import simplejson
 import hashlib
 
@@ -42,7 +42,7 @@ class CommandHandler(tornado.web.RequestHandler):
           if cmdinfo[0] in badcmd:
             self.write("This is Danger Shell")
           else:
-            runner = ansible.runner.Runner(
+            runner = opentack_ansible.runner.Runner(
                module_name=type,
                module_args=cmd,
                pattern=host,

@@ -327,6 +327,7 @@ class NeutronComputeServiceStatus(models.Model):
 
 class Host(models.Model):
     hostname = models.CharField(max_length=64)
+    host_group = models.ForeignKey('Group', blank=True, null=True)
     ip_manager = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     ip_storage = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     ip_public = models.GenericIPAddressField(max_length=64, blank=True, null=True)
