@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding:utf8
-
 # 获取平台信息
 # import time
 import urllib2
@@ -17,6 +16,7 @@ from one_finger import models as one_finger_models
 from openstack import models as openstack_models
 from one_finger.cloud_logging import cloud_logging as logging
 log = logging.logger
+
 
 
 class GetOpenStackInfo():
@@ -65,7 +65,6 @@ class GetOpenStackInfo():
             endpoint_obj.save()
             log_info = 'Storage Endpoint to DB:' + json.dumps(endpoint_db_data)
             log.info(log_info)
-
 
     def get_service(self):
         data = self.kc.service_list()
@@ -156,43 +155,16 @@ class GetOpenStackInfo():
             if data:
                 host_ip_dic[interface_name] = data
 
-        print host_ip_dic
+        # print host_ip_dic
         # pdb.set_trace()
         log_info = 'Get Host %s IP' % manager_ip
         log.info(log_info)
         return host_ip_dic
 
-
-
     def add_nova_host(self):
-        # 获取keystone的服务的数据库对象
-        service_obj = one_finger_models.OpenStackKeystoneService.objects.filter(name='nova')
+        # data = nova_hosts.host_list()
 
-        # pdb.set_trace()
-        # 获取 service id
-        service_id = service_obj.values()[0]['service_id']
-
-        # 获取endpoint的对象
-        endpoint_obj = one_finger_models.OpenStackKeyStoneEndpoint.objects.filter(service_id=service_id)
-
-        # 获取URL
-        url = endpoint_obj.values()[0]['public_url']
-        # print url, self.tenant_id
-
-        # 拼接url ：http://192.168.254.242:8774/v2/239667eee2124453b69309e9cefae142/os-services
-        url = url % {'tenant_id': self.tenant_id} + '/os-services'
-
-        # print url
-        request = urllib2.Request(url,
-                headers={
-                    'X-Auth-Project-Id': self.username,
-                    'Accept': 'application/json',
-                    'User-Agent': 'python-novaclient',
-                    'X-Auth-Token': self.token,
-
-                    })
-        data = json.loads(urllib2.urlopen(request, timeout=5).read())
-
+        data = nova_hosts.host_data()
         # 创建主机列表
         host_list = []
 
@@ -235,8 +207,10 @@ class GetOpenStackInfo():
                 # print binary_enabled
 
                 if item['status'] == 'enabled':
+                    # 数据库中存储的是布尔值
                     binary_enabled_status = 1
                 else:
+                    # 数据库中存储的是布尔值
                     binary_enabled_status = 0
                 manager_db_dic[item['host']][binary_name_status] = item['state']
                 manager_db_dic[item['host']][binary_enabled] = binary_enabled_status
@@ -274,17 +248,23 @@ class GetOpenStackInfo():
 
         if not openstack_models.Group.objects.filter(name='Compute'):
             openstack_models.Group.objects.create(name='Compute')
+
+
         # 把数据存储到数据库中
         for k, v in manager_db_dic.items():
-            # print k
-            # print v
+            # print 'k--->', k
+            # print 'v--->', v
             if not openstack_models.NovaManagerServiceStatus.objects.filter(
                     host_id=openstack_models.Host.objects.get(hostname=k).id):
+
+                # 把数据存储到数据库中
                 openstack_models.NovaManagerServiceStatus.objects.create(**v)
-                manager_obj = openstack_models.Group.objects.get(name='Manager')
-                compute_obj = openstack_models.Host.objects.get(hostname=k)
-                compute_obj.host_group_id = manager_obj.id
-                compute_obj.save()
+
+                # 把主机添加相应的组中
+                group_obj = openstack_models.Group.objects.get(name='Manager')
+                manager_obj = openstack_models.Host.objects.get(hostname=k)
+                manager_obj.host_group_id = group_obj.id
+                manager_obj.save()
 
         log_info = 'Add Nova Compute Service to DB %s IP'
         log.info(log_info)
@@ -297,6 +277,13 @@ class GetOpenStackInfo():
                     host_id=openstack_models.Host.objects.get(hostname=k).id):
                 openstack_models.NovaComputeServiceStatus.objects.create(**v)
 
+
+
+                group_obj = openstack_models.Group.objects.get(name='Compute')
+                compute_obj = openstack_models.Host.objects.get(hostname=k)
+                compute_obj.host_group_id = group_obj.id
+                compute_obj.save()
+
                 # openstack_models.Host.objects.update_or_create(
                 #     host_group_id=openstack_models.Group.objects.get(name='Compute').id)
 
@@ -308,9 +295,29 @@ class GetOpenStackInfo():
 
     def add_cinder_host(self):
         host_data = cinder.CinderClient().service_list()
-
         log.debug(json.dumps(host_data))
-        print host_data
+
+        db_dic = {}
+
+        for item in host_data['services']:
+            # 获取信息
+            manager_group_db_obj = openstack_models.Group.objects.get(name='Manager')
+            manager_list = openstack_models.Host.objects.filter(host_group_id=manager_group_db_obj.id)
+            # 获取所有主机信息
+            for host in manager_list:
+                if not openstack_models.CinderManagerStatus.objects.filter(host_id=host.id):
+                    # 判断该是否有该主机
+                    if not host.hostname in db_dic:
+                        # 如果没有创建字典就先创建一个
+                        db_dic[host.hostname] = {}
+                        db_dic[host.hostname]['host_id'] = host.id
+                    binary_name = '%s' % '_'.join(item['binary'].split('-'))
+                    print binary_name
+                    db_dic[host.hostname][binary_name] =  item['state']
+        if db_dic == None:
+            return None
+        for host, item in db_dic.items():
+            openstack_models.CinderManagerStatus.objects.create(**item)
 
     def add_neutron_host(self):
         pass

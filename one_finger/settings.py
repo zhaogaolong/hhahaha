@@ -114,3 +114,5 @@ STATICFILES_DIRS = [
 ]
 
 LOG_DIR = '/var/log/one_finger/one_finger.log'
+
+Ceph_enable = True

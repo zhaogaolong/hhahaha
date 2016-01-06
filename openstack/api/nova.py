@@ -14,6 +14,17 @@ from one_finger import models as one_finger_models
 
 
 def host_list():
+    data = host_data()
+    hosts = []
+    for item in data['services']:
+        if item['host'] in hosts:
+            continue
+        else:
+            hosts.append(item['host'])
+    return hosts
+
+
+def host_data():
     kc = keystone.KeyStone()
     # 获取keystone的服务的数据库对象
     service_obj = one_finger_models.OpenStackKeystoneService.objects.filter(name='nova')
@@ -43,17 +54,16 @@ def host_list():
     data = json.loads(urllib2.urlopen(request, timeout=5).read())
 
     # 创建主机
-    hosts = []
-    for item in data['services']:
-        if item['host'] in hosts:
-            continue
-        else:
-            hosts.append(item['host'])
-    return hosts
+
+    return data
 
 
 def host_db_list():
     return openstack_models.Host.objects.all()
+
+
+def link_hosts(data, ):
+    pass
 
 
 

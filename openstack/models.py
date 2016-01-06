@@ -19,35 +19,34 @@ class CinderStatus(models.Model):
     # 这是cinder全局的状态
     name = models.CharField(max_length=64)
     status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
+        ('up', "up"),
+        ("waring", "waring"),
+        ('down ', "down"),
     )
-    status = models.CharField(choices=status_level, max_length=64)
-    cinder_api_status = models.CharField(choices=status_level, max_length=64)
-    cinder_volume_status = models.CharField(choices=status_level, max_length=64)
-    cinder_scheduler = models.CharField(choices=status_level, max_length=64)
+    status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    cinder_api_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    cinder_volume_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    cinder_scheduler = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
 
     def __unicode__(self):
         return self.name
 
 
 class CinderManagerStatus(models.Model):
-    # host cinder_api status
-    name = models.CharField(max_length=64)
+
     host = models.ForeignKey('Host')
     status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
+        ('up', "up"),
+        ("waring", "waring"),
+        ('down ', "down"),
     )
-    status = models.CharField(choices=status_level, max_length=64)
-    cinder_api_status = models.CharField(choices=status_level, max_length=64)
-    cinder_volume_status = models.CharField(choices=status_level, max_length=64)
+    status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    cinder_api_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True )
+    cinder_volume = models.CharField(choices=status_level, max_length=64)
     cinder_scheduler = models.CharField(choices=status_level, max_length=64)
 
     def __unicode__(self):
-        return self.host.name
+        return self.host.hostname
 
 
 # ####ceph##########
