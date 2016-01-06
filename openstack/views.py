@@ -13,4 +13,5 @@ def info(request):
     b.add_hosts('192.168.201.3')
     b.add_nova_host()
     b.add_cinder_host()
+    b.add_neutron_host()
     return HttpResponse('Openstack Info')

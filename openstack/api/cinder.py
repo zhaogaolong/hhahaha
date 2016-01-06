@@ -18,7 +18,7 @@ class CinderClient(CinderBase):
         self.service_id = one_finger_models.OpenStackKeystoneService.objects.get(name='cinder').service_id
         self.endpoint_obj = one_finger_models.OpenStackKeyStoneEndpoint.objects.get(service_id=self.service_id)
         self.admin_obj = one_finger_models.OpenStackKeystoneAuth.objects.get(os_tenant_name='admin')
-        self.service_list_url = (self.endpoint_obj.internal_url % {'tenant_id': self.admin_obj.tenant_id}
+        self.service_list_url = (self.endpoint_obj.internalurl % {'tenant_id': self.admin_obj.tenant_id}
                                                                  + '/os-services')
 
         self.host_list = openstack_models.NovaManagerServiceStatus.objects.all()

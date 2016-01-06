@@ -8,10 +8,10 @@ import json
 import commands
 import pdb
 
-
+from django.conf import settings
 # in local models########
 from openstack.api import opentack_ansible
-from openstack.api import keystone, nova as nova_hosts, cinder
+from openstack.api import keystone, nova as nova_hosts, cinder ,neutron, ceph
 from one_finger import models as one_finger_models
 from openstack import models as openstack_models
 from one_finger.cloud_logging import cloud_logging as logging
@@ -291,8 +291,6 @@ class GetOpenStackInfo():
         log_info = 'Add Nova Compute Service to DB %s IP'
         log.info(log_info)
 
-
-
     def add_cinder_host(self):
         host_data = cinder.CinderClient().service_list()
         log.debug(json.dumps(host_data))
@@ -301,11 +299,14 @@ class GetOpenStackInfo():
 
         for item in host_data['services']:
             # 获取信息
-            manager_group_db_obj = openstack_models.Group.objects.get(name='Manager')
-            manager_list = openstack_models.Host.objects.filter(host_group_id=manager_group_db_obj.id)
+            manager_group_db_obj = openstack_models.Group.objects.get(
+                name='Manager')
+            manager_list = openstack_models.Host.objects.filter(
+                host_group_id=manager_group_db_obj.id)
             # 获取所有主机信息
             for host in manager_list:
-                if not openstack_models.CinderManagerStatus.objects.filter(host_id=host.id):
+                if not openstack_models.CinderManagerStatus.objects.filter(
+                        host_id=host.id):
                     # 判断该是否有该主机
                     if not host.hostname in db_dic:
                         # 如果没有创建字典就先创建一个
@@ -320,28 +321,69 @@ class GetOpenStackInfo():
             openstack_models.CinderManagerStatus.objects.create(**item)
 
     def add_neutron_host(self):
-        pass
+        data = neutron.agent_list()
 
+        db_dic = {}
+
+
+        for item in data['agents']:
+            # 获取该主机的id
+            host_id = openstack_models.Host.objects.get(
+                hostname=item['host']).id
+
+            if not item['host'] in db_dic:
+                # 判断字典里面是否有该主机
+                db_dic[item['host']] = {}
+                db_dic[item['host']]['host_id'] = host_id
+                db_dic[item['host']]['neutron_river_type'] = \
+                    settings.NEUTRON_RIVER
+
+            binary_name = '%s' % '_'.join(item['binary'].split('-'))
+            if item['alive']:
+                status = 'up'
+            else:
+                status = 'down'
+            db_dic[item['host']][binary_name] = status
+        print db_dic
+
+        manager_group_id = openstack_models.Group.objects.get(name='Manager').id
+        compute_group_id = openstack_models.Group.objects.get(name='Compute').id
+
+        for host, item in db_dic.items():
+            compute_obj = openstack_models.Host.objects.get(hostname=host)
+            print item
+            if compute_obj.host_group_id == manager_group_id:
+                # 该主机就是manager主机
+                nm_obj = openstack_models.NeutronManagerServiceStatus
+                if not nm_obj.objects.filter(
+                        host_id=openstack_models.Host.objects.get(
+                            hostname=host).id
+                ):
+                    nm_obj.objects.create(**item)
+                # else:
+                #   openstack_models.NeutronManagerServiceStatus.objects.filter(
+                #         host_id=openstack_models.Host.objects.get(
+                #             hostname=item['host']).id
+                #     ).update(**item)
+            elif compute_obj.host_group_id == compute_group_id:
+                # 该主机就是compute主机
+                nc_obj = openstack_models.NeutronComputeServiceStatus
+                if not nc_obj.objects.filter(
+                        host_id=openstack_models.Host.objects.get(
+                            hostname=host).id):
+                    nc_obj.objects.create(**item)
 
     def add_ceph_host(self):
-        pass
+
+        if settings.Ceph_enable == False:
+            return None
+        cc = ceph.Ceph()
+        data = cc.host_osd_list()
+        print data
 
 
 
-    def check_api(self, url, service):
-        try:
-            request = urllib2.Request(url,
-                    headers={
-                        'X-Auth-Token': self.token,
-                        })
-            urllib2.urlopen(request, timeout=self.get_timeout(service))
-            print 'check_api', request
-        except Exception as e:
-            print self.logger.debug("Got exception from '%s' '%s'" % (service, e))
-            print self.logger.critical(0)
-            print 'Exception', e
-            sys.exit(1)
-        self.logger.critical(1)
+
 
 
 

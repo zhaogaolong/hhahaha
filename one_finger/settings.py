@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# coding:utf8
 """
 Django settings for one_finger project.
 
@@ -115,4 +117,17 @@ STATICFILES_DIRS = [
 
 LOG_DIR = '/var/log/one_finger/one_finger.log'
 
+# 是否启用ceph
 Ceph_enable = True
+
+# 设置访问的url
+ACCEPT_URL = 'publicurl'
+
+# 设置regin
+REGION = 'RegionOne'
+
+# 设置neutron 使用什么模式
+# 可选: Open_vSwitch, Linux_bridge
+NEUTRON_RIVER = 'Open_vSwitch'
+
+

@@ -3,6 +3,13 @@
 from django.db import models
 
 
+status_level = (
+    ('up', "up"),
+    ("waring", "waring"),
+    ('down ', "down"),
+)
+
+
 class OpenStackStatus(models.Model):
     # 整个openstack状态的总汇状态
     status_level = (
@@ -85,11 +92,6 @@ class CephOsdServiceStatus(models.Model):
     # this is a ceph osd service tables
     osd_name = models.CharField(max_length=64)
     host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
     status = models.CharField(choices=status_level, max_length=64)
 
     def __unicode__(self):
@@ -284,44 +286,54 @@ class NeutronStatus(models.Model):
 
 class NeutronManagerServiceStatus(models.Model):
     host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
+    status = models.CharField(choices=status_level,
+                              max_length=64,
+                              blank=True,
+                              null=True,
+                              )
+    neutron_openvswitch_agent = models.CharField(choices=status_level,
+                                                 max_length=64)
+    system_river_type_choices = (
+        ('Open_vSwitch', "Open_vSwitch"),
+        ('Linux_bridge ', "Linux_bridge"),
     )
-    status = models.CharField(choices=status_level, max_length=64)
-    neutron_api_status = models.CharField(choices=status_level, max_length=64)
-    neutron_network_status = models.CharField(choices=status_level, max_length=64)
-    neutron_metadata_status = models.CharField(choices=status_level, max_length=64)
-    neutron_Loadbalancer_status = models.IntegerField(blank=True, null=True)
-    neutron_l3_status =models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-    neutron_DHCP_status = models.CharField(choices=status_level, max_length=64,  blank=True, null=True)
-    neutron_river_status = models.CharField(choices=status_level, max_length=64)
-    cinder_scheduler_status = models.CharField(choices=status_level, max_length=64)
-
+    neutron_river_type = models.CharField(choices=system_river_type_choices,
+                                          max_length=64)
+    neutron_metadata_agent = models.CharField(choices=status_level,
+                                              max_length=64,)
+    neutron_lbaas_agent = models.CharField(choices=status_level,
+                                           max_length=64)
+    neutron_l3_agent = models.CharField(choices=status_level,
+                                        max_length=64,
+                                        blank=True,
+                                        null=True)
+    neutron_dhcp_agent = models.CharField(choices=status_level,
+                                          max_length=64,
+                                          blank=True,
+                                          null=True)
+    neutron_api_status = models.CharField(choices=status_level,
+                                          max_length=64,
+                                          blank=True,
+                                          null=True,)
     def __unicode__(self):
-        return self.status
+        return self.host.hostname
 
 
 class NeutronComputeServiceStatus(models.Model):
-    host_name = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
+    host = models.ForeignKey('Host')
+    neutron_openvswitch_agent = models.CharField(choices=status_level,
+                                                 max_length=64)
     # river 是底层模式 ： ovs linux-bridge 等
     # river 的存储模式
     system_river_type_choices = (
         ('Open_vSwitch', "Open_vSwitch"),
         ('Linux_bridge ', "Linux_bridge"),
     )
-    neutron_river_type = models.CharField(choices=system_river_type_choices, max_length=64)
-    # neutron_river_status = models.IntegerField()
+    neutron_river_type = models.CharField(choices=system_river_type_choices,
+                                          max_length=64)
 
     def __unicode__(self):
-        return self.status
+        return self.host.hostname
 
 
 class Host(models.Model):

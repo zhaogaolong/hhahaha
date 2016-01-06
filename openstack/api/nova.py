@@ -37,7 +37,7 @@ def host_data():
     endpoint_obj = one_finger_models.OpenStackKeyStoneEndpoint.objects.filter(service_id=service_id)
 
     # 获取URL
-    url = endpoint_obj.values()[0]['public_url']
+    url = endpoint_obj.values()[0]['publicurl']
     # print url, self.tenant_id
 
     # 拼接url ：http://192.168.254.242:8774/v2/239667eee2124453b69309e9cefae142/os-services

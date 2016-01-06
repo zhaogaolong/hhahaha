@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding:utf8
-
+from django.conf import settings
 from django.db import models
 
 
@@ -11,11 +11,16 @@ class OpenStackKeystoneAuth(models.Model):
     os_password = models.CharField(max_length=64, default='admin')
     auth_url = models.URLField()
     os_auth_strategy = models.CharField(max_length=64, default='keystone')
-    cinder_endpoint_type = models.CharField(max_length=64, default='publicURL')
-    glance_endpoint_type = models.CharField(max_length=64, default='publicURL')
-    keystone_endpoint_type = models.CharField(max_length=64, default='publicURL')
-    nova_endpoint_type = models.CharField(max_length=64, default='publicURL')
-    neutron_endpoint_type = models.CharField(max_length=64, default='publicURL')
+    cinder_endpoint_type = models.CharField(max_length=64,
+                                            default=settings.ACCEPT_URL)
+    glance_endpoint_type = models.CharField(max_length=64,
+                                            default=settings.ACCEPT_URL)
+    keystone_endpoint_type = models.CharField(max_length=64,
+                                              default=settings.ACCEPT_URL)
+    nova_endpoint_type = models.CharField(max_length=64,
+                                          default=settings.ACCEPT_URL)
+    neutron_endpoint_type = models.CharField(max_length=64,
+                                             default=settings.ACCEPT_URL)
     token = models.CharField(max_length=64, blank=True, null=True)
     tenant_id = models.CharField(max_length=64, blank=True, null=True)
 
@@ -27,13 +32,13 @@ class OpenStackKeyStoneEndpoint(models.Model):
     endpoint_id = models.CharField(max_length=64)
     service_id = models.CharField(max_length=64)
     region = models.CharField(max_length=64)
-    public_url =  models.CharField(max_length=64)
-    internal_url =  models.CharField(max_length=64)
-    admin_url =  models.CharField(max_length=64)
-    enabled = models.BooleanField()
+    publicurl =  models.CharField(max_length=64)
+    internalurl =  models.CharField(max_length=64)
+    adminurl =  models.CharField(max_length=64)
+    # enabled = models.BooleanField()
 
     def __unicode__(self):
-        return self.public_url
+        return self.publicurl
 
 
 class OpenStackKeystoneService(models.Model):
