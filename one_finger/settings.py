@@ -118,7 +118,7 @@ STATICFILES_DIRS = [
 LOG_DIR = '/var/log/one_finger/one_finger.log'
 
 # 是否启用ceph
-Ceph_enable = True
+CEPH_ENABLED = True
 
 # 设置访问的url
 ACCEPT_URL = 'publicurl'

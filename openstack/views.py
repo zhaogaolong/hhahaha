@@ -14,4 +14,5 @@ def info(request):
     b.add_nova_host()
     b.add_cinder_host()
     b.add_neutron_host()
+    b.add_ceph_host()
     return HttpResponse('Openstack Info')

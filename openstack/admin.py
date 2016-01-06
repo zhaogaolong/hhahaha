@@ -26,8 +26,8 @@ admin.site.register(models.CinderStatus)
 admin.site.register(models.CinderManagerStatus)
 
 admin.site.register(models.CephStatus)
-admin.site.register(models.CephMonitorServiceStatus)
-admin.site.register(models.CephOsdServiceStatus)
+admin.site.register(models.CephMonitorStatus)
+admin.site.register(models.CephOsdStatus)
 
 admin.site.register(models.RabbitMqStatus)
 admin.site.register(models.RabbitmqServiceStatus)

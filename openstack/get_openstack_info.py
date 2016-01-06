@@ -344,14 +344,14 @@ class GetOpenStackInfo():
             else:
                 status = 'down'
             db_dic[item['host']][binary_name] = status
-        print db_dic
+        # print db_dic
 
         manager_group_id = openstack_models.Group.objects.get(name='Manager').id
         compute_group_id = openstack_models.Group.objects.get(name='Compute').id
 
         for host, item in db_dic.items():
             compute_obj = openstack_models.Host.objects.get(hostname=host)
-            print item
+            # print item
             if compute_obj.host_group_id == manager_group_id:
                 # 该主机就是manager主机
                 nm_obj = openstack_models.NeutronManagerServiceStatus
@@ -374,12 +374,16 @@ class GetOpenStackInfo():
                     nc_obj.objects.create(**item)
 
     def add_ceph_host(self):
+        if settings.CEPH_ENABLED == True:
+            cc = ceph.Ceph()
+            data = cc.host_osd_list()
 
-        if settings.Ceph_enable == False:
-            return None
-        cc = ceph.Ceph()
-        data = cc.host_osd_list()
-        print data
+        for k, v in data.items():
+            if not openstack_models.CephOsdStatus.objects.filter(osd_name=k):
+                openstack_models.CephOsdStatus.objects.create(**v)
+
+
+
 
 
 

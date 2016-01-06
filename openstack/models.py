@@ -73,7 +73,7 @@ class CephStatus(models.Model):
         return self.name
 
 
-class CephMonitorServiceStatus(models.Model):
+class CephMonitorStatus(models.Model):
     # this is a ceph monitor service tables
     host = models.ForeignKey('Host')
     status = models.IntegerField()
@@ -88,7 +88,7 @@ class CephMonitorServiceStatus(models.Model):
         return self.host.name
 
 
-class CephOsdServiceStatus(models.Model):
+class CephOsdStatus(models.Model):
     # this is a ceph osd service tables
     osd_name = models.CharField(max_length=64)
     host = models.ForeignKey('Host')
