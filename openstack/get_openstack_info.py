@@ -373,15 +373,38 @@ class GetOpenStackInfo():
                             hostname=host).id):
                     nc_obj.objects.create(**item)
 
-    def add_ceph_host(self):
+    def add_ceph_osd_host(self):
         if settings.CEPH_ENABLED == True:
             cc = ceph.Ceph()
-            data = cc.host_osd_list()
+            data = cc.osd_list()
 
-        for k, v in data.items():
-            if not openstack_models.CephOsdStatus.objects.filter(osd_name=k):
-                openstack_models.CephOsdStatus.objects.create(**v)
+            for k, v in data.items():
+                if not openstack_models.CephOsdStatus.objects.filter(
+                        osd_name=k):
+                    openstack_models.CephOsdStatus.objects.create(**v)
 
+    def add_ceph_mon_host(self):
+        if settings.CEPH_ENABLED == True:
+            # 判断是否启用ceph
+
+            mon_db_dic = {}
+            cc = ceph.Ceph()
+            data = cc.mon_list()
+
+            if data:
+                for host_ip, v in data.items():
+                    mon_db_dic[host_ip] = {}
+                    host_id = openstack_models.Host.objects.get(
+                        ip_storage=host_ip).id
+                    mon_db_dic[host_ip]['host_id'] = host_id
+                    mon_db_dic[host_ip]['mon_id'] = v['id']
+
+                for host, val in mon_db_dic.items():
+                    print val
+                    openstack_models.CephMonitorStatus.objects.create(**val)
+
+    def add_mysql_host(self):
+        pass
 
 
 

@@ -47,10 +47,18 @@ class CinderManagerStatus(models.Model):
         ("waring", "waring"),
         ('down ', "down"),
     )
-    status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-    cinder_api_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True )
-    cinder_volume = models.CharField(choices=status_level, max_length=64)
-    cinder_scheduler = models.CharField(choices=status_level, max_length=64)
+    status = models.CharField(choices=status_level,
+                              max_length=64,
+                              blank=True,
+                              null=True)
+    cinder_api_status = models.CharField(choices=status_level,
+                                         max_length=64,
+                                         blank=True,
+                                         null=True )
+    cinder_volume = models.CharField(choices=status_level,
+                                     max_length=64)
+    cinder_scheduler = models.CharField(choices=status_level,
+                                        max_length=64)
 
     def __unicode__(self):
         return self.host.hostname
@@ -76,16 +84,14 @@ class CephStatus(models.Model):
 class CephMonitorStatus(models.Model):
     # this is a ceph monitor service tables
     host = models.ForeignKey('Host')
-    status = models.IntegerField()
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
+    mon_id = models.IntegerField()
+    status = models.CharField(choices=status_level,
+                              max_length=64,
+                              blank=True,
+                              null=True)
 
     def __unicode__(self):
-        return self.host.name
+        return self.host.hostname
 
 
 class CephOsdStatus(models.Model):

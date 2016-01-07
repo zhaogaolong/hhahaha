@@ -1,158 +1,37 @@
 {
-    u'agents': [
-        {
-            u'binary': u'neutron-lbaas-agent',
-            u'description': None,
-            u'admin_state_up': True,
-            u'heartbeat_timestamp': u'2016-01-0509: 49: 59',
-            u'alive': True,
-            u'id': u'5cb5289c-4932-47bc-aed6-1add50d7bc96',
-            u'topic': u'n-lbaas_agent',
-            u'host': u'node-1.domain.tld',
-            u'agent_type': u'Loadbalanceragent',
-            u'started_at': u'2016-01-0501: 49: 16',
-            u'created_at': u'2015-12-2615: 19: 34',
-            u'configurations': {
-                u'device_drivers': [
-                    u'haproxy_ns'
-                ],
-                u'instances': 0
-            }
-        },
-        {
-            u'binary': u'neutron-openvswitch-agent',
-            u'description': None,
-            u'admin_state_up': True,
-            u'heartbeat_timestamp': u'2016-01-0509: 50: 02',
-            u'alive': True,
-            u'id': u'6a2b621d-a263-414c-a06e-bd4006b1c77b',
-            u'topic': u'N/A',
-            u'host': u'node-1.domain.tld',
-            u'agent_type': u'OpenvSwitchagent',
-            u'started_at': u'2015-12-2615: 19: 43',
-            u'created_at': u'2015-12-2615: 19: 43',
-            u'configurations': {
-                u'tunnel_types': [
-                    u'gre'
-                ],
-                u'tunneling_ip': u'192.168.201.3',
-                u'bridge_mappings': {
-
-                },
-                u'l2_population': False,
-                u'devices': 2
-            }
-        },
-        {
-            u'binary': u'neutron-dhcp-agent',
-            u'description': None,
-            u'admin_state_up': True,
-            u'heartbeat_timestamp': u'2016-01-0509: 49: 59',
-            u'alive': True,
-            u'id': u'7226cbca-731b-4b4f-8858-bbce0b8a9473',
-            u'topic': u'dhcp_agent',
-            u'host': u'node-1.domain.tld',
-            u'agent_type': u'DHCPagent',
-            u'started_at': u'2016-01-0501: 49: 21',
-            u'created_at': u'2015-12-2615: 19: 56',
-            u'configurations': {
-                u'subnets': 1,
-                u'use_namespaces': True,
-                u'dhcp_lease_duration': 86400,
-                u'dhcp_driver': u'neutron.agent.linux.dhcp.Dnsmasq',
-                u'networks': 1,
-                u'ports': 2
-            }
-        },
-        {
-            u'binary': u'neutron-metadata-agent',
-            u'description': None,
-            u'admin_state_up': True,
-            u'heartbeat_timestamp': u'2016-01-0509: 49: 58',
-            u'alive': True,
-            u'id': u'7bd45173-8740-4de9-beb7-cb11938ace10',
-            u'topic': u'N/A',
-            u'host': u'node-1.domain.tld',
-            u'agent_type': u'Metadataagent',
-            u'started_at': u'2016-01-0501: 49: 12',
-            u'created_at': u'2015-12-2615: 20: 29',
-            u'configurations': {
-                u'nova_metadata_ip': u'192.168.201.2',
-                u'nova_metadata_port': 8775,
-                u'metadata_proxy_socket': u'/var/lib/neutron/metadata_proxy'
-            }
-        },
-        {
-            u'binary': u'neutron-openvswitch-agent',
-            u'description': None,
-            u'admin_state_up': True,
-            u'heartbeat_timestamp': u'2016-01-0506: 11: 06',
-            u'alive': False,
-            u'id': u'adc5b7de-de6c-42e0-9c04-6e6e3b1f5d0c',
-            u'topic': u'N/A',
-            u'host': u'node-2.domain.tld',
-            u'agent_type': u'OpenvSwitchagent',
-            u'started_at': u'2015-12-3112: 34: 23',
-            u'created_at': u'2015-12-2615: 34: 45',
-            u'configurations': {
-                u'tunnel_types': [
-                    u'gre'
-                ],
-                u'tunneling_ip': u'192.168.201.4',
-                u'bridge_mappings': {
-
-                },
-                u'l2_population': False,
-                u'devices': 0
-            }
-        },
-        {
-            u'binary': u'neutron-openvswitch-agent',
-            u'description': None,
-            u'admin_state_up': True,
-            u'heartbeat_timestamp': u'2016-01-0509: 49: 59',
-            u'alive': True,
-            u'id': u'e7248eea-0f1e-4798-b11f-c0cff91104a6',
-            u'topic': u'N/A',
-            u'host': u'node-3.domain.tld',
-            u'agent_type': u'OpenvSwitchagent',
-            u'started_at': u'2015-12-3112: 34: 27',
-            u'created_at': u'2015-12-2615: 37: 10',
-            u'configurations': {
-                u'tunnel_types': [
-                    u'gre'
-                ],
-                u'tunneling_ip': u'192.168.201.5',
-                u'bridge_mappings': {
-
-                },
-                u'l2_population': False,
-                u'devices': 0
-            }
-        },
-        {
-            u'binary': u'neutron-l3-agent',
-            u'description': None,
-            u'admin_state_up': True,
-            u'heartbeat_timestamp': u'2016-01-0509: 50: 00',
-            u'alive': True,
-            u'id': u'e797054a-3518-4e60-b5de-279aba48895c',
-            u'topic': u'l3_agent',
-            u'host': u'node-1.domain.tld',
-            u'agent_type': u'L3agent',
-            u'started_at': u'2016-01-0501: 49: 45',
-            u'created_at': u'2015-12-2615: 20: 10',
-            u'configurations': {
-                u'router_id': u'',
-                u'gateway_external_network_id': u'',
-                u'handle_internal_only_routers': True,
-                u'use_namespaces': True,
-                u'routers': 1,
-                u'interfaces': 1,
-                u'floating_ips': 0,
-                u'interface_driver': u'neutron.agent.linux.interface.OVSInterfaceDriver',
-                u'ex_gw_ports': 1
-            }
-        }
+  "name": "node-34",
+  "rank": 1,
+  "state": "peon",
+  "election_epoch": 34882,
+  "quorum": [
+    0,
+    1,
+    2
+  ],
+  "outside_quorum": [ ],
+  "extra_probe_peers": [ ],
+  "sync_provider": [ ],
+  "monmap": {
+    "epoch": 3,
+    "fsid": "4205110b-d0c0-4f99-ae98-460cfa383d0f",
+    "modified": "2015-04-16 12:35:43.236625",
+    "created": "0.000000",
+    "mons": [
+      {
+        "rank": 0,
+        "name": "node-30",
+        "addr": "192.168.0.6:6789/0"
+      },
+      {
+        "rank": 1,
+        "name": "node-34",
+        "addr": "192.168.0.10:6789/0"
+      },
+      {
+        "rank": 2,
+        "name": "node-40",
+        "addr": "192.168.0.16:6789/0"
+      }
     ]
+  }
 }
