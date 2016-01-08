@@ -20,7 +20,7 @@ def base(request):
     return  render(request, 'one_finger/base.html')
 
 def back(request):
-    return  render(request, 'one_finger/index_back.html')
+    return  render(request, 'one_finger/test/index_back.html')
 
 def get_openstack_info(request):
     b = Token()

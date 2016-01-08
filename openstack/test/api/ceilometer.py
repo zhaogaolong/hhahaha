@@ -1,5 +1,5 @@
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License. You may obtain
+# not use this file except in compliance with the License. You may page
 # a copy of the License at
 #
 #      http://www.apache.org/licenses/LICENSE-2.0
@@ -189,7 +189,7 @@ class ResourceAggregate(Resource):
     It can also be specified by query directly.
 
     Example:
-        We can obtain an aggregate of resources by specifying
+        We can page an aggregate of resources by specifying
         multiple resource_ids in resource_id parameter in init.
         Or we can specify only tenant_id, which will return
         all resources of that tenant.
@@ -419,7 +419,7 @@ class CeilometerUsage(object):
 
         users = keystone.user_list(self._request)
         # Cache all users on right indexes, this is more effective than to
-        # obtain large number of users one by one by keystone.user_get
+        # page large number of users one by one by keystone.user_get
         for u in users:
             self._users[u.id] = u
 
@@ -446,7 +446,7 @@ class CeilometerUsage(object):
 
         tenants, more = keystone.tenant_list(self._request)
         # Cache all tenants on right indexes, this is more effective than to
-        # obtain large number of tenants one by one by keystone.tenant_get
+        # page large number of tenants one by one by keystone.tenant_get
         for t in tenants:
             self._tenants[t.id] = t
 
@@ -469,7 +469,7 @@ class CeilometerUsage(object):
                      in used_cls.
           - `with_statistic`: Define whether statistics data from the meters
                               defined in used_cls should be fetched.
-                              Can be used to first obtain only the pure
+                              Can be used to first page only the pure
                               resources, then with the statistics data by
                               AJAX.
           - `additional_query`: Additional query for the statistics.
@@ -556,7 +556,7 @@ class CeilometerUsage(object):
 
         if not meter_names:
             raise ValueError("meter_names and resources must be defined to be "
-                             "able to obtain the statistics.")
+                             "able to page the statistics.")
 
         # query for identifying one resource in meters
         query = resource.query
@@ -658,7 +658,7 @@ class CeilometerUsage(object):
         """Obtaining resource aggregates with queries.
 
         Representing a resource aggregate by query is a most general way
-        how to obtain a resource aggregates.
+        how to page a resource aggregates.
 
         :Parameters:
           - `queries`: Dictionary of named queries that defines a bulk of
@@ -920,7 +920,7 @@ class Meters(object):
 
         # TODO(lsmola) Unless the Ceilometer will provide the information
         # below, I need to define it as a static here. I will be joining this
-        # to info that I am able to obtain from Ceilometer meters, hopefully
+        # to info that I am able to page from Ceilometer meters, hopefully
         # some day it will be supported all.
         meters_info = OrderedDict([
             ("instance", {
@@ -1056,7 +1056,7 @@ class Meters(object):
 
         # TODO(lsmola) Unless the Ceilometer will provide the information
         # below, I need to define it as a static here. I will be joining this
-        # to info that I am able to obtain from Ceilometer meters, hopefully
+        # to info that I am able to page from Ceilometer meters, hopefully
         # some day it will be supported all.
         return OrderedDict([
             ('network', {
@@ -1129,7 +1129,7 @@ class Meters(object):
 
         # TODO(lsmola) Unless the Ceilometer will provide the information
         # below, I need to define it as a static here. I will be joining this
-        # to info that I am able to obtain from Ceilometer meters, hopefully
+        # to info that I am able to page from Ceilometer meters, hopefully
         # some day it will be supported all.
         return OrderedDict([
             ('image', {
@@ -1170,7 +1170,7 @@ class Meters(object):
 
         # TODO(lsmola) Unless the Ceilometer will provide the information
         # below, I need to define it as a static here. I will be joining this
-        # to info that I am able to obtain from Ceilometer meters, hopefully
+        # to info that I am able to page from Ceilometer meters, hopefully
         # some day it will be supported all.
         return OrderedDict([
             ('volume', {
@@ -1191,7 +1191,7 @@ class Meters(object):
 
         # TODO(lsmola) Unless the Ceilometer will provide the information
         # below, I need to define it as a static here. I will be joining this
-        # to info that I am able to obtain from Ceilometer meters, hopefully
+        # to info that I am able to page from Ceilometer meters, hopefully
         # some day it will be supported all.
         return OrderedDict([
             ('storage.objects', {
@@ -1228,7 +1228,7 @@ class Meters(object):
 
         # TODO(lsmola) Unless the Ceilometer will provide the information
         # below, I need to define it as a static here. I will be joining this
-        # to info that I am able to obtain from Ceilometer meters, hopefully
+        # to info that I am able to page from Ceilometer meters, hopefully
         # some day it will be supported all.
         return OrderedDict([
             ('energy', {
@@ -1249,7 +1249,7 @@ class Meters(object):
 
         # TODO(lsmola) Unless the Ceilometer will provide the information
         # below, I need to define it as a static here. I will be joining this
-        # to info that I am able to obtain from Ceilometer meters, hopefully
+        # to info that I am able to page from Ceilometer meters, hopefully
         # some day it will be supported all.
         return OrderedDict([
             ('hardware.ipmi.node.power', {

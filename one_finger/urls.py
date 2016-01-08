@@ -25,6 +25,5 @@ urlpatterns = [
     url(r'^base/', one_finger_views.base, name='base'),
     url(r'^back/', one_finger_views.back, name='back'),
     url(r'^get_openstack_info/', one_finger_views.get_openstack_info, name='get_openstack_info'),
-    # url(r'^cinder_service/', one_finger_views.get_cinder_service, name='cinder_service'),
 
 ]

@@ -4,43 +4,54 @@ from django.db import models
 
 
 status_level = (
-    ('up', "up"),
-    ("waring", "waring"),
-    ('down ', "down"),
+    ("up", "up"),
+    ("warning", "warning"),
+    ("down", "down"),
 )
 
 
-class OpenStackStatus(models.Model):
-    # 整个openstack状态的总汇状态
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
+mode_status_level = (
+        ("up", "up"),
+        ("warning", "warning"),
+        ("critical", "critical"),
+        ("down", "down"),
     )
-    status = models.CharField(choices=status_level, max_length=64)
+
+
+class CloudStatus(models.Model):
+    # 整个openstack状态的总汇状态
+    status = models.CharField(choices=mode_status_level, max_length=64)
     available_proportion = models.IntegerField(default=100)
+
+    def __unicode__(self):
+        return 'cloud_status:%s ' % self.status
 
 
 # ####cinder service##########
 class CinderStatus(models.Model):
     # 这是cinder全局的状态
-    name = models.CharField(max_length=64)
-    status_level = (
-        ('up', "up"),
-        ("waring", "waring"),
-        ('down ', "down"),
-    )
-    status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-    cinder_api_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-    cinder_volume_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-    cinder_scheduler = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    status = models.CharField(choices=mode_status_level,
+                              max_length=64,
+                              blank=True,
+                              null=True)
+    cinder_api_status = models.CharField(choices=status_level,
+                                         max_length=64,
+                                         blank=True,
+                                         null=True)
+    cinder_volume_status = models.CharField(choices=status_level,
+                                            max_length=64,
+                                            blank=True,
+                                            null=True)
+    cinder_scheduler = models.CharField(choices=status_level,
+                                        max_length=64,
+                                        blank=True,
+                                        null=True)
 
     def __unicode__(self):
-        return self.name
+        return self.status
 
 
 class CinderManagerStatus(models.Model):
-
     host = models.ForeignKey('Host')
     status_level = (
         ('up', "up"),
@@ -67,18 +78,12 @@ class CinderManagerStatus(models.Model):
 # ####ceph##########
 class CephStatus(models.Model):
     # this is a ceph service tables
-    name = models.CharField(max_length=64)
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
+    status = models.CharField(choices=mode_status_level, max_length=64)
     monitor_status = models.CharField(choices=status_level, max_length=64)
     osd_status = models.CharField(choices=status_level, max_length=64)
 
     def __unicode__(self):
-        return self.name
+        return self.status
 
 
 class CephMonitorStatus(models.Model):
@@ -106,16 +111,33 @@ class CephOsdStatus(models.Model):
 
 # ####nova##########
 class NovaStatus(models.Model):
-    name = models.CharField(max_length=64)
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
+    status = models.CharField(choices=mode_status_level, max_length=64)
+    nova_api_status = models.CharField(choices=status_level,
+                                       max_length=64,
+                                       blank=True,
+                                       null=True)
+    nova_no_vnc_proxy_status = models.CharField(choices=status_level,
+                                                max_length=64,
+                                                blank=True, null=True)
+    nova_license_status = models.CharField(choices=status_level,
+                                           max_length=64,
+                                           blank=True, null=True)
+
+    nova_consoleauth_status = models.CharField(choices=status_level,
+                                               max_length=64)
+    nova_scheduler_status = models.CharField(choices=status_level,
+                                             max_length=64)
+    nova_conductor_status = models.CharField(choices=status_level,
+                                             max_length=64)
+    nova_cert_status = models.CharField(choices=status_level,
+                                        max_length=64)
+
+    nova_compute_status = models.CharField(choices=status_level,
+                                           max_length=64)
+
 
     def __unicode__(self):
-        return self.name
+        return self.status
 
 
 class NovaManagerServiceStatus(models.Model):
@@ -164,7 +186,6 @@ class NovaComputeServiceStatus(models.Model):
 
 # ####openstack_mode: rabbitmq##########
 class RabbitMqStatus(models.Model):
-    name = models.CharField(max_length=54)
     status_level = (
         ('Ok', "ok"),
         ('Warning ', "Warning"),
@@ -271,21 +292,25 @@ class MysqlServiceStatus(models.Model):
 
 # ####openstack Neutron##########
 class NeutronStatus(models.Model):
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-    neutron_api_status = models.CharField(choices=status_level, max_length=64)
-    neutron_network_status = models.CharField(choices=status_level, max_length=64)
-    neutron_metadata_status = models.CharField(choices=status_level, max_length=64)
-    neutron_Loadbalancer_status = models.CharField(choices=status_level, max_length=64)
-    neutron_l3_status =models.CharField(choices=status_level, max_length=64)
-    neutron_DHCP_status = models.CharField(choices=status_level, max_length=64)
-    neutron_river_status = models.CharField(choices=status_level, max_length=64)
-    cinder_scheduler_status = models.CharField(choices=status_level, max_length=64)
 
+    system_river_type_choices = (
+        ('Open_vSwitch', "Open_vSwitch"),
+        ('Linux_bridge ', "Linux_bridge"),
+    )
+    status = models.CharField(choices=mode_status_level,
+                              max_length=64)
+    neutron_api_status = models.CharField(choices=status_level, max_length=64)
+    neutron_metadata_status = models.CharField(choices=status_level,
+                                               max_length=64)
+    neutron_lbaas_status = models.CharField(choices=status_level,
+                                            max_length=64)
+    neutron_l3_status =models.CharField(choices=status_level, max_length=64)
+    neutron_dhcp_status = models.CharField(choices=status_level, max_length=64)
+    neutron_river_type = models.CharField(choices=system_river_type_choices, max_length=64)
+    neutron_openvswitch_agent = models.CharField(choices=status_level,
+                                                 max_length=64)
+    neutron_compute = models.CharField(choices=status_level,
+                                                 max_length=64)
     def __unicode__(self):
         return self.status
 

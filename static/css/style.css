@@ -1,4 +1,4 @@
-@import url("../../../fonts.googleapis.com/css@family=Open+Sans_3A300,400,600,700&lang=en");
+/*@import url("../../../fonts.googleapis.com/css@family=Open+Sans_3A300,400,600,700&lang=en");*/
 /*
  *
  *   INSPINIA - Responsive Admin Theme
@@ -37,6 +37,13 @@ h5 {
   margin-top: 5px;
   font-weight: 600;
 }
+.cloud-model-font{
+    font-size: 40px;
+}
+.cloud-model-block{
+    height: 258px;
+}
+
 .nav > li > a {
   color: #a7b1c2;
   font-weight: 600;
@@ -3444,10 +3451,23 @@ table.table-mail tr td {
   background-color: #f8ac59;
   color: #ffffff;
 }
-.red-bg {
+
+.pink-bg {
   background-color: #ed5565;
   color: #ffffff;
 }
+
+/*.red-bg {*/
+  /*background-color: #ed5565;*/
+  /*color: #ffffff;*/
+/*}*/
+
+
+.red-bg {
+  background-color: red;
+  color: #ffffff;
+}
+
 .black-bg {
   background-color: #262626;
 }

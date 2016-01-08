@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/openstack/models.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/static/js/inspinia.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/static/js/jquery.js" charset="GBK" />
     <file url="file://$PROJECT_DIR$/static/js/only_finger/dashiboard/dashboard.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/templates/one_finger/index.html" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />

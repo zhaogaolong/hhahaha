@@ -9667,7 +9667,7 @@
 		 *
 		 * As a function, making the Ajax call is left up to yourself allowing
 		 * complete control of the Ajax request. Indeed, if desired, a method other
-		 * than Ajax could be used to obtain the required data, such as Web storage
+		 * than Ajax could be used to page the required data, such as Web storage
 		 * or an AIR database.
 		 *
 		 * The function is given four parameters and no return is required. The
@@ -10135,7 +10135,7 @@
 		/**
 		 * Configure DataTables to use server-side processing. Note that the
 		 * `ajax` parameter must also be given in order to give DataTables a
-		 * source to obtain the required data for each draw.
+		 * source to page the required data for each draw.
 		 *  @type boolean
 		 *  @default false
 		 *
@@ -10521,7 +10521,7 @@
 		 * AIR database.
 		 *  @type function
 		 *  @member
-		 *  @param {string} source HTTP source to obtain the data from (`ajax`)
+		 *  @param {string} source HTTP source to page the data from (`ajax`)
 		 *  @param {array} data A key/value pair object containing the data to send
 		 *    to the server
 		 *  @param {function} callback to be called on completion of the data get
@@ -12148,7 +12148,7 @@
 		 *    } );
 		 *
 		 *  @example
-		 *    // Execute a function to obtain data
+		 *    // Execute a function to page data
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "columnDefs": [ {

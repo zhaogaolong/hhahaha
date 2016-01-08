@@ -22,3 +22,5 @@ datastructure = runner.run()
 for k, v in datastructure['contacted'].items():
     print k
     print v
+
+

@@ -7,7 +7,7 @@ from openstack import models
 # admin.site.register(models.Openstack_keystone_endpoint)
 
 
-admin.site.register(models.OpenStackStatus)
+admin.site.register(models.CloudStatus)
 
 admin.site.register(models.Host)
 

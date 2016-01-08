@@ -17,11 +17,12 @@
 
     <div class="col-sm-3">
       <div>
-         <div class="widget navy-bg block-status text-center">
+{#         <div id="cloud-status-block" class="widget navy-bg  block-status text-center ">#}
+         <div id="cloud-status-block" class="widget navy-bg block-status text-center ">
             <div class="m-b-md">
-               <h2> Cloud Status</h2><br>
+               <h2>Cloud Status</h2><br>
                 <i class="fa fa-cloud fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="cloud-status-content" class="cloud-model-font m-xs">None</h1>
 
             </div>
          </div>
@@ -31,11 +32,12 @@
 
     <div class="col-sm-2">
       <div>
-         <div class="widget navy-bg block-status text-center">
+{#         <div id="neutron-status-block" class="widget block-status text-center">#}
+         <div id="neutron-status-block" class="widget navy-bg  block-status text-center">
             <div class="m-b-md">
                <h2>Neutron</h2><br>
                 <i class="fa fa-exchange fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="neutron-status-content" class="cloud-model-font m-xs">None</h1>
 
             </div>
          </div>
@@ -46,11 +48,11 @@
       <div>
 {#         <h1> Cloud Status</h1>#}
 
-         <div class="widget navy-bg block-status text-center">
+         <div id="nova-status-block" class="widget navy-bg block-status text-center">
             <div class="m-b-md">
                <h2> Nova</h2><br>
                 <i class="fa fa-desktop fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="nova-status-content" class="cloud-model-font m-xs">None</h1>
 
             </div>
          </div>
@@ -60,11 +62,11 @@
       <div>
 {#         <h1> Cloud Status</h1>#}
 
-         <div class="widget navy-bg block-status text-center">
+         <div id="cinder-status-block" class="widget navy-bg block-status text-center">
             <div class="m-b-md">
                <h2>Cinder</h2><br>
                 <i class="fa fa-hdd-o fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="cinder-status-content" class="cloud-model-font m-xs">None</h1>
 
             </div>
          </div>
@@ -72,11 +74,11 @@
     </div>
      <div class="col-sm-2">
       <div>
-         <div class="widget navy-bg block-status text-center">
+         <div id="ceph-status-block" class="widget navy-bg block-status text-center">
             <div class="m-b-md">
                <h2>Ceph</h2><br>
                 <i class="fa fa-sitemap fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="ceph-status-content" class="cloud-model-font m-xs">None</h1>
 
             </div>
          </div>
@@ -87,7 +89,7 @@
 
 
 <div class="ibox float-e-margins"> {#Neutron dashboard#}
-{#  着个是nova具体状态信息#}
+{#  着个是Neutron具体状态信息#}
   <div class="ibox-title">
       <h5></h5>
       <div class="ibox-tools">
@@ -111,11 +113,11 @@
   <div class="ibox-content">
     <div class="col-sm-2">
       <div>
-         <div class="widget navy-bg block-status text-center">
+         <div id="neutron-columns-block-status" class="widget block-status text-center navy-bg  cloud-model-block">
             <div class="m-b-md">
-               <h2>Neutron</h2><br>
+               <h1>Neutron</h1><br>
                 <i class="fa fa-hdd-o fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1  id="neutron-columns-block-content" class="m-xs cloud-model-font ">None</h1>
 
             </div>
          </div>
@@ -127,37 +129,37 @@
 
             <li class="list-group-item fist-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="neutron-l3-columns-block-content" class="btn navy-bg btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">1</span>L3 Agent
+                <span id="neutron-l3-columns-block" class="label navy-bg">1</span>L3 Agent
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="neutron-dhcp-columns-block-content" class="btn navy-bg  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">2</span>DHCP Agent
+                <span id="neutron-dhcp-columns-block" class="label  navy-bg">2</span>DHCP Agent
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="neutron-api-columns-block-content" class="btn  navy-bg  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">3</span>Neutron API
+                <span id="neutron-api-columns-block"  class="label  navy-bg">3</span>Neutron API
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                   <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                   <button id="neutron-river-columns-block-content" class="btn  navy-bg  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">4</span>river status
+                <span id="neutron-river-columns-block"  class="label  navy-bg">4</span>Agent Status
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="neutron-compute-columns-block-content"  class="btn  navy-bg  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">5</span>Comput Status
+                <span id="neutron-compute-columns-block"  class="label  navy-bg">5</span>Comput Status
             </li>
 
         </ul>
@@ -165,7 +167,7 @@
 
     <div class="col-sm-3">
 {#      <div id="neutron-manager" style="min-width:200px;height:300px"></div>#}
-      <div id="neutron_manager_status" style="height:300px">dzfzfffff</div>
+      <div id="neutron_manager_status" style="height:300px"></div>
 
     </div>
     <div class="col-sm-3">
@@ -201,11 +203,11 @@
   <div class="ibox-content">
     <div class="col-sm-2">
       <div>
-         <div class="widget navy-bg block-status text-center">
+         <div id="nova-columns-block-status" class="widget navy-bg block-status text-center">
             <div class="m-b-md">
                <h2>Nova</h2><br>
                 <i class="fa fa-hdd-o fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="nova-columns-block-status-content" class="m-xs cloud-model-font">None</h1>
 
             </div>
          </div>
@@ -217,37 +219,37 @@
 
             <li class="list-group-item fist-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="nova-api-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">1</span>Nova API
+                <span id="nova-api-columns-block" class="label label-primary">1</span>Nova API
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="nova-consoleauth-columns-block-content" class="btn btn-primary btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">2</span>Nova Consoleauth
+                <span id="nova-consoleauth-columns-block" class="label label-primary">2</span>Nova Consoleauth
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="nova-scheduler-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">3</span>Nova Scheduler
+                <span id="nova-scheduler-columns-block" class="label label-primary">3</span>Nova Scheduler
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                   <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                   <button id="nova-conductor-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">4</span>Nova Compute
+                <span id="nova-conductor-columns-block" class="label label-primary">4</span>Nova Conductor
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="nova-compute-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">5</span>Nova License
+                <span id="nova-compute-columns-block" class="label label-primary">5</span>Nova Compute
             </li>
 
         </ul>
@@ -255,7 +257,7 @@
 
     <div class="col-sm-3">
 {#      <div id="neutron-manager" style="min-width:200px;height:300px"></div>#}
-      <div id="nova_manager_status" style="height:300px">dzfzfffff</div>
+      <div id="nova_manager_status" style="height:300px"></div>
 
     </div>
     <div class="col-sm-3">
@@ -263,9 +265,9 @@
     </div>
 
   </div>
-</div> {#Nova dashboard#}
+</div> {#cinder dashboard#}
 
-<div class="ibox float-e-margins"> {#Neutron dashboard#}
+<div class="ibox float-e-margins"> {#cinder dashboard#}
 {#  着个是nova具体状态信息#}
   <div class="ibox-title">
       <h5></h5>
@@ -290,11 +292,11 @@
   <div class="ibox-content">
     <div class="col-sm-2">
       <div>
-         <div class="widget navy-bg block-status text-center">
+         <div id="cinder-columns-block-status" class="widget navy-bg block-status text-center">
             <div class="m-b-md">
                <h2>Cinder</h2><br>
                 <i class="fa fa-hdd-o fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="cinder-columns-block-status-content" class="m-xs cloud-model-font">OK</h1>
 
             </div>
          </div>
@@ -306,23 +308,23 @@
 
             <li class="list-group-item fist-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="cinder-api-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">1</span>Cinder API
+                <span id="cinder-api-columns-block" class="label label-primary">1</span>Cinder API
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="cinder-scheduler-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">2</span>Cinder Scheduler
+                <span id="cinder-scheduler-columns-block" class="label label-primary">2</span>Cinder Scheduler
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                   <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                   <button id="cinder-volume-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">4</span>Cinder Volume
+                <span id="cinder-volume-columns-block" class="label label-primary">4</span>Cinder Volume
             </li>
 
         </ul>
@@ -365,11 +367,11 @@
   <div class="ibox-content">
     <div class="col-sm-2">
       <div>
-         <div class="widget navy-bg block-status text-center">
+         <div id="ceph-columns-block-status" class="widget navy-bg block-status text-center">
             <div class="m-b-md">
                <h2>Ceph</h2><br>
                 <i class="fa fa-hdd-o fa-4x"></i>
-                <h1 style="font-size: 65px" class="m-xs">OK</h1>
+                <h1 id="ceph-columns-block-status-content" class="m-xs cloud-model-font">OK</h1>
 
             </div>
          </div>
@@ -381,23 +383,23 @@
 
             <li class="list-group-item fist-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="ceph-status-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">1</span>Ceph API
+                <span id="ceph-status-columns-block" class="label label-primary">1</span>Ceph Status
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="ceph-mon-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">2</span>Ceph Mon
+                <span id="ceph-mon-columns-block" class="label label-primary">2</span>Ceph Mon
             </li>
 
             <li class="list-group-item">
                 <span class="pull-right">
-                    <button class="btn btn-primary  btn-xs" type="button">OK</button>
+                    <button id="ceph-osd-columns-block-content" class="btn btn-primary  btn-xs" type="button">OK</button>
                 </span>
-                <span class="label label-primary">3</span>Ceph OSD
+                <span id="ceph-osd-columns-block" class="label label-primary">3</span>Ceph OSD
             </li>
 
         </ul>
@@ -480,7 +482,42 @@
   <script type="text/javascript" src="/static/js/plugins/highcharts/highcharts.js"></script>
   <script type="text/javascript" src="/static/js/only_finger/plugins/echarts/echarts.js"></script>
   <script type="text/javascript" src="/static/js/only_finger/dashiboard/dashboard.js"></script>
+
+  获取信息的js
+  <script type="text/javascript" src="/static/js/openstack/cloud.js"></script>
+  <script type="text/javascript" src="/static/js/openstack/neutron.js"></script>
+  <script type="text/javascript" src="/static/js/openstack/nova.js"></script>
+  <script type="text/javascript" src="/static/js/openstack/cinder.js"></script>
+  <script type="text/javascript" src="/static/js/openstack/ceph.js"></script>
+
+
   <script>
 
+  $(document).ready(function(){
+{#    a=[1,3,4,5,6];#}
+{#    for(var i=0;i<a.length;i++){console.log(a[i])};#}
+
+
+{#    这个是获取cloud状态的方法#}
+    cloud_status("{% url 'cloud_status' %}");
+    setInterval(function(){cloud_status("{% url "cloud_status" %}")},5000);
+
+{#    这个是获取nentron状态的方法#}
+    neutron_status("{% url "neutron_status" %}");
+    setInterval(function(){neutron_status("{% url "neutron_status" %}")},5000);
+
+{#    这个是获取nentron状态的方法#}
+    nova_status("{% url "nova_status" %}");
+    setInterval(function(){nova_status("{% url "nova_status" %}")},5000);
+
+{#    这个是获取nentron状态的方法#}
+    cinder_status("{% url "cinder_status" %}");
+    setInterval(function(){cinder_status("{% url "cinder_status" %}")},5000);
+
+{#    这个是获取nentron状态的方法#}
+    ceph_status("{% url "ceph_status" %}");
+    setInterval(function(){ceph_status("{% url "ceph_status" %}")},5000);
+
+  })
   </script>
 {% endblock %}
