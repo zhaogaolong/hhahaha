@@ -2,6 +2,20 @@
 # coding:utf8
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
+
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    name = models.CharField(max_length=32)
+    friends = models.ManyToManyField('self', blank=True,related_name='my_friends')
+    def __unicode__(self):
+        return self.name
+
+
+
+
 
 
 class OpenStackKeystoneAuth(models.Model):
@@ -35,7 +49,7 @@ class OpenStackKeyStoneEndpoint(models.Model):
     publicurl =  models.CharField(max_length=64)
     internalurl =  models.CharField(max_length=64)
     adminurl =  models.CharField(max_length=64)
-    # enabled = models.BooleanField()
+    enabled = models.BooleanField()
 
     def __unicode__(self):
         return self.publicurl

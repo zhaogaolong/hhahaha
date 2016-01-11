@@ -54,11 +54,11 @@ class GetOpenStackInfo():
                 'service_id': endpoint_data['service_id'],
                 'enabled': endpoint_data['enabled'],
                 'region': endpoint_data['region'],
-                'admin_url': endpoint_data['adminurl'],
-                'internal_url': endpoint_data['internalurl'],
-                'public_url': endpoint_data['publicurl']
+                'adminurl': endpoint_data['adminurl'],
+                'internalurl': endpoint_data['internalurl'],
+                'publicurl': endpoint_data['publicurl']
             }
-            log.info()
+            log.info('start get info')
             endpoint_obj = one_finger_models.OpenStackKeyStoneEndpoint(**endpoint_db_data)
             # print '%s_save' % endpoint_data['id']
             endpoint_data = {}

@@ -20,7 +20,7 @@ urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     # url(r'^openstack/', include(admin.site.urls)),
     # url(r'^$', one_finger_views.index, name='index'),
-    url(r'^info/', views.info, name='info'),
+    url(r'^info/(\d+\.+)$', views.info, name='info'),
     url(r'^test/', views.test, name='test'),
     url(r'^cloud_status/', views.cloud_status, name='cloud_status'),
     url(r'^nova_status/', views.nova_status, name='nova_status'),

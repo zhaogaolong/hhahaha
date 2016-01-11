@@ -110,6 +110,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# config login url
+LOGIN_URL = '/login/'
+
 # this is a static file dir
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),

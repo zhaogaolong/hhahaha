@@ -20,13 +20,13 @@ log = logging.logger
 
 class KeyStone(KeyStoneBase):
     def __init__(self):
-        admin_obj = OpenStackKeystoneAuth.objects.get(os_tenant_name='admin')
-        self.username = admin_obj.os_username
-        self.password = admin_obj.os_password
-        self.tenant_name = admin_obj.os_tenant_name
-        self.auth_url = admin_obj.auth_url
+        self.admin_obj = OpenStackKeystoneAuth.objects.get(os_tenant_name='admin')
+        self.username = self.admin_obj.os_username
+        self.password = self.admin_obj.os_password
+        self.tenant_name = self.admin_obj.os_tenant_name
+        self.auth_url = self.admin_obj.auth_url
         # print self.auth_url
-        self.tenant_id = admin_obj.tenant_id
+        self.tenant_id = self.admin_obj.tenant_id
         self.get_token()
 
     def get_token(self):
@@ -64,8 +64,10 @@ class KeyStone(KeyStoneBase):
             # 获取admin的tenant_id
             if not self.tenant_id:
                 self.tenant_id = data['access']['token']['tenant']['id']
-
-                self.admin_obj.update(tenant_id=self.tenant_id)
+                # import pdb
+                # pdb.set_trace()
+                self.admin_obj.tenant_id=self.tenant_id
+                self.admin_obj.save()
                 # print 'save tenant_id'
 
         debug_info = 'curl -i %s -X POST -H "Content-Type: application/json" ' \
