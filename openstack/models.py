@@ -48,7 +48,7 @@ class CinderStatus(models.Model):
                                         null=True)
 
     def __unicode__(self):
-        return self.status
+        return self.cinder_api_status
 
 
 class CinderManagerStatus(models.Model):

@@ -61,6 +61,8 @@ def input_info(request):
             'manager_ip': request.POST.get('manager_ip')
         })
 
+
+
 @login_required
 def index(request):
     return render(request, 'one_finger/index.html')

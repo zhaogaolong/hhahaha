@@ -497,7 +497,17 @@
 {#    a=[1,3,4,5,6];#}
 {#    for(var i=0;i<a.length;i++){console.log(a[i])};#}
 
+{#    $.get('/openstack/test',function(callback, status){#}
+{#      console.log('callback');#}
+{#      window.location.replace("/test");#}
+{#      if (callback){#}
+{#        window.location.replace("/test");#}
+{#        console.log(callback)#}
+{##}
+{#      }#}
 
+
+    });
 {#    这个是获取cloud状态的方法#}
     cloud_status("{% url 'cloud_status' %}");
     setInterval(function(){cloud_status("{% url "cloud_status" %}")},5000);
@@ -517,6 +527,14 @@
 {#    这个是获取nentron状态的方法#}
     ceph_status("{% url "ceph_status" %}");
     setInterval(function(){ceph_status("{% url "ceph_status" %}")},5000);
+
+
+
+{#    $.get("{% url 'test' %}",function(callback, status){#}
+{#        if (callback){#}
+{#          console.log(callback)#}
+{#        })#}
+
 
   })
   </script>

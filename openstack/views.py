@@ -9,25 +9,45 @@ import json
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from openstack import get_openstack_info
 from openstack.page import cloud, ceph, nova, neutron, cinder
+from one_finger.cloud_logging import cloud_logging as logging
+log = logging.logger
 
 
 def info(request, ip):
-    # b = get_openstack_info.GetOpenStackInfo()
+    print 'ip:', ip
+
+    log.info('get GetOpenStackInfo')
     b = get_openstack_info.GetOpenStackInfo()
+
+    log.info('get get_endpoint')
     b.get_endpoint()
+
+    log.info('get get_service')
     b.get_service()
+
+    log.info('get add_hosts')
     b.add_hosts(ip)
+
+    log.info('get add_nova_host')
     b.add_nova_host()
+
+    log.info('get add_cinder_host')
     b.add_cinder_host()
+
+    log.info('get add_neutron_host')
     b.add_neutron_host()
+
+    log.info('get add_ceph_osd_host')
     b.add_ceph_osd_host()
+
+    log.info('get add_ceph_mon_host')
     b.add_ceph_mon_host()
     # b.add_mysql_host()
-    return HttpResponse('Openstack Info')
+    return HttpResponseRedirect('/')
 
 
 def test(request):
-    return render(request, 'openstack/test.html')
+    return HttpResponseRedirect('/')
 
 
 def cloud_status(request):

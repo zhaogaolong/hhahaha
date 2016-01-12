@@ -17,16 +17,11 @@ from django.conf.urls import include, url
 from openstack import views
 
 urlpatterns = [
-    # url(r'^admin/', include(admin.site.urls)),
-    # url(r'^openstack/', include(admin.site.urls)),
-    # url(r'^$', one_finger_views.index, name='index'),
-    url(r'^info/(\d+\.+)$', views.info, name='info'),
+    url(r'^info/(.*)$', views.info, name='info'),
     url(r'^test/', views.test, name='test'),
     url(r'^cloud_status/', views.cloud_status, name='cloud_status'),
     url(r'^nova_status/', views.nova_status, name='nova_status'),
     url(r'^neutron_status/', views.neutron_status, name='neutron_status'),
     url(r'^cinder_status/', views.cinder_status, name='cinder_status'),
     url(r'^ceph_status/', views.ceph_status, name='ceph_status'),
-
-
 ]

@@ -51,13 +51,13 @@ class CinderClient(CinderBase):
 
     def save_service_to_db(self, data):
 
-        if openstack_models.CinderStatus.objects.filter(name='cinder_status'):
+        if openstack_models.CinderStatus.objects.filter():
             pass
         else:
-            cinder_db_obj = openstack_models.CinderStatus(name='cinder_status')
-
             if data:
-                cinder_db_obj.cinder_api_status = 'up'
+                cinder_db_obj = openstack_models.CinderStatus(
+                    cinder_api_status='up'
+                )
 
             for service in data['services']:
                 print '----------->', service

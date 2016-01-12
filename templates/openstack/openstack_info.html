@@ -52,12 +52,19 @@
 
 <script>
 
-
     $(document).ready(function () {
-      console.log("{{ manager_ip }}");
       var ip = "{{ manager_ip }}";
-      $.get({% url 'info' ip %})
+      var url = "{% url 'info' manager_ip %}";
 
+{#      console.log(ip);#}
+{#      console.log(url);#}
+
+      $.get("{% url 'info' manager_ip %}",function(callback, status){
+        if (callback){
+         window.location.replace("/");
+        }
+
+      })
 
     });
 
