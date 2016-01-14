@@ -12,4 +12,9 @@ configure ansible.cfg
 /etc/ansible/ansible.cfg 
 host_key_checking = False
 
-注: 如果没有配置在获取主机的时候无法获取信息
+获取后台信息：
+使用django的crontab 来监测后台状态。
+
+监测nova，neutron、cinder、glance、ceph等
+
+注: 如果没有配置在获取主机的时候无法获取信
