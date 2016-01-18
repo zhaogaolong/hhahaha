@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
+import djcelery
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -41,6 +41,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'openstack',
     'one_finger',
+    'check',
+    'djcelery',
+    'kombu.transport.django',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -177,9 +177,6 @@ class GetOpenStackInfo():
                 host_list.append(item['host'])
                 host_db_list[item['host']] = openstack_models.Host.objects.get(hostname=item['host'])
 
-        # print host_db_list
-        # print host_list
-
         # pdb.set_trace()
         # 定义角色的服务，稍后根据不同规划不同的角色
         manager_binary = ['nova-consoleauth', 'nova-scheduler', 'nova-conductor', 'nova-cert']

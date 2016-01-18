@@ -8,7 +8,7 @@ import sys
 import json
 import pdb
 from one_finger import models as one_finger_models
-from openstack import models as openstack_models
+from cloud import models as openstack_models
 
 
 class Token():

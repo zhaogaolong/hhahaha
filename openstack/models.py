@@ -124,16 +124,28 @@ class NovaStatus(models.Model):
                                            blank=True, null=True)
 
     nova_consoleauth_status = models.CharField(choices=status_level,
-                                               max_length=64)
+                                               max_length=64,
+                                               blank=True,
+                                               null=True)
     nova_scheduler_status = models.CharField(choices=status_level,
-                                             max_length=64)
+                                             max_length=64,
+                                             blank=True,
+                                             null=True
+                                             )
     nova_conductor_status = models.CharField(choices=status_level,
-                                             max_length=64)
+                                             max_length=64,
+                                             blank=True,
+                                             null=True
+                                             )
     nova_cert_status = models.CharField(choices=status_level,
-                                        max_length=64)
+                                        max_length=64,
+                                        blank=True,
+                                        null=True)
 
     nova_compute_status = models.CharField(choices=status_level,
-                                           max_length=64)
+                                           max_length=64,
+                                           blank=True,
+                                           null=True)
 
 
     def __unicode__(self):
@@ -171,14 +183,8 @@ class NovaManagerServiceStatus(models.Model):
 class NovaComputeServiceStatus(models.Model):
     # compute node nova status
     host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
     nova_compute_status = models.CharField(choices=status_level, max_length=64)
     enabled_nova_compute = models.BooleanField()
-    libvirtd_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
 
     def __unicode__(self):
         return self.host.hostname

@@ -11,6 +11,7 @@ from openstack import get_openstack_info
 from openstack.page import cloud, ceph, nova, neutron, cinder
 from one_finger.cloud_logging import cloud_logging as logging
 log = logging.logger
+# from check.cloud import start
 
 
 def info(request, ip):
@@ -47,6 +48,8 @@ def info(request, ip):
 
 
 def test(request):
+    # b = start.job()
+    # b.start()
     return HttpResponseRedirect('/')
 
 
