@@ -11,11 +11,11 @@ class Neutron():
         status_dic = {
             'status': self.neutron_obj.status,
             'api': self.neutron_obj.neutron_api_status,
-            'metadata': self.neutron_obj.neutron_metadata_status,
-            'lbaas': self.neutron_obj.neutron_lbaas_status,
-            'l3': self.neutron_obj.neutron_l3_status,
-            'dhcp': self.neutron_obj.neutron_dhcp_status,
-            'agent': self.neutron_obj.neutron_openvswitch_agent,
+            'metadata': self.neutron_obj.neutron_metadata_agent,
+            'lbaas': self.neutron_obj.neutron_lbaas_agent,
+            'l3': self.neutron_obj.neutron_l3_agent,
+            'dhcp': self.neutron_obj.neutron_dhcp_agent,
+            'agent': self.neutron_obj.neutron_river_type,
             'compute': self.neutron_obj.neutron_compute
         }
 

@@ -22,7 +22,8 @@ def host_list():
         else:
             hosts.append(item['host'])
     return hosts
-openstack_models.NovaStatus.objects.first()
+
+
 def host_data():
     kc = keystone.KeyStone()
     # 获取keystone的服务的数据库对象

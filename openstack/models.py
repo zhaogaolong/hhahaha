@@ -154,26 +154,30 @@ class NovaStatus(models.Model):
 
 class NovaManagerServiceStatus(models.Model):
     host = models.ForeignKey('Host')
-    status_level = (
-        ('up', "up"),
-        ('down ', "down"),
-        ('error ', "error"),
-    )
     status = models.CharField(choices=status_level, max_length=64)
-    nova_api_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-    nova_no_vnc_proxy_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-    nova_license_status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    nova_api_status = models.CharField(choices=status_level,
+                                       max_length=64,
+                                       blank=True, null=True)
+    nova_no_vnc_proxy_status = models.CharField(choices=status_level,
+                                                max_length=64,
+                                                blank=True, null=True)
+    nova_license_status = models.CharField(choices=status_level, max_length=64,
+                                           blank=True, null=True)
 
-    nova_consoleauth_status = models.CharField(choices=status_level, max_length=64)
+    nova_consoleauth_status = models.CharField(choices=status_level,
+                                               max_length=64)
     enabled_nova_consoleauth = models.BooleanField()
 
-    nova_scheduler_status = models.CharField(choices=status_level, max_length=64)
+    nova_scheduler_status = models.CharField(choices=status_level,
+                                             max_length=64)
     enabled_nova_scheduler = models.BooleanField()
 
-    nova_conductor_status = models.CharField(choices=status_level, max_length=64)
+    nova_conductor_status = models.CharField(choices=status_level,
+                                             max_length=64)
     enabled_nova_conductor = models.BooleanField()
 
-    nova_cert_status = models.CharField(choices=status_level, max_length=64)
+    nova_cert_status = models.CharField(choices=status_level,
+                                        max_length=64)
     enabled_nova_cert = models.BooleanField()
 
     def __unicode__(self):
@@ -304,19 +308,33 @@ class NeutronStatus(models.Model):
         ('Linux_bridge ', "Linux_bridge"),
     )
     status = models.CharField(choices=mode_status_level,
-                              max_length=64)
-    neutron_api_status = models.CharField(choices=status_level, max_length=64)
-    neutron_metadata_status = models.CharField(choices=status_level,
-                                               max_length=64)
-    neutron_lbaas_status = models.CharField(choices=status_level,
-                                            max_length=64)
-    neutron_l3_status =models.CharField(choices=status_level, max_length=64)
-    neutron_dhcp_status = models.CharField(choices=status_level, max_length=64)
-    neutron_river_type = models.CharField(choices=system_river_type_choices, max_length=64)
-    neutron_openvswitch_agent = models.CharField(choices=status_level,
-                                                 max_length=64)
+                              max_length=64,
+                              blank=True,
+                              null=True)
+
     neutron_compute = models.CharField(choices=status_level,
-                                                 max_length=64)
+                                       max_length=64,
+                                       blank=True, null=True)
+
+    neutron_river_type = models.CharField(choices=system_river_type_choices,
+                                          max_length=64)
+    neutron_metadata_agent = models.CharField(choices=status_level,
+                                              max_length=64,)
+    neutron_lbaas_agent = models.CharField(choices=status_level,
+                                           max_length=64)
+    neutron_l3_agent = models.CharField(choices=status_level,
+                                        max_length=64,
+                                        blank=True,
+                                        null=True)
+    neutron_dhcp_agent = models.CharField(choices=status_level,
+                                          max_length=64,
+                                          blank=True,
+                                          null=True)
+    neutron_api_status = models.CharField(choices=status_level,
+                                          max_length=64,
+                                          blank=True,
+                                          null=True,)
+
     def __unicode__(self):
         return self.status
 

@@ -37,9 +37,9 @@ function neutron_status(url){
             neutron_status_list = "neutron"+"_"+"service"+"_"+data['api'];
             window[neutron_status_list]("neutron-api-columns-block","neutron-api-columns-block-content");
 
-            // agetnt
-            neutron_status_list = "neutron"+"_"+"service"+"_"+data['agent'];
-            window[neutron_status_list]("neutron-river-columns-block","neutron-river-columns-block-content");
+            //// agetnt
+            //neutron_status_list = "neutron"+"_"+"service"+"_"+data['agent'];
+            //window[neutron_status_list]("neutron-river-columns-block","neutron-river-columns-block-content");
 
             // compute
             neutron_status_list = "neutron"+"_"+"service"+"_"+data['compute'];
