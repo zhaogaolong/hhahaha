@@ -16,13 +16,14 @@ django.setup()
 # check models
 from cloud import nova
 from cloud import neutron
+from cloud import cinder
 
 
 if __name__ == "__main__":
-    nc = neutron.Check(models)
-
+    cc = cinder.Check(models)
     # while True:
-    #     # nc = nova.check(models)
-    #     nc = neutron.check(models)
+    #     nc = nova.Check(models)
+    #     nc = neutron.Check(models)
+    #     cc = cinder.Check(models)
     #     time.sleep(3)
 

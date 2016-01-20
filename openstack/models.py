@@ -38,7 +38,7 @@ class CinderStatus(models.Model):
                                          max_length=64,
                                          blank=True,
                                          null=True)
-    cinder_volume_status = models.CharField(choices=status_level,
+    cinder_volume = models.CharField(choices=status_level,
                                             max_length=64,
                                             blank=True,
                                             null=True)
@@ -65,7 +65,7 @@ class CinderManagerStatus(models.Model):
     cinder_api_status = models.CharField(choices=status_level,
                                          max_length=64,
                                          blank=True,
-                                         null=True )
+                                         null=True)
     cinder_volume = models.CharField(choices=status_level,
                                      max_length=64)
     cinder_scheduler = models.CharField(choices=status_level,
