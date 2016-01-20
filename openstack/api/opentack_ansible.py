@@ -33,7 +33,7 @@ class CmmAndRun():
 
         log.debug('ansible sttout %s' % datastructure)
 
-        print datastructure
+        # print datastructure
         if not datastructure['contacted'][self.host]['rc']:
             data = datastructure['contacted'][self.host]['stdout']
             return data

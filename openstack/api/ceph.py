@@ -79,12 +79,16 @@ class Ceph():
         return mon_dic
 
     def quorum_online(self):
-        cm = "ceph mon_status"
+
+        cmd = "ceph mon_status"
         ac = CmmAndRun(
-            cmd=cm,
+            cmd=cmd,
             host=self.ip,
         )
-        data = json.loads(ac.start())
+        # import pdb
+        # pdb.set_trace()
+        data = ac.start()
+        data = json.loads(data)
 
         if data:
             return data['quorum']

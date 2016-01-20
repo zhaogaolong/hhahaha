@@ -102,9 +102,9 @@ if __name__ == "__main__":
         for th in th_list:
             th.join()
             th_list.remove(th)
-        t = threading.Thread(target=check_cloud)
-        t.start()
-        t.join()
+        cloud = threading.Thread(target=check_cloud)
+        cloud.start()
+        cloud.join()
         print 'th_list:', th_list
 
     #
