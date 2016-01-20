@@ -98,33 +98,27 @@ class Check():
         for service in service_list:
             self._check_cloud_service_status(service)
 
-        nova_status_dic = {
-            'api': self.nova_status_db_obj.status,
-            'consoleauth': self.nova_status_db_obj.nova_consoleauth_status,
-            'scheduler': self.nova_status_db_obj.nova_scheduler_status,
-            'conductor': self.nova_status_db_obj.nova_conductor_status,
-            'cert': self.nova_status_db_obj.nova_cert_status,
-            'compute': self.nova_status_db_obj.nova_compute_status,
-        }
+        nova_status_db = self.models.NovaStatus.objects.first()
         nova_status_list = [
-            self.nova_status_db_obj.status,
-            self.nova_status_db_obj.nova_consoleauth_status,
-            self.nova_status_db_obj.nova_scheduler_status,
-            self.nova_status_db_obj.nova_conductor_status,
-            self.nova_status_db_obj.nova_cert_status,
-            self.nova_status_db_obj.nova_compute_status,
+            nova_status_db.nova_consoleauth_status,
+            nova_status_db.nova_scheduler_status,
+            nova_status_db.nova_conductor_status,
+            nova_status_db.nova_cert_status,
+            nova_status_db.nova_compute_status,
         ]
-
-        print nova_status_dic
-        print nova_status_list
+        # import pdb
+        # pdb.set_trace()
+        # print nova_status_dic
+        # print nova_status_list
         # 监测
         if 'down' in nova_status_list:
-            self.nova_status_db_obj.status = 'down'
+            nova_status_db.status = 'down'
         elif 'warning' in nova_status_list:
-            self.nova_status_db_obj.status = 'warning'
+            nova_status_db.status = 'warning'
         if len(nova_status_list) == nova_status_list.count('up'):
-            self.nova_status_db_obj.status = 'up'
-        self.nova_status_db_obj.save()
+            nova_status_db.status = 'up'
+
+        nova_status_db.save()
 
     def _check_cloud_service_status(self, service):
         # print '_check_cloud_service_status'
@@ -171,14 +165,24 @@ class Check():
     def _check_nova_status_compute(self):
         # print '_check_nova_status_compute'
         status = []
+        nova_status_obj = self.models.NovaStatus.objects.first()
         for compute in self.compute_db_list:
             status.append(compute.nova_compute_status)
+        # print status
+
+
         if len(status) == status.count('up'):
-            self.models.NovaStatus.nova_compute_status = 'up'
-        elif len(status) <= status.count('up') > 0:
-            self.models.NovaStatus.nova_compute_status = 'warning'
+           nova_status_obj.nova_compute_status = 'up'
+        elif len(status) > status.count('up') > 0:
+            # print 'save warning status to db'
+            nova_status_obj.nova_compute_status = 'warning'
+            nova_status_obj.save()
+            # print 'nova_status--compute', nova_status_obj.nova_compute_status
+
+
         else:
-            self.models.NovaStatus.nova_compute_status = 'down'
+            nova_status_obj.nova_compute_status = 'down'
+        nova_status_obj.save()
 
     def _check_nova_status_manager(self, service):
         # print '_check_nova_status_manager'
@@ -192,35 +196,12 @@ class Check():
         # pdb.set_trace()
         nova_status_db_obj = self.models.NovaStatus.objects.first()
         if len(status) == status.count('up'):
-            print 'nova status is up'
+            # print 'nova status is up'
             setattr(nova_status_db_obj, service, 'up')
-        elif len(status) < status.count('up') > 0:
+        elif len(status) < status.count('up') and status.count('up') > 0:
             setattr(nova_status_db_obj, service, 'warning')
         else:
             setattr(nova_status_db_obj, service, 'down')
         nova_status_db_obj.save()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

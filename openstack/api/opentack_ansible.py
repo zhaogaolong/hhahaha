@@ -9,7 +9,7 @@ log = logging.logger
 
 
 class CmmAndRun():
-    def __init__(self, module_name='shell', host=None, cmd=None, timeout=10):
+    def __init__(self, module_name='shell', host=None, cmd=None, timeout=20):
         self.username = 'root'
         self.module_name = module_name
         self.host = host
@@ -29,10 +29,11 @@ class CmmAndRun():
         # pdb.set_trace()
 
         datastructure = runner.run()
-        print datastructure
+        # print datastructure
 
         log.debug('ansible sttout %s' % datastructure)
 
+        print datastructure
         if not datastructure['contacted'][self.host]['rc']:
             data = datastructure['contacted'][self.host]['stdout']
             return data

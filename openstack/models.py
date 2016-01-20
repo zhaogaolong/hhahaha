@@ -20,7 +20,8 @@ mode_status_level = (
 
 class CloudStatus(models.Model):
     # 整个openstack状态的总汇状态
-    status = models.CharField(choices=mode_status_level, max_length=64)
+    status = models.CharField(choices=mode_status_level, max_length=64,
+                              blank=True, null=True)
     available_proportion = models.IntegerField(default=100)
 
     def __unicode__(self):

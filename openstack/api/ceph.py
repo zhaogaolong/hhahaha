@@ -78,6 +78,19 @@ class Ceph():
 
         return mon_dic
 
+    def quorum_online(self):
+        cm = "ceph mon_status"
+        ac = CmmAndRun(
+            cmd=cm,
+            host=self.ip,
+        )
+        data = json.loads(ac.start())
+
+        if data:
+            return data['quorum']
+        else:
+            None
+
     def check_mon(self):
         # 使用ceph -s 中有一个选项是 quorum, 着就是提示有多少个mon up的
         # 通过ceph mon dump 查看mon的ID

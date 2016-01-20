@@ -21,7 +21,7 @@ def neutronclient(endpoint_url=base.url_for('neutron')):
                               endpoint_url=endpoint_url,
                               insecure=insecure, ca_cert=cacert)
 
-    print endpoint_url
+    # print endpoint_url
     return c
 
 

@@ -12,8 +12,7 @@ class Cinder():
         status_dic = {
             'status': self.cinder_obj.status,
             'api': self.cinder_obj.cinder_api_status,
-            'volume': self.cinder_obj.cinder_volume_status,
+            'volume': self.cinder_obj.cinder_volume,
             'scheduler': self.cinder_obj.cinder_scheduler
         }
-
         return status_dic

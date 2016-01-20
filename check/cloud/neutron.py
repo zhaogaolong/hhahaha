@@ -64,7 +64,7 @@ class Check():
         for manager in self.neutron_manager_db_list:
             ip = self.models.Host.objects.get(id=manager.host_id).ip_manager
             url = 'http://%s:9696/' % ip
-            print 'imput url', url
+            # print 'imput url', url
             c = neutron_api.neutronclient(endpoint_url=url)
             if c.list_agents():
                 manager.neutron_api_status = 'up'
@@ -95,7 +95,7 @@ class Check():
             manager.save()
 
     def _cloud_status(self):
-        print '_cloud_status'
+        # print '_cloud_status'
         if not self.models.NeutronStatus.objects.first():
             dic = {
                 'neutron_river_type': 'Open_vSwitch',
@@ -119,8 +119,8 @@ class Check():
         status = []
         for manager in self.neutron_manager_db_list:
             status.append(getattr(manager, service))
-        print service
-        print status
+        # print service
+        # print status
         neutron_db_obj  = self.models.NeutronStatus.objects.first()
         if len(status) == status.count('up'):
             setattr(neutron_db_obj, service, 'up')
@@ -135,7 +135,7 @@ class Check():
         neutron_db_obj.save()
 
     def _check_only_one_service(self):
-        print '_check_only_one_service'
+        # print '_check_only_one_service'
         for srevice in self.neutron_agent_list['agents']:
             if srevice['alive']:
                 status = 'up'

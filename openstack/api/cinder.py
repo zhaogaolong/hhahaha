@@ -44,7 +44,7 @@ class CinderClient(CinderBase):
                      '"passwordCredentials": ' \
                      '{"username": admin, "password": "PASSWORD" }' % url
         log.debug(debug_info)
-        data = json.loads(urllib2.urlopen(request, timeout=5).read())
+        data = json.loads(urllib2.urlopen(request, timeout=10).read())
 
         self.save_service_to_db(data)
         return data

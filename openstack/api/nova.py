@@ -81,7 +81,7 @@ def mgmt_api_status(host):
         'host': host,
         'tenant_id': kc.tenant_id}+'/os-services'
 
-    print url
+    # print url
     request = urllib2.Request(url, headers={
             'X-Auth-Project-Id': kc.username,
             'Accept': 'application/json',

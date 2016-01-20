@@ -4,6 +4,9 @@ import time
 import os
 import sys
 import time
+import multiprocessing
+import threading
+
 # config allow this is py invoke django models
 Base_dir = "/".join(os.path.dirname(os.path.abspath(__file__)).split('/')[:-1])
 sys.path.append(Base_dir)
@@ -17,13 +20,100 @@ django.setup()
 from cloud import nova
 from cloud import neutron
 from cloud import cinder
+from ceph import ceph
+
+
+def check_cloud():
+    print '\033[32mcheck_cloud\033[0m'
+    cloud_status = [
+        models.NovaStatus.objects.first().status,
+        models.CephStatus.objects.first().status,
+        models.NeutronStatus.objects.first().status,
+        models.CinderStatus.objects.first().status,
+    ]
+    if not models.CloudStatus.objects.filter():
+        cloud_db_obj = models.CloudStatus(status='null')
+        cloud_db_obj.save()
+
+    cloud_db_obj = models.CloudStatus.objects.first()
+    # import pdb
+    # pdb.set_trace()
+
+    if len(cloud_status) == cloud_status.count('down'):
+        check_db_update(cloud_db_obj, 'down')
+    elif 'down' in cloud_status:
+        check_db_update(cloud_db_obj, 'critical')
+    elif 'warning' in cloud_status:
+        check_db_update(cloud_db_obj, 'warning')
+    elif len(cloud_status) == cloud_status.count('up'):
+        check_db_update(cloud_db_obj, 'up')
+
+
+def check_db_update(dbobj, status):
+    if dbobj.status != status:
+        dbobj.status = status
+        dbobj.save()
+
+
+def check_nova():
+    print '\033[32mcheck_nova\033[0m'
+    nc = nova.Check(models)
+
+    time.sleep(10)
+
+
+def check_neutron():
+    print '\033[32mcheck_neutron\033[0m'
+    nc = neutron.Check(models)
+    time.sleep(10)
+
+
+def check_cinder():
+    print '\033[32mcheck_cinder\033[0m'
+
+    nc = cinder.Check(models)
+    time.sleep(10)
+
+
+def check_ceph():
+    print '\033[32mcheck_ceph\033[0m'
+    ce = ceph.Check(models)
+    time.sleep(10)
 
 
 if __name__ == "__main__":
-    cc = cinder.Check(models)
-    # while True:
-    #     nc = nova.Check(models)
-    #     nc = neutron.Check(models)
-    #     cc = cinder.Check(models)
-    #     time.sleep(3)
+    service_list = [
+        check_nova,
+        check_neutron,
+        check_cinder,
+        check_ceph,
+    ]
+    # for service in service_list:
+    #     service()
+    th_list = []
 
+    while True:
+        th_list = []
+        for service in service_list:
+            t = threading.Thread(target=service)
+            t.start()
+            th_list.append(t)
+
+        for th in th_list:
+            th.join()
+            th_list.remove(th)
+        t = threading.Thread(target=check_cloud)
+        t.start()
+        t.join()
+        print 'th_list:', th_list
+
+    #
+    # for service in service_list:
+    #     t = threading.Thread(target=service)
+    #     t.start()
+    #     th_list.append(t)
+    #
+    # for th in th_list:
+    #     th.join()
+    #     th_list.remove(th)
+    # print 'th_list:', th_list
