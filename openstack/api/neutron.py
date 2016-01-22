@@ -12,16 +12,16 @@ from one_finger.cloud_logging import cloud_logging as logging
 log = logging.logger
 
 
-def neutronclient(endpoint_url=base.url_for('neutron')):
+def neutronclient(endpoint_url=None):
     kc = keystone.KeyStone()
+    if not endpoint_url:
+        endpoint_url = base.url_for('neutron')
     token = kc.token
     insecure = False
     cacert = None
     c = neutron_client.Client(token=token,
                               endpoint_url=endpoint_url,
                               insecure=insecure, ca_cert=cacert)
-
-    # print endpoint_url
     return c
 
 

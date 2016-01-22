@@ -3,10 +3,12 @@
 from django.shortcuts import render,HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 ######
 
 from models import OpenStackKeystoneAuth
+from models import UserProfile
 from openstack.views import info
 
 
@@ -19,10 +21,16 @@ def account_login(request):
     else:
         # print request.POST
         username = request.POST.get('username')
-        passwd = request.POST.get('password')
-        user = authenticate(username=username,password=passwd)
+        password = request.POST.get('password')
+        user = authenticate(username=username,
+                            password=password)
         if user is not None:
             login(request, user)
+            if not UserProfile.objects.filter():
+                admin_obj = User.objects.first()
+                user_obj = UserProfile(name=admin_obj.username,
+                                       user_id=admin_obj.id)
+                user_obj.save()
             user.userprofile.online = True
             user.userprofile.save()
 

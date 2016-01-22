@@ -42,8 +42,8 @@ INSTALLED_APPS = (
     'openstack',
     'one_finger',
     'check',
-    'djcelery',
-    'kombu.transport.django',
+    # 'djcelery',
+    # 'kombu.transport.django',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,7 +85,8 @@ WSGI_APPLICATION = 'one_finger.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'one_finger',
+        'NAME': 'cloud',
+        # 'NAME': 'one_finger',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',

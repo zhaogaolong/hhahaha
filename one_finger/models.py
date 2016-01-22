@@ -9,13 +9,12 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=32)
-    friends = models.ManyToManyField('self', blank=True,related_name='my_friends')
+    friends = models.ManyToManyField('self',
+                                     blank=True,
+                                     related_name='my_friends')
+
     def __unicode__(self):
         return self.name
-
-
-
-
 
 
 class OpenStackKeystoneAuth(models.Model):

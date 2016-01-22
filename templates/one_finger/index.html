@@ -480,8 +480,9 @@
 
 {% block js %}
   <script type="text/javascript" src="/static/js/plugins/highcharts/highcharts.js"></script>
-  <script type="text/javascript" src="/static/js/only_finger/plugins/echarts/echarts.js"></script>
-  <script type="text/javascript" src="/static/js/only_finger/dashiboard/dashboard.js"></script>
+{#  <script type="text/javascript" src="/static/js/one_finger/plugins/echarts/echarts.js"></script>#}
+  <script type="text/javascript" src="/static/js/one_finger/plugins/echarts/echarts.common.min.js"></script>
+  <script type="text/javascript" src="/static/js/one_finger/dashiboard/dashboard.js"></script>
 
   获取信息的js
   <script type="text/javascript" src="/static/js/openstack/cloud.js"></script>
@@ -509,24 +510,24 @@
 
     });
 {#    这个是获取cloud状态的方法#}
-    cloud_status("{% url 'cloud_status' %}");
-    setInterval(function(){cloud_status("{% url "cloud_status" %}")},5000);
-
+{#    cloud_status("{% url 'cloud_status' %}");#}
+{#    setInterval(function(){cloud_status("{% url "cloud_status" %}")},5000);#}
+{##}
 {#    这个是获取nentron状态的方法#}
-    neutron_status("{% url "neutron_status" %}");
-    setInterval(function(){neutron_status("{% url "neutron_status" %}")},5000);
-
+{#    neutron_status("{% url "neutron_status" %}");#}
+{#    setInterval(function(){neutron_status("{% url "neutron_status" %}")},5000);#}
+{##}
 {#    这个是获取nentron状态的方法#}
-    nova_status("{% url "nova_status" %}");
-    setInterval(function(){nova_status("{% url "nova_status" %}")},5000);
-
+{#    nova_status("{% url "nova_status" %}");#}
+{#    setInterval(function(){nova_status("{% url "nova_status" %}")},5000);#}
+{##}
 {#    这个是获取nentron状态的方法#}
-    cinder_status("{% url "cinder_status" %}");
-    setInterval(function(){cinder_status("{% url "cinder_status" %}")},5000);
-
+{#    cinder_status("{% url "cinder_status" %}");#}
+{#    setInterval(function(){cinder_status("{% url "cinder_status" %}")},5000);#}
+{##}
 {#    这个是获取nentron状态的方法#}
-    ceph_status("{% url "ceph_status" %}");
-    setInterval(function(){ceph_status("{% url "ceph_status" %}")},5000);
+{#    ceph_status("{% url "ceph_status" %}");#}
+{#    setInterval(function(){ceph_status("{% url "ceph_status" %}")},5000);#}
 
 
 
