@@ -5,61 +5,50 @@
   <title></title>
 </head>
 <body>
-  <div id="main" style="width: 600px;height:400px;"></div>
+  <div id="main" style="width: 800px;height:800px;"></div>
 </body>
+  <script type="text/javascript" src="http://echarts.baidu.com/dist/echarts.min.js"></script>
 
-  <script type="text/javascript" src="../echarts.common.min.js"></script>
+  <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
   <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
+
         var myChart = echarts.init(document.getElementById('main'));
 
         // 指定图表的配置项和数据
-        var option = {
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                x: 'left',
-                data:['L3 Agent','DHCP Agent']
-            },
-            color: ['#23c6c8','#16987e' ,'#ea394c'],
-            series: [
-                {
-                    name:'访问来源',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                                fontSize: '30',
-                                fontWeight: 'bold'
-                            }
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            show: false
-                        }
-                    },
-                    data:[
-                          {value:50, name:'L3 Agent'},
-                          {value:50, name:'DHCP Agent'}
-                    ]
-                }
-            ]
-        };
+          option = {
+              tooltip : {
+                  formatter: "{a} <br/>{b} : {c}%"
+              },
+              toolbox: {
+                  show : true,
+                  feature : {
+                      mark : {show: true},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              series : [
+                  {
+                      name:'业务指标',
+                      type:'gauge',
+                      detail : {formatter:'{value}%'},
+                      data:[{value: 50, name: '完成率'}]
+                  }
+              ]
+          };
+
+
+          timeTicket = setInterval(function () {
+              var v = (Math.random() * 100).toFixed(2) - 0;
+              console.log(v);
+              option.series[0].data[0].value = v;
+              myChart.setOption(option, true);
+          },2000);
+
 
 
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
     </script>
 
 </html>
