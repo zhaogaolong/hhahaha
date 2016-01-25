@@ -65,8 +65,15 @@ class Check():
             ip = self.models.Host.objects.get(id=manager.host_id).ip_manager
             url = 'http://%s:9696/' % ip
             # print 'imput url', url
-            c = neutron_api.neutronclient(endpoint_url=url)
-            if c.list_agents():
+            nc = neutron_api.neutronclient(endpoint_url=url)
+            try:
+                data = nc.list_agents()
+            except Exception:
+                data = None
+
+            # import pdb
+            # pdb.set_trace()
+            if data:
                 manager.neutron_api_status = 'up'
             else:
                 manager.neutron_api_status = 'down'
@@ -79,11 +86,14 @@ class Check():
             manager.neutron_openvswitch_agent,
             manager.neutron_metadata_agent,
             manager.neutron_lbaas_agent,
-            manager.neutron_l3_agent,
-            manager.neutron_dhcp_agent,
+            # manager.neutron_l3_agent,
+            # manager.neutron_dhcp_agent,
         ]
+        # import pdb
+        # pdb.set_trace()
         if len(status_list) == status_list.count('up'):
             self._service_status_contrast(manager, 'up')
+
         elif len(status_list) > status_list.count('up') > 0:
             self._service_status_contrast(manager, 'warning')
         else:

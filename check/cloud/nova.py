@@ -198,7 +198,7 @@ class Check():
         if len(status) == status.count('up'):
             # print 'nova status is up'
             setattr(nova_status_db_obj, service, 'up')
-        elif len(status) < status.count('up') and status.count('up') > 0:
+        elif len(status) > status.count('up') > 0:
             setattr(nova_status_db_obj, service, 'warning')
         else:
             setattr(nova_status_db_obj, service, 'down')
