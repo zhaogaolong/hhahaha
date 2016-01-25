@@ -13,6 +13,7 @@
   //      'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
   //  ],
   //  function (ec) {
+
         // 基于准备好的dom，初始化echarts图表
         //var neutron_manager_status = ec.init(document.getElementById('neutron_manager_status'));
         var neutron_manager_status = echarts.init(document.getElementById('neutron_manager_status'));
@@ -40,13 +41,12 @@
         var ceph_osd_status = echarts.init(document.getElementById('ceph_osd_status'));
 
 
+        var manager_option = new Object(
 
-
-        var neutron_manager_status_option = {
+            {
             backgroundColor: '#e7eaec',
             title : {
-                text: 'Ntueron Manager Staus',
-                //subtext: '纯属虚构',
+                text: 'Ntueron Manager',
                 x:'center'
             },
             tooltip: {
@@ -103,13 +103,14 @@
                     ]
                 }
             ]
-        };
+        });
 
-        var neutron_comput_status_option = {
+
+        var compute_option = new Object( {
             backgroundColor: '#e7eaec',
 
             title : {
-                text: 'Ntueron Compuste Staus',
+                text: 'Ntueron Compute',
                 //subtext: '纯属虚构',
                 x:'center'
             },
@@ -165,284 +166,9 @@
                     ]
                 }
             ]
-        };
-
-        //var neutron_manager_status_option= {
-        //    title : {
-        //        text: 'Ntueron Manager Staus',
-        //        //subtext: '纯属虚构',
-        //        x:'center'
-        //    },
-        //    tooltip : {
-        //        trigger: 'item',
-        //        formatter: "{a} <br/>{b} : {c} ({d}%)"
-        //    },
-        //    color: ['#23c6c8','#16987e' ,'#ea394c'],
-        //    calculable : true,
-        //    series : [
-        //        {
-        //
-        //            //name:'访问来源',
-        //            type:'pie',
-        //            radius : [70,'80%'],
-        //            center: ['50%', '55%'],
-        //            itemStyle: {
-        //              normal: {
-        //                //borderColor: '', //设置间隔的颜色
-        //                borderWidth: '5',//设置间隔的宽度
-        //                label: {
-        //                  position: 'inner', //设置提示字体在内部
-        //                  //distance: '0.9', //设置字体在区域的位置，默认是0.5 就是中间
-        //        },
-        //        labelLine: {
-        //          show: false  //设置外接线关闭
-        //        }
-        //      }
-        //    },
-        //            data:[
-        //                {value:50, name:'L3 Agent'},
-        //                {value:50, name:'DHCP Agent'},
-        //
-        //            ]
-        //        }
-        //    ]
-        //};
-        //var neutron_comput_status_option = {
-        //    title : {
-        //        text: 'Ntueron Compuste Staus',
-        //        //subtext: '纯属虚构',
-        //        x:'center'
-        //    },
-        //    tooltip : {
-        //        trigger: 'item',
-        //        formatter: "{a} <br/>{b} : {c} ({d}%)"
-        //    },
-        //    //color: ['#ea394c#1ab394','rad','#f79d3c', '#ea394c' ],
-        //    color: ['#1ab394', '#f79d3c', '#ea394c'],
-        //    //legend: {
-        //    //    orient : 'vertical',
-        //    //    x : 'left',
-        //    //    data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-        //    //},
-        //    calculable : true,
-        //    series : [
-        //        {
-        //            name:'访问来源',
-        //            type:'pie',
-        //            startAngle: 45,
-        //            clockWise: false,
-        //            radius : [70,'80%'],
-        //            center: ['50%', '55%'],
-        //            itemStyle: {
-        //              normal: {
-        //                //borderColor: '', //设置间隔的颜色
-        //                //borderWidth: '5',//设置间隔的宽度
-        //                label: {
-        //                  position: 'inner', //设置提示字体在内部
-        //                  distance: '0.9', //设置字体在区域的位置，默认是0.5 就是中间
-        //                },
-        //                labelLine: {
-        //                  show:false,  //设置外接线关闭
-        //                }
-        //              }
-        //            },
-        //            data:[
-        //                {value:80, name:'OK'},
-        //                {value:5, name:'服务不可用'},
-        //                //{value:5, name:'服务down'},
-        //                {value:10, name:'物理机down'},
-        //                //{value:1548, name:'搜索引擎'}
-        //            ]
-        //        }
-        //    ]
-        //};
-
-        var nova_manager_status_option= {
-                        backgroundColor: '#e7eaec',
-            title : {
-                text: 'Nova Manager Staus',
-                //subtext: '纯属虚构',
-                x:'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                x: 'left',
-                //left: 'left',
-                //top : 'bottom',
-
-                data:['M1','M2','M3']
-            },
-
-            color: ['#1ab394', '#ea394c'],
-            series: [
-                {
-                    name:'服务器',
-                    type:'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                                fontSize: '30',
-                                fontWeight: 'bold'
-                            }
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            show: true
-                        }
-                    },
-
-                    itemStyle: {
-                        normal: {
-                            borderColor: 'White',
-                            borderWidth: '10'
-                        },
-                    },
-
-                    center:['50%', '60%'],
-                    data:[
-                          {value:50, name:'M1'},
-                          {value:50, name:'M2'},
-                          {value:50, name:'M3'},
-                    ]
-                }
-            ]
-        };
-        var nova_compute_status_option = {
-            backgroundColor: '#e7eaec',
-
-            title : {
-                text: 'Nova Compuste Staus',
-                //subtext: '纯属虚构',
-                x:'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                x: 'left',
-                //left: 'left',
-                //top : 'bottom',
-
-                data:['DOWN','UP']
-            },
-            color: ['#ea394c','#1ab394'],
-            series: [
-                {
-                    name:'服务器',
-                    type:'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                                fontSize: '30',
-                                fontWeight: 'bold'
-                            }
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            show: false
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            borderColor: 'White',
-                            borderWidth: '10'
-                        },
-                    },
-                    center:['50%', '60%'],
-                    data:[
-                          {value:10, name:'DOWN'},
-                          {value:90, name:'UP'},
+        });
 
 
-                    ]
-                }
-            ]
-        };
-
-        var cinder_manager_status_option= {
-            backgroundColor: '#e7eaec',
-            title : {
-                text: 'Cinder Manager Staus',
-                //subtext: '纯属虚构',
-                x:'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                x: 'left',
-                //left: 'left',
-                //top : 'bottom',
-
-                data:['M1','M2','M3']
-            },
-
-            color: ['#1ab394', '#ea394c'],
-            series: [
-                {
-                    name:'服务器',
-                    type:'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                                fontSize: '30',
-                                fontWeight: 'bold'
-                            }
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            show: true
-                        }
-                    },
-
-                    itemStyle: {
-                        normal: {
-                            borderColor: 'White',
-                            borderWidth: '10'
-                        },
-                    },
-
-                    center:['50%', '60%'],
-                    data:[
-                          {value:50, name:'M1'},
-                          {value:50, name:'M2'},
-                          {value:50, name:'M3'},
-                    ]
-                }
-            ]
-        };
 
         var  volume_status_option= {
               backgroundColor: '#e7eaec',
@@ -509,234 +235,6 @@
 
 
 
-        //clearInterval(timeTicket);
-
-        //var  cinder_manager_status_option= {
-        //    title : {
-        //        text: 'Ntueron Manager Staus',
-        //        //subtext: '纯属虚构',
-        //        x:'center'
-        //    },
-        //    tooltip : {
-        //        trigger: 'item',
-        //        formatter: "{a} <br/>{b} : {c} ({d}%)"
-        //    },
-        //    color: ['#23c6c8','#16987e' ,'#ea394c'],
-        //    calculable : true,
-        //    series : [
-        //        {
-        //
-        //            //name:'访问来源',
-        //            type:'pie',
-        //            radius : [70,'80%'],
-        //            center: ['50%', '55%'],
-        //            itemStyle: {
-        //              normal: {
-        //                //borderColor: '', //设置间隔的颜色
-        //                borderWidth: '5',//设置间隔的宽度
-        //                label: {
-        //                  position: 'inner', //设置提示字体在内部
-        //                  //distance: '0.9', //设置字体在区域的位置，默认是0.5 就是中间
-        //        },
-        //        labelLine: {
-        //          show: false  //设置外接线关闭
-        //        }
-        //      }
-        //    },
-        //            data:[
-        //                {value:50, name:'L3 Agent'},
-        //                {value:50, name:'DHCP Agent'},
-        //
-        //            ]
-        //        }
-        //    ]
-        //};
-        //var  volume_status_option= {
-        //    title : {
-        //        text: 'Ntueron Manager Staus',
-        //        //subtext: '纯属虚构',
-        //        x:'center'
-        //    },
-        //    tooltip : {
-        //        trigger: 'item',
-        //        formatter: "{a} <br/>{b} : {c} ({d}%)"
-        //    },
-        //    color: ['#23c6c8','#16987e' ,'#ea394c'],
-        //    calculable : true,
-        //    series : [
-        //        {
-        //
-        //            //name:'访问来源',
-        //            type:'pie',
-        //            radius : [70,'80%'],
-        //            center: ['50%', '55%'],
-        //            itemStyle: {
-        //              normal: {
-        //                //borderColor: '', //设置间隔的颜色
-        //                borderWidth: '5',//设置间隔的宽度
-        //                label: {
-        //                  position: 'inner', //设置提示字体在内部
-        //                  //distance: '0.9', //设置字体在区域的位置，默认是0.5 就是中间
-        //        },
-        //        labelLine: {
-        //          show: false  //设置外接线关闭
-        //        }
-        //      }
-        //    },
-        //            data:[
-        //                {value:50, name:'L3 Agent'},
-        //                {value:50, name:'DHCP Agent'},
-        //
-        //            ]
-        //        }
-        //    ]
-        //};
-
-        //var  ceph_mon_status_option= {
-        //    title : {
-        //        text: 'Ntueron Manager Staus',
-        //        //subtext: '纯属虚构',
-        //        x:'center'
-        //    },
-        //    tooltip : {
-        //        trigger: 'item',
-        //        formatter: "{a} <br/>{b} : {c} ({d}%)"
-        //    },
-        //    color: ['#23c6c8','#16987e' ,'#ea394c'],
-        //    calculable : true,
-        //    series : [
-        //        {
-        //
-        //            //name:'访问来源',
-        //            type:'pie',
-        //            radius : [70,'80%'],
-        //            center: ['50%', '55%'],
-        //            itemStyle: {
-        //              normal: {
-        //                //borderColor: '', //设置间隔的颜色
-        //                borderWidth: '5',//设置间隔的宽度
-        //                label: {
-        //                  position: 'inner', //设置提示字体在内部
-        //                  //distance: '0.9', //设置字体在区域的位置，默认是0.5 就是中间
-        //        },
-        //        labelLine: {
-        //          show: false  //设置外接线关闭
-        //        }
-        //      }
-        //    },
-        //            data:[
-        //                {value:50, name:'L3 Agent'},
-        //                {value:50, name:'DHCP Agent'},
-        //
-        //            ]
-        //        }
-        //    ]
-        //};
-
-        //var  ceph_osd_status_option= {
-        //    title : {
-        //        text: 'Ntueron Manager Staus',
-        //        //subtext: '纯属虚构',
-        //        x:'center'
-        //    },
-        //    tooltip : {
-        //        trigger: 'item',
-        //        formatter: "{a} <br/>{b} : {c} ({d}%)"
-        //    },
-        //    color: ['#23c6c8','#16987e' ,'#ea394c'],
-        //    calculable : true,
-        //    series : [
-        //        {
-        //
-        //            //name:'访问来源',
-        //            type:'pie',
-        //            radius : [70,'80%'],
-        //            center: ['50%', '55%'],
-        //            itemStyle: {
-        //              normal: {
-        //                //borderColor: '', //设置间隔的颜色
-        //                borderWidth: '5',//设置间隔的宽度
-        //                label: {
-        //                  position: 'inner', //设置提示字体在内部
-        //                  //distance: '0.9', //设置字体在区域的位置，默认是0.5 就是中间
-        //        },
-        //        labelLine: {
-        //          show: false  //设置外接线关闭
-        //        }
-        //      }
-        //    },
-        //            data:[
-        //                {value:50, name:'L3 Agent'},
-        //                {value:50, name:'DHCP Agent'},
-        //
-        //            ]
-        //        }
-        //    ]
-        //};
-
-
-        var  ceph_mon_status_option= {
-            backgroundColor: '#e7eaec',
-            title : {
-                text: 'Ceph Monitor Staus',
-                //subtext: '纯属虚构',
-                x:'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                x: 'left',
-                //left: 'left',
-                //top : 'bottom',
-
-                data:['M1','M2','M3']
-            },
-
-            color: ['#1ab394', '#ea394c'],
-            series: [
-                {
-                    name:'服务器',
-                    type:'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                                fontSize: '30',
-                                fontWeight: 'bold'
-                            }
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            show: true
-                        }
-                    },
-
-                    itemStyle: {
-                        normal: {
-                            borderColor: 'White',
-                            borderWidth: '10'
-                        },
-                    },
-
-                    center:['50%', '60%'],
-                    data:[
-                          {value:50, name:'M1'},
-                          {value:50, name:'M2'},
-                          {value:50, name:'M3'},
-                    ]
-                }
-            ]
-        };
 
         var  ceph_osd_status_option= {
               backgroundColor: '#e7eaec',
@@ -805,19 +303,35 @@
 
 
         // 为echarts对象加载数据
-        //neutron
+        //neutron manager
+        var neutron_manager_status_option = manager_option;
+        neutron_manager_status_option.title.text = 'Nutron mananger';
         neutron_manager_status.setOption(neutron_manager_status_option);
+
+        //neutron compute
+        var neutron_comput_status_option = compute_option;
+        neutron_comput_status_option.title.text = 'Nutron Compute';
         neutron_comput_status.setOption(neutron_comput_status_option);
-        //
+
         ////nova
+        var nova_manager_status_option = manager_option;
+        nova_manager_status_option.title.text = 'Nova  mananger';
         nova_manager_status.setOption(nova_manager_status_option);
+
+        var nova_compute_status_option = compute_option;
+        nova_compute_status_option.title.text = 'Nova Compute';
         nova_compute_status.setOption(nova_compute_status_option);
         //
         ////cinder
+        var cinder_manager_status_option = manager_option;
+        cinder_manager_status_option.title.text = 'Cinder Manager';
+
         cinder_manager_status.setOption(cinder_manager_status_option);
         cinder_volume_status.setOption(volume_status_option);
         //
         //ceph
+        var ceph_mon_status_option = manager_option;
+        ceph_mon_status_option.title.text = 'Ceph Mon';
         ceph_mon_status.setOption(ceph_mon_status_option);
         ceph_osd_status.setOption(ceph_osd_status_option);
 

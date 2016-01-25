@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="git_dev">
+  <component name="PublishConfigData" autoUpload="Always" serverName="awcloud_dev">
     <serverData>
-      <paths name="git_dev">
+      <paths name="awcloud_dev">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/root/github_zhaogaolong/one_finger" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

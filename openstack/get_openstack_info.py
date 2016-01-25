@@ -125,8 +125,13 @@ class GetOpenStackInfo():
             if not data:
                 # 如果执行错误就return 结束
                 return 'comm error: %s' % discover_host_name_comm
+            # import pdb
+            # pdb.set_trace()
 
             host_ip_info = self.get_host_ip(data)
+            # import pdb
+            # pdb.set_trace()
+
             host.ip_manager = host_ip_info['br-mgmt']
             host.ip_pxe = host_ip_info['br-fw-admin']
             host.ip_storage = host_ip_info['br-storage']
@@ -147,15 +152,17 @@ class GetOpenStackInfo():
             # status, ip = commands.getstatusoutput(comm)
             # if not status:
             #     host_ip_dic[interface_name] = ip
-            # pdb.set_trace()
 
             ac = opentack_ansible.CmmAndRun(host=manager_ip, cmd=comm)
             data = ac.start()
+            # pdb.set_trace()
 
             if data:
                 host_ip_dic[interface_name] = data
+            else:
+                host_ip_dic[interface_name] = None
 
-        # print host_ip_dic
+        print host_ip_dic
         # pdb.set_trace()
         log_info = 'Get Host %s IP' % manager_ip
         log.info(log_info)

@@ -2,7 +2,7 @@
 # coding:utf8
 
 
-from keystoneclient import client
+from keystoneclient.v2_0 import client
 import pdb
 import json
 import urllib2
@@ -18,73 +18,41 @@ from one_finger.cloud_logging import cloud_logging as logging
 
 log = logging.logger
 
+
 class KeyStone(KeyStoneBase):
     def __init__(self):
-        self.admin_obj = OpenStackKeystoneAuth.objects.get(os_tenant_name='admin')
+        self.admin_obj = OpenStackKeystoneAuth.objects.get(
+            os_tenant_name='admin')
         self.username = self.admin_obj.os_username
         self.password = self.admin_obj.os_password
         self.tenant_name = self.admin_obj.os_tenant_name
         self.auth_url = self.admin_obj.auth_url
-        # print self.auth_url
         self.tenant_id = self.admin_obj.tenant_id
         self.get_token()
 
     def get_token(self):
+        # pdb.set_trace()
 
-        # 获取token的url
-        # print
-        token_url = '%s/tokens' % self.auth_url
+        keystone = client.Client(
+            username=self.username,
+            password=self.password,
+            tenant_name=self.tenant_name,
+            auth_url=self.auth_url
+        )
 
-        # 包装好json urllib2 会使用它
-        data = json.dumps({
-            'auth':{
-               'tenantName': self.tenant_name,
-                'passwordCredentials':{
-                    'username': self.username,
-                    'password': self.password,
-                }
-            }
-        })
+        # 获取keystone 详细信息
+        data = keystone.auth_ref
 
-        if token_url:
-
-            # 包装好request对象
-            request = urllib2.Request(
-                 token_url,
-                 data=data,
-                 headers={'Content-type': 'application/json'}
-            )
-
-            # 获取返回的数据以字典的形式展示
-            data = json.loads(urllib2.urlopen(request, timeout=5).read())
-
-            # 获取 token
-            self.token = data['access']['token']['id']
-
-            # 获取admin的tenant_id
-            if not self.tenant_id:
-                self.tenant_id = data['access']['token']['tenant']['id']
-                # import pdb
-                # pdb.set_trace()
-                self.admin_obj.tenant_id=self.tenant_id
-                self.admin_obj.save()
-                # print 'save tenant_id'
-
-        debug_info = 'curl -i %s -X POST -H "Content-Type: application/json" ' \
-                     '-H "Accept: application/json" ' \
-                     '-H "User-Agent: python-novaclient" ' \
-                     '-d ' \
-                     '{"auth": ' \
-                     '{"tenantName": "admin", ' \
-                     '"passwordCredentials": ' \
-                     '{"username": %s, "password": "password" }}}' % (token_url, self.username)
-
-        log.debug(debug_info)
+        if not self.tenant_id:
+            self.tenant_id = data['token']['tenant']['id']
+            self.admin_obj.tenant_id = self.tenant_id
+            self.admin_obj.save()
+            # print 'save tenant_id'
+        self.token = data['token']['id']
+        log.debug(data)
         return self.token
 
     def endpoint_list(self):
-        self.get_token()
-
         # endpoint的url
         url = '%s/endpoints' % self.auth_url
 

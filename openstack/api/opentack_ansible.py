@@ -15,6 +15,22 @@ class CmmAndRun():
         self.host = host
         self.cmd = cmd
         self.timeout = timeout
+        self.update_ansible_hosts()
+
+    def update_ansible_hosts(self):
+        status = False
+        b = open('/etc/ansible/hosts')
+        for line in b.readlines():
+            if self.host in line:
+                status = True
+        b.close()
+        if not status:
+            b = open('/etc/ansible/hosts','a')
+            b.writelines(self.host)
+            b.writelines('\n')
+            b.close()
+
+
 
     def start(self):
         runner = ansible.runner.Runner(

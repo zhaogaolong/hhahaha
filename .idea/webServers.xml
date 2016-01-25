@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f83d94e1-d688-4c1b-a923-b8117ee154be" name="awcloud_dev" url="http://192.168.254.230">
+        <fileTransfer host="192.168.254.230" port="22" accessType="SFTP" password="dfd8dfc5dfc5dfde" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" muteSftpMessages="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

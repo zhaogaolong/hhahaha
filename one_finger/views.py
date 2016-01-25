@@ -4,7 +4,7 @@ from django.shortcuts import render,HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-
+# from django.utils import log
 ######
 
 from models import OpenStackKeystoneAuth
@@ -25,6 +25,7 @@ def account_login(request):
         user = authenticate(username=username,
                             password=password)
         if user is not None:
+            print 'user_login ok'
             login(request, user)
             if not UserProfile.objects.filter():
                 admin_obj = User.objects.first()
@@ -33,15 +34,21 @@ def account_login(request):
                 user_obj.save()
             user.userprofile.online = True
             user.userprofile.save()
-
-            if not OpenStackKeystoneAuth.objects.all():
-                return render(request, 'one_finger/input_info.html')
-
+            check_cloud()
+            # if not OpenStackKeystoneAuth.objects.all():
+            #     # return render(request, 'one_finger/input_info.html')
+            #     return HttpResponseRedirect('/input')
             return HttpResponseRedirect("/")
         else:
             return render(request, 'one_finger/login.html', {
                 'login_err': "Wrong username or password!"
             })
+
+
+def check_cloud():
+    if not OpenStackKeystoneAuth.objects.all():
+        # return render(request, 'one_finger/input_info.html')
+        return HttpResponseRedirect('/input')
 
 
 def input_info(request):
@@ -73,6 +80,7 @@ def input_info(request):
 
 @login_required
 def index(request):
+    check_cloud()
     return render(request, 'one_finger/index.html')
 
 
