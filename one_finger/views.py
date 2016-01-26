@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding:utf8
+import pdb
 from django.shortcuts import render,HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -32,12 +33,15 @@ def account_login(request):
                 user_obj = UserProfile(name=admin_obj.username,
                                        user_id=admin_obj.id)
                 user_obj.save()
+            # import pdb
+            # pdb.set_trace()
             user.userprofile.online = True
             user.userprofile.save()
-            check_cloud()
-            # if not OpenStackKeystoneAuth.objects.all():
-            #     # return render(request, 'one_finger/input_info.html')
-            #     return HttpResponseRedirect('/input')
+            # check_cloud()
+            print 'check_cloud ok'
+            if not OpenStackKeystoneAuth.objects.all():
+                # return render(request, 'one_finger/input_info.html')
+                return HttpResponseRedirect('/input')
             return HttpResponseRedirect("/")
         else:
             return render(request, 'one_finger/login.html', {
@@ -45,10 +49,11 @@ def account_login(request):
             })
 
 
-def check_cloud():
-    if not OpenStackKeystoneAuth.objects.all():
-        # return render(request, 'one_finger/input_info.html')
-        return HttpResponseRedirect('/input')
+# def check_cloud():
+#     pdb.set_trace()
+#     if not OpenStackKeystoneAuth.objects.all():
+#         # return render(request, 'one_finger/input_info.html')
+#         return HttpResponseRedirect('/input')
 
 
 def input_info(request):
@@ -80,7 +85,7 @@ def input_info(request):
 
 @login_required
 def index(request):
-    check_cloud()
+    # check_cloud()
     return render(request, 'one_finger/index.html')
 
 

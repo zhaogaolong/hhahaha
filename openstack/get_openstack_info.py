@@ -402,23 +402,15 @@ class GetOpenStackInfo():
                         ip_storage=host_ip).id
                     mon_db_dic[host_ip]['host_id'] = host_id
                     mon_db_dic[host_ip]['mon_id'] = v['id']
-
+                # pdb.set_trace()
                 for host, val in mon_db_dic.items():
-                    print val
-                    openstack_models.CephMonitorStatus.objects.create(**val)
+                    if not openstack_models.CephMonitorStatus.objects.filter(
+                      mon_id=val['mon_id']
+                    ):
+                        openstack_models.CephMonitorStatus.objects.create(**val)
 
     def add_mysql_host(self):
         pass
-
-
-
-
-
-
-
-
-
-
 
 
 class service():
