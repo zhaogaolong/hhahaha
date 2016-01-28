@@ -75,3 +75,23 @@ def ceph_status(request):
     return HttpResponse(json.dumps(cc.status()))
 
 
+# dashboards items
+
+def dashboards_node_status(request):
+    return render(request, 'openstack/dashboards/node_status.html')
+
+
+def dashboards_neutron_status(request):
+    return render(request, 'openstack/dashboards/neutron_status.html')
+
+
+def dashboards_nova_status(request):
+    return render(request, 'openstack/dashboards/nova_status.html')
+
+
+def dashboards_cinder_status(request):
+    return render(request, 'openstack/dashboards/cinder_status.html')
+
+
+def dashboards_ceph_status(request):
+    return render(request, 'openstack/dashboards/ceph_status.html')

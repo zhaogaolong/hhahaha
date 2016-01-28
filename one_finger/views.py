@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 # from django.utils import log
 ######
 
-from models import OpenStackKeystoneAuth
+from models import OpenStackKeystoneAuth, OpenStackKeyStoneEndpoint
 from models import UserProfile
 from openstack.views import info
 
@@ -33,27 +33,28 @@ def account_login(request):
                 user_obj = UserProfile(name=admin_obj.username,
                                        user_id=admin_obj.id)
                 user_obj.save()
-            # import pdb
-            # pdb.set_trace()
             user.userprofile.online = True
             user.userprofile.save()
             # check_cloud()
-            print 'check_cloud ok'
-            if not OpenStackKeystoneAuth.objects.all():
-                # return render(request, 'one_finger/input_info.html')
+            status = check_cloud()
+            if status:
+                return HttpResponseRedirect('/')
+            else:
                 return HttpResponseRedirect('/input')
-            return HttpResponseRedirect("/")
         else:
             return render(request, 'one_finger/login.html', {
                 'login_err': "Wrong username or password!"
             })
 
 
-# def check_cloud():
-#     pdb.set_trace()
-#     if not OpenStackKeystoneAuth.objects.all():
-#         # return render(request, 'one_finger/input_info.html')
-#         return HttpResponseRedirect('/input')
+def check_cloud():
+    # pdb.set_trace()
+    if not OpenStackKeystoneAuth.objects.all() \
+            and not OpenStackKeystoneAuth.objects.all():
+        # return render(request, 'one_finger/input_info.html')
+        return False
+    else:
+        return True
 
 
 def input_info(request):
@@ -85,10 +86,11 @@ def input_info(request):
 
 @login_required
 def index(request):
-    # check_cloud()
-    return render(request, 'one_finger/index.html')
-
-
+    status = check_cloud()
+    if status:
+        return render(request, 'one_finger/index.html')
+    else:
+        return HttpResponseRedirect('/input')
 
 
 @login_required

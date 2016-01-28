@@ -2,9 +2,8 @@
  * Created by Administrator on 2016/1/7.
  */
 
-function ceph_status(url){
-    var url =url;
-
+function ceph_status(url, manager_option, compute_option){
+    //var url =url;
     $.get(url,function(callback, status){
         //console.log(callback,status);
         if (status == 'success') {
@@ -25,8 +24,10 @@ function ceph_status(url){
             // osd
             ceph_mode = "ceph"+"_"+"service"+"_"+data['status']['osd'];
             window[ceph_mode]("ceph-osd-columns-block","ceph-osd-columns-block-content");
-            ceph_mon_status_echarts(data['mon_node']);
-            ceph_osd_status_echarts(data['osd_node']);
+            ceph_mon_status_echarts(data['mon_node'], manager_option);
+            ceph_osd_status_echarts(data['osd_node'], compute_option);
+
+            delete data;
         }
     });
 }
@@ -88,10 +89,11 @@ function ceph_service_down(block_id,content_id){
 
 
 
-function ceph_mon_status_echarts(mg_data){
+function ceph_mon_status_echarts(mg_data, manager_option){
     var ceph_mon_status = echarts.init(document.getElementById('ceph_mon_status'));
-    var ceph_mon_status_option = new control_option();
-    ceph_mon_status_option.title.text = 'Ceph Monitor';
+    //var ceph_mon_status_option = manager_option;
+    //ceph_mon_status_option.title.text = 'Ceph Monitor';
+    manager_option.title.text = 'Ceph Monitor';
     //console.log(neutron_manager_status_option);
 
     // 主机信息
@@ -115,18 +117,26 @@ function ceph_mon_status_echarts(mg_data){
     });
     //console.log(host_list);
     //console.log(host_dic);
-    ceph_mon_status_option.legend.data = host_list;
-    ceph_mon_status_option.color = color_list;
-    ceph_mon_status_option.series[0]['data'] = host_dic;
+    manager_option.legend.data = host_list;
+    manager_option.color = color_list;
+    manager_option.series[0]['data'] = host_dic;
     //console.log(neutron_manager_status_option);
 
-    ceph_mon_status.setOption(ceph_mon_status_option, true);
+    ceph_mon_status.setOption(manager_option, true);
+
+    delete ceph_mon_status;
+    delete host_list;
+    delete host_dic;
+    delete color_list;
+    delete mg_data;
+
 }
 
-function ceph_osd_status_echarts(compute_data){
+function ceph_osd_status_echarts(compute_data, compute_option){
     var ceph_osd_status = echarts.init(document.getElementById('ceph_osd_status'));
-    var ceph_osd_status_option = new compute_option();
-    ceph_osd_status_option.title.text = 'Ceph OSD';
+    //var ceph_osd_status_option = compute_option;
+    //ceph_osd_status_option.title.text = 'Ceph OSD';
+    compute_option.title.text = 'Ceph OSD';
     //console.log(neutron_comput_status_option);
     // 主机信息
     var host_list_up = [];
@@ -147,8 +157,14 @@ function ceph_osd_status_echarts(compute_data){
         {value: host_list_down.length, name:'DOWN'},
 
     ];
-    ceph_osd_status_option.series[0]['data'] = host_data;
+    compute_option.series[0]['data'] = host_data;
 
-    //console.log(neutron_comput_status_option);
-    ceph_osd_status.setOption(ceph_osd_status_option, true);
+    ceph_osd_status.setOption(compute_option, true);
+
+    delete compute_data;
+    delete ceph_osd_status;
+    delete host_list_up;
+    delete host_list_down;
+    delete host_list;
+    delete host_data;
 }

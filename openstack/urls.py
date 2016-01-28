@@ -24,4 +24,24 @@ urlpatterns = [
     url(r'^neutron_status/', views.neutron_status, name='neutron_status'),
     url(r'^cinder_status/', views.cinder_status, name='cinder_status'),
     url(r'^ceph_status/', views.ceph_status, name='ceph_status'),
+    url(r'^dashboards_node_status/',
+        views.dashboards_node_status,
+        name='dashboards_node_status'),
+
+    url(r'^dashboards_neutron_status/',
+        views.dashboards_neutron_status,
+        name='dashboards_neutron_status'),
+
+    url(r'^dashboards_nova_status/',
+        views.dashboards_nova_status,
+        name='dashboards_nova_status'),
+
+    url(r'^dashboards_cinder_status/',
+        views.dashboards_cinder_status,
+        name='dashboards_cinder_status'),
+
+    url(r'^dashboards_ceph_status/',
+        views.dashboards_ceph_status,
+        name='dashboards_ceph_status'),
+
 ]

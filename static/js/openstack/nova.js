@@ -2,9 +2,8 @@
  * Created by Administrator on 2016/1/7.
  */
 
-function nova_status(url){
-    var url =url;
-
+function nova_status(url, manager_option, compute_option){
+    //var url =url;
     $.get(url,function(callback, status){
         //console.log(callback,status);
         if (status == 'success') {
@@ -34,8 +33,9 @@ function nova_status(url){
             // compute
             nova_mode = "nova"+"_"+"service"+"_"+data['status']['compute'];
             window[nova_mode]("nova-compute-columns-block","nova-compute-columns-block-content");
-            nova_mg_status_echarts(data['manager_node']);
-            nova_compute_status_echarts(data['compute_node']);
+            nova_mg_status_echarts(data['manager_node'], manager_option);
+            nova_compute_status_echarts(data['compute_node'], compute_option);
+            delete data;
         }
     });
 }
@@ -96,11 +96,10 @@ function nova_service_down(block_id,content_id){
 }
 
 
-function nova_mg_status_echarts(mg_data){
+function nova_mg_status_echarts(mg_data, manager_option){
     //console.log();
     var nova_manager_status = echarts.init(document.getElementById('nova_manager_status'));
-    var nova_manager_status_option = new control_option();
-    nova_manager_status_option.title.text = 'Nova  Mananger';
+    manager_option.title.text = 'Nova  Mananger';
 
     // 主机信息
     var host_list = [];
@@ -121,18 +120,25 @@ function nova_mg_status_echarts(mg_data){
     });
     //console.log(host_list);
     //console.log(host_dic);
-    nova_manager_status_option.legend.data = host_list;
-    nova_manager_status_option.color = color_list;
-    nova_manager_status_option.series[0]['data'] = host_dic;
+    manager_option.legend.data = host_list;
+    manager_option.color = color_list;
+    manager_option.series[0]['data'] = host_dic;
     //console.log(nova_manager_status_option);
 
-    nova_manager_status.setOption(nova_manager_status_option, true);
+    nova_manager_status.setOption(manager_option, true);
+
+    delete nova_manager_status;
+    delete host_list;
+    delete host_dic;
+    delete color_list;
+    delete mg_data;
+
+
 }
 
-function nova_compute_status_echarts(compute_data){
+function nova_compute_status_echarts(compute_data, compute_option){
     var nova_compute_status = echarts.init(document.getElementById('nova_compute_status'));
-    var nova_compute_status_option = new compute_option();
-    nova_compute_status_option.title.text = 'Nova  Compute';
+    compute_option.title.text = 'Nova  Compute';
     // 主机信息
     var host_list_up = [];
     var host_list_down = [];
@@ -157,7 +163,18 @@ function nova_compute_status_echarts(compute_data){
     //console.log(host_dic);
     //nova_compute_status_option.legend.data = host_list;
     //nova_compute_status_option.color = color_list;
-    nova_compute_status_option.series[0]['data'] = host_data;
+    compute_option.series[0]['data'] = host_data;
     //console.log(nova_compute_status_option);
-    nova_compute_status.setOption(nova_compute_status_option, true);
+    nova_compute_status.setOption(compute_option, true);
+
+
+    //清除垃圾
+    delete nova_compute_status;
+    delete host_list_up;
+    delete host_list_down;
+    delete host_list;
+    delete host_data;
+    delete compute_data;
+
+
 }

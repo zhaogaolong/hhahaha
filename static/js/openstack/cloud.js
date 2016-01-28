@@ -15,6 +15,8 @@ function cloud_status(get_url){
 
             //着个类似 python getattr
             window[f_name]("cloud-status-block","cloud-status-content");
+            delete data;
+            delete callback;
 
         }
     });

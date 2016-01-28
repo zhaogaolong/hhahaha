@@ -480,7 +480,6 @@
 
 {% block js %}
   <script type="text/javascript" src="/static/js/plugins/highcharts/highcharts.js"></script>
-  <script type="text/javascript" src="/static/js/one_finger/plugins/echarts/echarts.js"></script>
 {#  <script type="text/javascript" src="/static/js/one_finger/plugins/echarts/echarts.common.min.js"></script>#}
   <script type="text/javascript" src="/static/js/one_finger/dashiboard/dashboard.js"></script>
 
@@ -514,22 +513,84 @@
     setInterval(function(){cloud_status("{% url "cloud_status" %}")},5000);
 
 {#    这个是获取nentron状态的方法#}
-    neutron_status("{% url "neutron_status" %}");
-    setInterval(function(){neutron_status("{% url "neutron_status" %}")},5000);
-
-{#    这个是获取nentron状态的方法#}
-    nova_status("{% url "nova_status" %}");
-    setInterval(function(){nova_status("{% url "nova_status" %}")},5000);
-
-{#    这个是获取nentron状态的方法#}
-    cinder_status("{% url "cinder_status" %}");
-    setInterval(function(){cinder_status("{% url "cinder_status" %}")},5000);
-
-{#    这个是获取nentron状态的方法#}
-    ceph_status("{% url "ceph_status" %}");
-    setInterval(function(){ceph_status("{% url "ceph_status" %}")},5000);
+    var neutron_manager_status_option = new control_option();
+    var neutron_compute_status_option = new compute_option();
+{#    sleep(1000);#}
+    neutron_status(
+            "{% url "neutron_status" %}",
+            neutron_manager_status_option,
+            neutron_compute_status_option
+    );
+    setInterval(function(){neutron_status(
+            "{% url "neutron_status" %}",
+            neutron_manager_status_option,
+            neutron_compute_status_option )},5000);
 
 
+{#    这个是获取nova状态的方法#}
+    var nova_manager_status_option = new control_option();
+    var nova_compute_status_option = new compute_option();
+{#    sleep(1100);#}
+    nova_status(
+            "{% url "nova_status" %}",
+            nova_manager_status_option,
+            nova_compute_status_option
+    );
+
+    setInterval(function(){nova_status(
+            "{% url "nova_status" %}",
+            nova_manager_status_option,
+            nova_compute_status_option
+    )},5000);
+
+
+{#    这个是获取cinder状态的方法#}
+    var cinder_manager_status_option = new control_option();
+    var cinder_volume_status_option = new gauge_option();
+
+    cinder_status(
+            "{% url "cinder_status" %}",
+            cinder_manager_status_option,
+            cinder_volume_status_option
+    );
+    setInterval(function(){cinder_status(
+            "{% url "cinder_status" %}",
+            cinder_manager_status_option,
+            cinder_volume_status_option
+    )},5000);
+
+
+
+{#    这个是获取ceph状态的方法#}
+    var ceph_mon_status_option = new control_option();
+    var ceph_osd_status_option = new compute_option();
+    ceph_status(
+            "{% url "ceph_status" %}",
+            ceph_mon_status_option,
+            ceph_osd_status_option
+    );
+    setInterval(function(){ceph_status(
+            "{% url "ceph_status" %}",
+            ceph_mon_status_option,
+            ceph_osd_status_option
+    )},5000);
+{#    setInterval(location.reload(),5000);#}
+
+
+{#    指定时间全局刷新#}
+    function myrefresh(){
+      window.location.reload();
+    }
+    setTimeout('myrefresh()',60000);
+
+{#    function sleep(numberMillis) {#}
+{#       var now = new Date();#}
+{#       var exitTime = now.getTime() + numberMillis;#}
+{#       while (true) {#}
+{#           now = new Date();#}
+{#           if (now.getTime() > exitTime)    return;#}
+{#        }#}
+{#    }#}
 
 {#    $.get("{% url 'test' %}",function(callback, status){#}
 {#        if (callback){#}

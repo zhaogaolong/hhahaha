@@ -1,9 +1,8 @@
 /**
  * Created by Administrator on 2016/1/7.
  */
-function cinder_status(url){
-    var url =url;
-
+function cinder_status(url,  manager_option, compute_option){
+    //var url =url;
     $.get(url,function(callback, status){
         //console.log(callback,status);
         if (status == 'success') {
@@ -26,8 +25,10 @@ function cinder_status(url){
             // scheduler
             cinder_mode = "cinder"+"_"+"service"+"_"+data['status']['volume'];
             window[cinder_mode]("cinder-volume-columns-block","cinder-volume-columns-block-content");
-            cinder_mg_status_echarts(data['manager_node'])
-            cinder_volume_status_echarts()
+            cinder_mg_status_echarts(data['manager_node'], manager_option)
+            cinder_volume_status_echarts(compute_option)
+            delete data;
+
         }
     });
 }
@@ -87,10 +88,9 @@ function cinder_service_down(block_id,content_id){
     $("#"+content_id).text('Error');
 }
 
-function cinder_mg_status_echarts(mg_data){
+function cinder_mg_status_echarts(mg_data, mg_option){
     var cinder_manager_status = echarts.init(document.getElementById('cinder_manager_status'));
-    var cinder_manager_status_option = new control_option();
-    cinder_manager_status_option.title.text = 'Cinder Mananger';
+    mg_option.title.text = 'Cinder Mananger';
     //console.log(neutron_manager_status_option);
 
     // 主机信息
@@ -114,25 +114,33 @@ function cinder_mg_status_echarts(mg_data){
     });
     //console.log(host_list);
     //console.log(host_dic);
-    cinder_manager_status_option.legend.data = host_list;
-    cinder_manager_status_option.color = color_list;
-    cinder_manager_status_option.series[0]['data'] = host_dic;
+    mg_option.legend.data = host_list;
+    mg_option.color = color_list;
+    mg_option.series[0]['data'] = host_dic;
     //console.log(neutron_manager_status_option);
 
-    cinder_manager_status.setOption(cinder_manager_status_option, true);
+    cinder_manager_status.setOption(mg_option, true);
+
+    delete cinder_manager_status;
+    delete host_list;
+    delete host_dic;
+    delete color_list;
+    delete mg_data;
+
+
 }
 
-function cinder_volume_status_echarts(){
+function cinder_volume_status_echarts(compute_option){
     var cinder_volume_status = echarts.init(document.getElementById('cinder_volume_status'));
-    var cinder_volume_status_option = new gauge_option();
 
     timeTicket = setInterval(function (){
       var v = (Math.random() * 100).toFixed(2) - 0;
       //console.log(v);
-      cinder_volume_status_option.series[0].data[0].value = v;
-      cinder_volume_status.setOption(cinder_volume_status_option, true);
+      compute_option.series[0].data[0].value = v;
+      cinder_volume_status.setOption(compute_option, true);
+      delete v;
     },2000);
-    cinder_volume_status.setOption(cinder_volume_status_option);
+    cinder_volume_status.setOption(compute_option);
 }
 
 

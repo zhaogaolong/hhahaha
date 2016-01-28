@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'one_finger.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'two',
+        'NAME': 'five',
         # 'NAME': 'one_finger',
         'USER': 'root',
         'PASSWORD': '',

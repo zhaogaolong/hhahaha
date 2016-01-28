@@ -11,12 +11,13 @@
 //RefreshMsgs = setInterval(function(){},3000);
 
 
-function neutron_status(url){
-    var url =url;
+function neutron_status(url, manager_option, compute_option){
+    //var url =url;
     $.get(url,function(callback, status){
         //console.log(callback,status);
         if (status == 'success') {
             var data = JSON.parse(callback);
+            console.log(data);
             n_name = "neutron"+"_"+data['status']['status'];
             //console.log(f_name);
             window[n_name]("neutron-status-block","neutron-status-content");
@@ -43,8 +44,9 @@ function neutron_status(url){
             // compute
             neutron_status_list = "neutron"+"_"+"service"+"_"+data['status']['compute'];
             window[neutron_status_list]("neutron-compute-columns-block","neutron-compute-columns-block-content");
-            neutron_mg_status_echarts(data['manager_node']);
-            neutron_compute_status_echarts(data['compute_node']);
+            neutron_mg_status_echarts(data['manager_node'], manager_option);
+            neutron_compute_status_echarts(data['compute_node'], compute_option);
+            delete data;
         }
     });
 }
@@ -106,10 +108,9 @@ function neutron_service_down(block_id,content_id){
 }
 
 
-function neutron_mg_status_echarts(mg_data){
+function neutron_mg_status_echarts(mg_data, manager_option){
     var neutron_manager_status = echarts.init(document.getElementById('neutron_manager_status'));
-    var neutron_manager_status_option = new control_option();
-    neutron_manager_status_option.title.text = 'Neutron Mananger';
+    manager_option.title.text = 'Neutron Mananger';
     //console.log(neutron_manager_status_option);
 
     // 主机信息
@@ -133,19 +134,24 @@ function neutron_mg_status_echarts(mg_data){
     });
     //console.log(host_list);
     //console.log(host_dic);
-    neutron_manager_status_option.legend.data = host_list;
-    neutron_manager_status_option.color = color_list;
-    neutron_manager_status_option.series[0]['data'] = host_dic;
+    manager_option.legend.data = host_list;
+    manager_option.color = color_list;
+    manager_option.series[0]['data'] = host_dic;
     //console.log(neutron_manager_status_option);
 
-    neutron_manager_status.setOption(neutron_manager_status_option, true);
+    neutron_manager_status.setOption(manager_option, true);
+
+    delete host_list;
+    delete host_dic;
+    delete color_list;
+    delete neutron_manager_status;
+    delete mg_data;
 }
 
-function neutron_compute_status_echarts(compute_data){
+function neutron_compute_status_echarts(compute_data, compute_option){
     var neutron_comput_status = echarts.init(document.getElementById('neutron_comput_status'));
-    var neutron_comput_status_option = new compute_option();
-    neutron_comput_status_option.title.text = 'Neutron Compute';
-    //console.log(neutron_comput_status_option);
+    compute_option.title.text = 'Neutron Compute';
+    //console.log(compute_option);
     // 主机信息
     var host_list_up = [];
     var host_list_down = [];
@@ -166,11 +172,15 @@ function neutron_compute_status_echarts(compute_data){
 
     ];
 
-    //console.log(host_list);
-    //console.log(host_dic);
-    //nova_compute_status_option.legend.data = host_list;
-    //nova_compute_status_option.color = color_list;
-    neutron_comput_status_option.series[0]['data'] = host_data;
+    compute_option.series[0]['data'] = host_data;
     //console.log(neutron_comput_status_option);
-    neutron_comput_status.setOption(neutron_comput_status_option, true);
+    neutron_comput_status.setOption(compute_option, true);
+
+    delete host_list_up;
+    delete host_list_down;
+    delete host_list;
+    delete host_data;
+    delete neutron_comput_status;
+    delete compute_data;
+
 }

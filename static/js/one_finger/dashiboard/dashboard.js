@@ -1,28 +1,4 @@
-//var neutron_manager_status = ec.init(document.getElementById('neutron_manager_status'));
-//var neutron_manager_status = echarts.init(document.getElementById('neutron_manager_status'));
-
-//var neutron_comput_status = ec.init(document.getElementById('neutron_comput_status'));
-//var neutron_comput_status = echarts.init(document.getElementById('neutron_comput_status'));
-//
-//var nova_manager_status = ec.init(document.getElementById('nova_manager_status'));\
-//var nova_manager_status = echarts.init(document.getElementById('nova_manager_status'));
-
-//var nova_compute_status = ec.init(document.getElementById('nova_compute_status'));
-//var nova_compute_status = echarts.init(document.getElementById('nova_compute_status'));
-
-//var cinder_manager_status = ec.init(document.getElementById('cinder_manager_status'));
-//var cinder_manager_status = echarts.init(document.getElementById('cinder_manager_status'));
-
-
-//var cinder_volume_status = ec.init(document.getElementById('cinder_volume_status'));
-//var cinder_volume_status = echarts.init(document.getElementById('cinder_volume_status'));
-
-//var ceph_mon_status = ec.init(document.getElementById('ceph_mon_status'));
-//var ceph_mon_status = echarts.init(document.getElementById('ceph_mon_status'));
-
-//var ceph_osd_status = ec.init(document.getElementById('ceph_osd_status'));
-//var ceph_osd_status = echarts.init(document.getElementById('ceph_osd_status'));
-
+// echarts的 control_options
 function control_option(){
     this.backgroundColor = '#e7eaec';
     this.title = {
@@ -88,6 +64,7 @@ function control_option(){
 
 }
 
+// echarts的 control_options
 function compute_option(){
     this.backgroundColor = '#e7eaec';
     this.title = {
@@ -202,60 +179,3 @@ function gauge_option(){
         ]
 
 }
-
-
-
-// 为echarts对象加载数据
-//neutron manager
-//var neutron_manager_status_option = new control_option();
-//neutron_manager_status_option.title.text = 'Nutron Mananger';
-//neutron_manager_status.setOption(neutron_manager_status_option);
-
-//neutron compute
-//var neutron_comput_status_option = new compute_option();
-//neutron_comput_status_option.title.text = 'Nutron Compute';
-//neutron_comput_status.setOption(neutron_comput_status_option);
-
-//nova control
-//var nova_manager_status_option = new control_option();
-//nova_manager_status_option.title.text = 'Nova  mananger';
-//nova_manager_status.setOption(nova_manager_status_option);
-
-// nova compute
-//var nova_compute_status_option = new compute_option();
-//nova_compute_status_option.title.text = 'Nova Compute';
-//nova_compute_status.setOption(nova_compute_status_option);
-
-//cinder control
-//var cinder_manager_status_option = new control_option();
-//cinder_manager_status_option.title.text = 'Cinder Manager';
-//cinder_manager_status.setOption(cinder_manager_status_option);
-
-// cinder volume
-//var volume_status_option = new gauge_option();
-
-//timeTicket = setInterval(function (){
-//  var v = (Math.random() * 100).toFixed(2) - 0;
-//  //console.log(v);
-//  volume_status_option.series[0].data[0].value = v;
-//  cinder_volume_status.setOption(volume_status_option, true);
-//},2000);
-//cinder_volume_status.setOption(volume_status_option);
-
-
-//ceph
-//var ceph_mon_status_option = new control_option();
-//ceph_mon_status_option.title.text = 'Ceph Mon';
-//ceph_mon_status.setOption(ceph_mon_status_option);
-
-//ceph_osd_status.setOption(ceph_osd_status_option);
-
-//var ceph_osd_status_option = new gauge_option();
-//ceph_osd_status.setOption(ceph_osd_status_option);
-//
-//timeTicket = setInterval(function (){
-//    var v = (Math.random() * 100).toFixed(2) - 0;
-//    //console.log(v);
-//    ceph_osd_status_option.series[0].data[0].value = v;
-//    ceph_osd_status.setOption(ceph_osd_status_option, true);
-//},2000);
