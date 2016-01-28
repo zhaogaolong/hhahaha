@@ -37,6 +37,7 @@ def account_login(request):
             user.userprofile.save()
             # check_cloud()
             status = check_cloud()
+            # pdb.set_trace()
             if status:
                 return HttpResponseRedirect('/')
             else:
@@ -50,7 +51,7 @@ def account_login(request):
 def check_cloud():
     # pdb.set_trace()
     if not OpenStackKeystoneAuth.objects.all() \
-            and not OpenStackKeystoneAuth.objects.all():
+            or not OpenStackKeystoneAuth.objects.all():
         # return render(request, 'one_finger/input_info.html')
         return False
     else:
@@ -78,7 +79,8 @@ def input_info(request):
 
         OpenStackKeystoneAuth.objects.create(**auth_dic)
 
-        return render(request, 'openstack/openstack_info.html', {
+        return render(request,
+                      'one_finger/openstack_info.html', {
             'manager_ip': request.POST.get('manager_ip')
         })
 
@@ -87,6 +89,7 @@ def input_info(request):
 @login_required
 def index(request):
     status = check_cloud()
+    # pdb.set_trace()
     if status:
         return render(request, 'one_finger/index.html')
     else:
