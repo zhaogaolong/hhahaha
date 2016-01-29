@@ -13,7 +13,6 @@ configure ansible.cfg
 host_key_checking = False
 
 获取后台信息：
-使用django的crontab 来监测后台状态。
 
 监测nova，neutron、cinder、glance、ceph等
 

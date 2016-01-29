@@ -25,14 +25,13 @@ function cinder_status(url,  manager_option, compute_option){
             // scheduler
             cinder_mode = "cinder"+"_"+"service"+"_"+data['status']['volume'];
             window[cinder_mode]("cinder-volume-columns-block","cinder-volume-columns-block-content");
-            cinder_mg_status_echarts(data['manager_node'], manager_option)
-            cinder_volume_status_echarts(compute_option)
+            cinder_mg_status_echarts(data['manager_node'], manager_option);
+            cinder_volume_status_echarts(compute_option);
             delete data;
 
         }
     });
 }
-
 
 
 function cinder_up(block_id,content){
