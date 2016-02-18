@@ -1,4 +1,8 @@
 {% extends 'one_finger/base.html' %}
+{% block css %}
+      <link href="/static/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+{% endblock %}
 
 {%  block content %}
 
@@ -80,148 +84,8 @@
     </div>
 <br>
 <div class="row">
-    <div class="col-lg-6">
-        <div class="ibox-content">
-            <h2>Monitor List</h2>
-              <div class="table-responsive">
-                <table class="table table-hover issue-tracker">
-                    <tbody>
-                    <tr>
-                        <td><span class="btn btn-primary">OK</span></td>
-                        <td><a> node-5.domain.tld</a></td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">Monitor</button>
-                        </td>
 
-                        <td class="text-right">
-                            <button class="btn btn-success">Start</button>
-                            <button class="btn btn-danger">Stop</button>
-                            <button class="btn btn-warning">Restart</button>
-
-                        </td>
-
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-6.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">Monitor</button>
-                        </td>
-
-                        <td class="text-right">
-                            <button class="btn btn-success">Start</button>
-                            <button class="btn btn-danger">Stop</button>
-                            <button class="btn btn-warning">Restart</button>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-3.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">Monitor</button>
-
-                        </td>
-
-                        <td class="text-right">
-                            <button class="btn btn-success">Start</button>
-                            <button class="btn btn-danger">Stop</button>
-                            <button class="btn btn-warning">Restart</button>
-
-                        </td>
-
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6">
-        <div class="ibox-content">
-            <h2>Compute List</h2>
-              <div class="table-responsive">
-                <table class="table table-hover issue-tracker">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-7.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">OSD</button>
-                        </td>
-
-                        <td class="text-right">
-                            <button class="btn btn-success">Start</button>
-                            <button class="btn btn-danger">Stop</button>
-                            <button class="btn btn-warning">Restart</button>
-
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-8.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">OSD</button>
-                        </td>
-
-                        <td class="text-right">
-                            <button class="btn btn-success">Start</button>
-                            <button class="btn btn-danger">Stop</button>
-                            <button class="btn btn-warning">Restart</button>
-
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-9.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">OSD</button>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-success">Start</button>
-                            <button class="btn btn-danger">Stop</button>
-                            <button class="btn btn-warning">Restart</button>
-
-                        </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-        </div>
-    </div>
+{% include 'openstack/dashboards/node_list.html' %}
 
 </div>
 {%  endblock  %}
@@ -229,12 +93,47 @@
 {% block js %}
     <script type="text/javascript" src="/static/js/one_finger/dashiboard/dashboard.js"></script>
     <script type="text/javascript" src="/static/js/openstack/ceph.js"></script>
-
+    <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/static/js/openstack/tools.js"></script>
 {% endblock %}
 
 {% block java_scrip %}
 {#    $(document).ready(){#}
   <script type="text/javascript">
+    $(document).ready(function() {
+
+{#        选择钮#}
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        var manager_checkAll = $('#manager_click');
+        var manger_checkboxes = $('#manager_table input.i-checks');
+        check_select(manager_checkAll, manger_checkboxes);
+
+        $("#manager_click").parent().siblings(".btn-primary").click(function(){
+          var manger_checkboxes =$("#manager_table td.check-mail input");
+          select_check_action(manger_checkboxes);
+        });
+
+        var compute_checkAll = $('#compute_click');
+        var compute_checkboxes = $('#compute_table input.i-checks');
+        check_select(compute_checkAll, compute_checkboxes);
+
+        $("#compute_click").parent().siblings(".btn-primary").click(function(){
+          var compute_checkboxes =$("#compute_table td.check-mail input");
+          select_check_action(compute_checkboxes);
+        });
+
+
+{#        选择钮#}
+    });
+
+
+
+
+
     $("[href='{% url "dashboards_ceph_status" %}']").parent().addClass('active');
     $("[href='{% url "dashboards_ceph_status" %}']").parent().parent().parent().addClass('active')
 

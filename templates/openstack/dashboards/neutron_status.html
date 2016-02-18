@@ -1,5 +1,9 @@
 {% extends 'one_finger/base.html' %}
 
+{% block css %}
+    <link href="/static/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+{% endblock %}
 {%  block content %}
 
 
@@ -95,115 +99,17 @@
     </div>
 <br>
 <div class="row">
-    <div class="col-lg-8">
-        <div class="ibox-content">
-            <h2>Manager List</h2>
-              <div class="table-responsive">
-                <table class="table table-hover issue-tracker">
-                    <tbody>
-                    <tr>
-                        <td><span class="btn btn-primary">OK</span></td>
-                        <td><a> node-5.domain.tld</a></td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">neutron API</button>
-                            <button class="btn btn-primary">Open vSwitch agent</button>
-                            <button class="btn btn-primary">Loadbalancer agent</button>
-                            <button class="btn btn-primary"> Metadata agent</button>
-                            <button class="btn btn-none"> L3 agent</button>
-                            <button class="btn btn-none"> DHCP agent</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-6.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">neutron API</button>
-                            <button class="btn btn-primary">Open vSwitch agent</button>
-                            <button class="btn btn-primary">Loadbalancer agent</button>
-                            <button class="btn btn-primary"> Metadata agent</button>
-                            <button class="btn btn-primary"> L3 agent</button>
-                            <button class="btn btn-none"> DHCP agent</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-3.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">neutron API</button>
-                            <button class="btn btn-primary"> Open vSwitch agent</button>
-                            <button class="btn btn-primary">Loadbalancer agent</button>
-                            <button class="btn btn-primary"> Metadata agent</button>
-                            <button class="btn btn-none"> L3 agent</button>
-                            <button class="btn btn-primary"> DHCP agent</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-        </div>
+
+    <div id="wrapper">
+
+
+{% include 'openstack/dashboards/node_list.html' %}
+
+
     </div>
-    <div class="col-lg-4">
-        <div class="ibox-content">
-            <h2>Compute List</h2>
-              <div class="table-responsive">
-                <table class="table table-hover issue-tracker">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-7.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary">Open vSwitch agent</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-8.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary"> Open vSwitch agent</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="btn btn-primary">OK</span>
-                        </td>
-                        <td>
-                            <a href="#">
-                                node-9.domain.tld
-                            </a>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-primary"> Open vSwitch agent</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-        </div>
-    </div>
+
+</div>
+
 
 </div>
 {%  endblock  %}
@@ -212,13 +118,57 @@
     <script type="text/javascript" src="/static/js/one_finger/dashiboard/dashboard.js"></script>
     <script type="text/javascript" src="/static/js/openstack/neutron.js"></script>
 
+    <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/static/js/inspinia.js"></script>
+    <script src="/static/js/plugins/pace/pace.min.js"></script>
+
+    <!-- iCheck -->
+    <script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/static/js/openstack/tools.js"></script>
 {% endblock %}
 
 {% block java_scrip %}
 {#    $(document).ready(){#}
   <script type="text/javascript">
+      $(document).ready(function(){
+
+
+{#        选择钮#}
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        var manager_checkAll = $('#manager_click');
+        var manger_checkboxes = $('#manager_table input.i-checks');
+        check_select(manager_checkAll, manger_checkboxes);
+
+        $("#manager_click").parent().siblings(".btn-primary").click(function(){
+          var manger_checkboxes =$("#manager_table td.check-mail input");
+          select_check_action(manger_checkboxes);
+        });
+
+        var compute_checkAll = $('#compute_click');
+        var compute_checkboxes = $('#compute_table input.i-checks');
+        check_select(compute_checkAll, compute_checkboxes);
+
+        $("#compute_click").parent().siblings(".btn-primary").click(function(){
+          var compute_checkboxes =$("#compute_table td.check-mail input");
+          select_check_action(compute_checkboxes);
+        });
+
+
+{#        选择钮#}
+
+
+    });
+
+    $("manager_click").parent().siblings();
     $("[href='{% url "dashboards_neutron_status" %}']").parent().addClass('active');
-    $("[href='{% url "dashboards_neutron_status" %}']").parent().parent().parent().addClass('active')
+    $("[href='{% url "dashboards_neutron_status" %}']").parent().parent().parent().addClass('active');
 
     var neutron_manager_status_option = new control_option();
     var neutron_compute_status_option = new compute_option();
@@ -237,6 +187,15 @@
       window.location.reload();
     }
     setTimeout('myrefresh()',60000);
+    function manager_click(){
+      $("#manager_click").click(function(){
+        console.log('click manager tables');
+        $("#manager_table td [class=check-mail] div").addClass('checked')
+
+
+      });
+    }
+
 
   </script>
 

@@ -10,6 +10,10 @@ from one_finger.cloud_logging import cloud_logging as logging
 log = logging.logger
 # from check.cloud import start
 
+from openstack import models as openstack_models
+
+
+
 
 def info(request, ip):
     print 'ip:', ip
@@ -47,7 +51,7 @@ def info(request, ip):
 def test(request):
     # b = start.job()
     # b.start()
-    return HttpResponseRedirect('/')
+    return render(request, 'openstack/dashboards/item.html')
 
 
 def cloud_status(request):
@@ -78,7 +82,9 @@ def ceph_status(request):
 # dashboards items
 
 def dashboards_node_status(request):
-    return render(request, 'openstack/dashboards/node_status.html')
+    node_list = openstack_models.Host.objects.all()
+    return render(request, 'openstack/dashboards/node_status.html',
+                  {'node_list': node_list})
 
 
 def dashboards_neutron_status(request):

@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^neutron_status/', views.neutron_status, name='neutron_status'),
     url(r'^cinder_status/', views.cinder_status, name='cinder_status'),
     url(r'^ceph_status/', views.ceph_status, name='ceph_status'),
+
     url(r'^dashboards_node_status/',
         views.dashboards_node_status,
         name='dashboards_node_status'),
@@ -43,5 +44,6 @@ urlpatterns = [
     url(r'^dashboards_ceph_status/',
         views.dashboards_ceph_status,
         name='dashboards_ceph_status'),
+
 
 ]

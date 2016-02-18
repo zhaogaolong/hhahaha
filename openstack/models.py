@@ -420,6 +420,14 @@ class Group(models.Model):
         return self.name
 
 
+class SystemInfo(models.Model):
+    host = models.ForeignKey('Host')
+    cpu_status = models.FloatField(max_length=10, default=00.00)
+    mem_status = models.FloatField(max_length=10, default=00.00)
+    uptime = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.host_id
 
 
 
