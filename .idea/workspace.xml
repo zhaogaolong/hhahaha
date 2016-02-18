@@ -59,31 +59,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="node_status.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/node_status.html">
+      <file leaf-file-name="neutron_status.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/neutron_status.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="149" selection-end-column="11" />
-              <folding />
+            <state vertical-scroll-proportion="0.75839794">
+              <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
+              <folding>
+                <element signature="e#808#829#0#HTML" expanded="true" />
+                <element signature="e#3848#3997#0#HTML" expanded="true" />
+                <element signature="e#4041#4115#0#HTML" expanded="true" />
+                <element signature="e#4171#4322#0#HTML" expanded="true" />
+                <element signature="e#4343#4365#0#HTML" expanded="true" />
+                <element signature="e#4500#4649#0#HTML" expanded="true" />
+                <element signature="e#4693#4767#0#HTML" expanded="true" />
+                <element signature="e#4823#4974#0#HTML" expanded="true" />
+                <element signature="e#4995#5017#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nova_status.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/nova_status.html">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/openstack/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="156" column="15" selection-start-line="156" selection-start-column="15" selection-end-line="156" selection-end-column="15" />
-              <folding />
+              <caret line="344" column="10" selection-start-line="344" selection-start-column="4" selection-end-line="344" selection-end-column="10" />
+              <folding>
+                <element signature="e#10053#11656#0" expanded="false" />
+                <element signature="e#13397#13942#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tools.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/js/openstack/tools.js">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/openstack/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.504084">
-              <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="98" column="36" selection-start-line="98" selection-start-column="23" selection-end-line="98" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -92,9 +105,12 @@
       <file leaf-file-name="node_list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/node_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="72" selection-start-line="0" selection-start-column="72" selection-end-line="0" selection-end-column="72" />
-              <folding />
+            <state vertical-scroll-proportion="-3.6944444">
+              <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="160" selection-end-column="10" />
+              <folding>
+                <element signature="n#div#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#!!top" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -155,9 +171,7 @@
         <option value="$PROJECT_DIR$/templates/openstack/dashboards/cinder_status.html" />
         <option value="$PROJECT_DIR$/openstack/page/neutron.py" />
         <option value="$PROJECT_DIR$/templates/openstack/dashboards/item.html" />
-        <option value="$PROJECT_DIR$/static/js/openstack/tools.js" />
         <option value="$PROJECT_DIR$/templates/openstack/dashboards/node_list.html" />
-        <option value="$PROJECT_DIR$/templates/openstack/dashboards/neutron_status.html" />
         <option value="$PROJECT_DIR$/templates/openstack/dashboards/nova_status.html" />
         <option value="$PROJECT_DIR$/templates/openstack/dashboards/ceph_status.html" />
         <option value="$PROJECT_DIR$/one_finger/models.py" />
@@ -165,9 +179,11 @@
         <option value="$PROJECT_DIR$/openstack/api/opentack_ansible.py" />
         <option value="$PROJECT_DIR$/check/system/system_status.py" />
         <option value="$PROJECT_DIR$/openstack/urls.py" />
-        <option value="$PROJECT_DIR$/openstack/views.py" />
         <option value="$PROJECT_DIR$/templates/one_finger/base.html" />
         <option value="$PROJECT_DIR$/templates/openstack/dashboards/node_status.html" />
+        <option value="$PROJECT_DIR$/static/js/openstack/tools.js" />
+        <option value="$PROJECT_DIR$/openstack/views.py" />
+        <option value="$PROJECT_DIR$/templates/openstack/dashboards/neutron_status.html" />
       </list>
     </option>
   </component>
@@ -287,6 +303,34 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="one_finger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="one_finger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="openstack" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="one_finger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="one_finger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="one_finger" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -294,7 +338,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
     <property name="WebServerToolWindowFactoryState" value="true" />
@@ -694,15 +738,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20405982" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22168803" sideWeight="0.47969052" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16880342" sideWeight="0.47969052" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40468228" sideWeight="0.49573562" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23959506" sideWeight="0.51495725" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30235043" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.052868392" sideWeight="0.48504272" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19509476" sideWeight="0.4914712" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15972222" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -712,7 +757,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.052868392" sideWeight="0.48504272" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32900432" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20922385" sideWeight="0.49093816" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -968,13 +1012,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/one_finger/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="63" selection-start-line="82" selection-start-column="63" selection-end-line="82" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;MultiMarkdownPreviewEditor]">
         <state split_layout="FIRST">
@@ -1006,6 +1043,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="230" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1034,6 +1072,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="29" selection-start-line="0" selection-start-column="29" selection-end-line="0" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1072,6 +1111,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.6004872">
           <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1089,24 +1129,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/openstack/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/openstack/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="86" column="43" selection-start-line="86" selection-start-column="43" selection-end-line="86" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/one_finger/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="555" column="33" selection-start-line="555" selection-start-column="33" selection-end-line="555" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1114,28 +1141,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="276" column="22" selection-start-line="276" selection-start-column="22" selection-end-line="276" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/openstack/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11785298">
-          <caret line="416" column="8" selection-start-line="416" selection-start-column="4" selection-end-line="416" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/neutron_status.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="130" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/node_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="72" selection-start-line="0" selection-start-column="72" selection-end-line="0" selection-end-column="72" />
           <folding />
         </state>
       </provider>
@@ -1148,19 +1153,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/node_status.html">
+    <entry file="file://$PROJECT_DIR$/static/js/openstack/tools.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="149" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.13106796">
+          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/openstack/tools.js">
+    <entry file="file://$PROJECT_DIR$/openstack/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.504084">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="39" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/one_finger/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="87" column="20" selection-start-line="87" selection-start-column="17" selection-end-line="87" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/node_status.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2764858">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding>
+            <element signature="e#2008#3410#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openstack/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="344" column="10" selection-start-line="344" selection-start-column="4" selection-end-line="344" selection-end-column="10" />
+          <folding>
+            <element signature="e#10053#11656#0" expanded="false" />
+            <element signature="e#13397#13942#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/node_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.6944444">
+          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="160" selection-end-column="10" />
+          <folding>
+            <element signature="n#div#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openstack/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="36" selection-start-line="98" selection-start-column="23" selection-end-line="98" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/openstack/dashboards/neutron_status.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.75839794">
+          <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
+          <folding>
+            <element signature="e#808#829#0#HTML" expanded="true" />
+            <element signature="e#3848#3997#0#HTML" expanded="true" />
+            <element signature="e#4041#4115#0#HTML" expanded="true" />
+            <element signature="e#4171#4322#0#HTML" expanded="true" />
+            <element signature="e#4343#4365#0#HTML" expanded="true" />
+            <element signature="e#4500#4649#0#HTML" expanded="true" />
+            <element signature="e#4693#4767#0#HTML" expanded="true" />
+            <element signature="e#4823#4974#0#HTML" expanded="true" />
+            <element signature="e#4995#5017#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -88,7 +88,16 @@ def dashboards_node_status(request):
 
 
 def dashboards_neutron_status(request):
-    return render(request, 'openstack/dashboards/neutron_status.html')
+    manager_obj = openstack_models.Group.objects.get(name='Manager')
+    compute_obj = openstack_models.Group.objects.get(name='Compute')
+    manager_nodes = manager_obj.host_set.select_related()
+    compute_nodes = compute_obj.host_set.select_related()
+
+    return render(request, 'openstack/dashboards/neutron_status.html',
+                  {
+                      'manager_nodes': manager_nodes,
+                      'compute_nodes': compute_nodes,
+                  })
 
 
 def dashboards_nova_status(request):

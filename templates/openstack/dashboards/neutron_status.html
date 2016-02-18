@@ -8,7 +8,7 @@
 
 
 <div id="wrapper">
-  <div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row wrapper border-bottom white-bg page-heading"> <!-- heand -->
       <div class="col-lg-10">
           <h2>Dashboards</h2>
           <ol class="breadcrumb">
@@ -23,9 +23,9 @@
       <div class="col-lg-2">
 
       </div>
-  </div>
+  </div> <!-- end heand -->
   <br>
-    <div class="row">
+    <div class="row"> <!-- neutron dashboard -->
 
         <div class="col-lg-12">
             <div class="ibox-content">
@@ -96,15 +96,242 @@
                 </div>
             </div>
         </div>
-    </div>
-<br>
+    </div> <!-- neutron dashboard -->
+  <br>
 <div class="row">
 
     <div id="wrapper">
+          <div id="compute_table" class="mail-box">
+            {% for node in node_list %}
+            <table class="table table-hover table-mail">
+              <tbody>
+                <tr class="unread">
+                    <td class="check-mail">
+                        <input type="checkbox" class="i-checks">
+                    </td>
+                    <td class="mail-ontact"><a>{{ node.hostname }}</a></td>
+                    <td><span class="btn btn-primary">{{ node.status }}</span></td>
+                    <td>{{ node.host_group.name }}</td>
+                    <td> CPU
+                        <span class="pie">1.00,0.50</span>
+                    </td>
+                    <td> MEM
+                        <span class="pie">0.52,1.000</span>
+                    </td>
+
+                    <td>
+                        12.02.2015 10:00 am
+                    </td>
+                    <td>
+                        <span class="pie">0.52,1.00</span>
+                        2d
+                    </td>
+                    <td class="text-right">
+                        <button class="btn btn-info"> SSH</button>
+                        <button class="btn btn-warning"> shutdown</button>
+                        <button class="btn btn-danger"> reboot</button>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+            {% endfor %}
+
+          </div>
+    <div class="row"> <!-- manager list -->
+      <div class="col-lg-12 animated fadeInRight">
+        <div class="mail-box-header">
+          <form method="get" action="index.html" class="pull-right mail-search">
+              <div class="input-group">
+                  <input type="text" class="form-control input-sm" name="search" placeholder="Search host">
+                  <div class="input-group-btn">
+                      <button type="submit" class="btn btn-sm btn-primary">
+                          Search
+                      </button>
+                  </div>
+              </div>
+          </form>
+            <h2>Manager List</h2>
+            <div class="mail-tools tooltip-demo m-t-md">
+
+                <div class="btn-group pull-right">
+                    <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+                    <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+                </div>
+                <input id="manager_click" type="checkbox" class="i-checks">
+                <button class="btn btn-sm btn-primary">Start</button>
+                <button class="btn btn-sm btn-warning" >Restart</button>
+                <button class="btn btn-sm btn-danger" >Stop</button>
+
+            </div>
+            </div>
+              <div id="manager_table" class="mail-box">
+
+                {% for node in manager_nodes %}
+                <table class="table table-hover table-mail">
+                  <tbody>
+                    <tr class="unread">
+                        <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                        </td>
+                        <td class="mail-ontact"><a>{{ node.hostname }}</a></td>
+                        {% for neutron_node in node.neutronmanagerservicestatus_set.select_related %}
+
+                            <!-- if neutron status -->
+                            {% if neutron_node.status == 'up'  %}
+                              <td><span class="btn btn-primary">{{ neutron_node.status }}</span></td>
+
+                            {% elif neutron_node.status == 'warning' %}
+                              <td><span class="btn btn-warning">{{ neutron_node.status }}</span></td>
+
+                            {% else %}
+                              <td><span class="btn btn-danger">{{ neutron_node.status }}</span></td>
+
+                            {% endif %} <!-- endif neutron status -->
+
+{#                        <td><span class="btn btn-primary">{{ neutron_node.status }}</span></td>#}
+                        <td>
+                            <!-- if neutron api status -->
+                            {% if neutron_node.neutron_api_status == 'up'  %}
+                                <button class="btn btn-primary">neutron API</button>
+                            {% elif neutron_node.neutron_api_status == 'warning' %}
+                                <button class="btn btn-warning">neutron API</button>
+                            {% else %}
+                                <button class="btn btn-danger">neutron API</button>
+                            {% endif %} <!-- endif neutron api status -->
+
+                            <!-- if neutron Open vSwitch agent status -->
+                            {% if neutron_node.neutron_openvswitch_agent == 'up'  %}
+                                <button class="btn btn-primary">Open vSwitch agent</button>
+                            {% elif neutron_node.neutron_openvswitch_agent == 'warning' %}
+                                <button class="btn btn-warning">Open vSwitch agent</button>
+                            {% else %}
+                                <button class="btn btn-danger">Open vSwitch agent</button>
+                            {% endif %} <!-- endif neutron Open vSwitch agent status -->
 
 
-{% include 'openstack/dashboards/node_list.html' %}
+                            <!-- if neutron Loadbalancer agent status -->
+                            {% if neutron_node.neutron_metadata_agent == 'up'  %}
+                                <button class="btn btn-primary">Loadbalancer agent</button>
+                            {% elif neutron_node.neutron_metadata_agent == 'warning' %}
+                                <button class="btn btn-warning">Loadbalancer agent</button>
+                            {% else %}
+                                <button class="btn btn-danger">Loadbalancer agent</button>
+                            {% endif %} <!-- endif neutron Open vSwitch agent status -->
 
+                            <!-- if neutron Loadbalancer agent status -->
+                            {% if neutron_node.neutron_lbaas_agent == 'up'  %}
+                                <button class="btn btn-primary">Metadata agent</button>
+                            {% elif neutron_node.neutron_lbaas_agent == 'warning' %}
+                                <button class="btn btn-warning">Metadata agent</button>
+                            {% else %}
+                                <button class="btn btn-danger">Metadata agent</button>
+                            {% endif %} <!-- endif neutron Open vSwitch agent status -->
+
+
+{#                            <button class="btn btn-primary">Loadbalancer agent</button>#}
+{#                            <button class="btn btn-primary"> Metadata agent</button>#}
+                        </td>
+
+                          {% if neutron_node.neutron_dhcp_agent %}<!-- if neutron dhcp agent status -->
+                            {% if neutron_node.neutron_dhcp_agent == 'up'  %}
+                              <td><button class="btn btn-primary">DHCP</button></td>
+                            {% elif neutron_node.neutron_dhcp_agent == 'warning' %}
+                              <td><button class="btn btn-warning">DHCP</button></td>
+                            {% else %}
+                              <td><button class="btn btn-danger">DHCP</button></td>
+                            {% endif %}
+                          {% endif %}<!-- end if neutron dhcp agent status -->
+
+
+                          {% if neutron_node.neutron_l3_agent %}
+                            {% if neutron_node.neutron_l3_agent == 'up'  %}
+                              <td><button class="btn btn-primary  ">L3</button></td>
+                            {% elif neutron_node.neutron_l3_agent == 'warning' %}
+                              <td><button class="btn btn-warning">L3</button></td>
+                            {% else %}
+                              <td><button class="btn btn-danger">L3</button></td>
+                            {% endif %}
+{#                            <td>#}
+{#                              <button class="btn btn-primary">L3</button>#}
+{#                              <button class="btn btn-danger">DHCP</button>#}
+{#                            </td>#}
+                          {% endif %}
+                        {% endfor %}
+                    </tr>
+
+
+                  </tbody>
+                </table>
+                {% endfor %}
+
+              </div>
+          </div>
+    </div> <!-- end manager list -->
+{#{% include 'openstack/dashboards/node_list.html' %}#}
+
+    <div class="row"> <!-- compute list -->
+      <div class="col-lg-12 animated fadeInRight">
+        <div class="mail-box-header">
+          <form method="get" action="index.html" class="pull-right mail-search">
+              <div class="input-group">
+                  <input type="text" class="form-control input-sm" name="search" placeholder="Search host">
+                  <div class="input-group-btn">
+                      <button type="submit" class="btn btn-sm btn-primary">
+                          Search
+                      </button>
+                  </div>
+              </div>
+          </form>
+            <h2>Compute List</h2>
+            <div class="mail-tools tooltip-demo m-t-md">
+
+                <div class="btn-group pull-right">
+                    <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+                    <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+                </div>
+                <input id="compute_click" type="checkbox" class="i-checks">
+                <button class="btn btn-sm btn-primary" >Start</button>
+                <button class="btn btn-sm btn-warning" >Restart</button>
+                <button class="btn btn-sm btn-danger" >Stop</button>
+
+            </div>
+        </div>
+          <div id="compute_table" class="mail-box">
+
+            {% for node in compute_nodes %}
+            <table class="table table-hover table-mail">
+              <tbody>
+                <tr class="unread">
+                    <td class="check-mail">
+                        <input type="checkbox" class="i-checks">
+                    </td>
+                    <td class="mail-ontact"><a>{{ node.hostname }}</a></td>
+
+                  {% for neutron_node in node.neutroncomputeservicestatus_set.select_related %}
+                    <td><span class="btn btn-primary">{{ neutron_node.neutron_openvswitch_agent }}</span></td>
+                    <td>
+                      <!-- if neutron Open vSwitch agent status -->
+                      {% if neutron_node.neutron_openvswitch_agent == 'up'  %}
+                          <button class="btn btn-primary">Open vSwitch agent</button>
+                      {% elif neutron_node.neutron_openvswitch_agent == 'warning' %}
+                          <button class="btn btn-warning">Open vSwitch agent</button>
+                      {% else %}
+                          <button class="btn btn-danger">Open vSwitch agent</button>
+                      {% endif %} <!-- endif neutron Open vSwitch agent status -->
+                    </td>
+                  {% endfor %}
+
+                </tr>
+
+
+
+              </tbody>
+            </table>
+            {% endfor %}
+
+          </div>
+      </div>
+        </div> <!-- end compute list -->
 
     </div>
 
