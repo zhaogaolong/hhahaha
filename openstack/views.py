@@ -101,7 +101,16 @@ def dashboards_neutron_status(request):
 
 
 def dashboards_nova_status(request):
-    return render(request, 'openstack/dashboards/nova_status.html')
+    manager_obj = openstack_models.Group.objects.get(name='Manager')
+    compute_obj = openstack_models.Group.objects.get(name='Compute')
+    manager_nodes = manager_obj.host_set.select_related()
+    compute_nodes = compute_obj.host_set.select_related()
+
+    return render(request, 'openstack/dashboards/nova_status.html',
+                  {
+                      'manager_nodes': manager_nodes,
+                      'compute_nodes': compute_nodes,
+                  })
 
 
 def dashboards_cinder_status(request):
@@ -109,4 +118,13 @@ def dashboards_cinder_status(request):
 
 
 def dashboards_ceph_status(request):
-    return render(request, 'openstack/dashboards/ceph_status.html')
+    mon_obj = openstack_models.Group.objects.get(name='Manager')
+    osd_obj = openstack_models.Group.objects.get(name='Compute')
+    mon_nodes = mon_obj.host_set.select_related()
+    osd_nodes = osd_obj.host_set.select_related()
+
+    return render(request, 'openstack/dashboards/ceph_status.html',
+                  {
+                      'mon_nodes': mon_nodes,
+                      'osd_nodes': osd_nodes,
+                  })
