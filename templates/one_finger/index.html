@@ -129,7 +129,10 @@
 
             <li class="list-group-item fist-item">
                 <span class="pull-right">
-                    <button id="neutron-l3-columns-block-content" class="btn navy-bg btn-xs" type="button">OK</button>
+                    <button  id="neutron-l3-columns-block-content" class="btn navy-bg btn-xs" type="button" onclick="window.location.href('{% url "neutron_status" %}')">
+                      <a href="{% url "neutron_status" %}">OK</a>
+
+                    </button>
                 </span>
                 <span id="neutron-l3-columns-block" class="label navy-bg">1</span>L3 Agent
             </li>

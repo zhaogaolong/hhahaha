@@ -205,7 +205,7 @@
                         {% for osd_node in node.cephosdstatus_set.select_related %}
 {#                          {% for osd in osd_node. %}#}
 
-                            <!-- if nova compute status -->
+                            <!-- if osd status -->
 
                             {% if osd_node.status == 'up'  %}
                               <span class="btn btn-primary">{{ osd_node.osd_name }}</span>
@@ -216,7 +216,7 @@
                             {% else %}
                               <span class="btn btn-danger">{{ osd_node.osd_name }}</span>
 
-                            {% endif %} <!-- endif nova compute status  -->
+                            {% endif %} <!-- endif osd status  -->
 
                         {% endfor %}
                         </td>
