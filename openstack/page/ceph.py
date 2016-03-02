@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # coding:utf8
 
-from openstack import models
+from storage import models
+# from asset import models as asset_models
+
 
 class Ceph():
     def __init__(self):

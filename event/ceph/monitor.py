@@ -2,7 +2,7 @@
 # coding:utf8
 #####
 from event import base
-from openstack import models
+from asset import models
 
 
 class Monitor(base):

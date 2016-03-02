@@ -11,7 +11,9 @@ import threading
 Base_dir = "/".join(os.path.dirname(os.path.abspath(__file__)).split('/')[:-1])
 sys.path.append(Base_dir)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "one_finger.settings")
-from openstack import models
+from openstack import models as openstack_models
+from storage import models as storage_models
+# from asset import models as asset_models
 import django
 django.setup()
 # config allow this is py invoke django models
@@ -26,16 +28,16 @@ from ceph import ceph
 def check_cloud():
     print '\033[32mcheck_cloud\033[0m'
     cloud_status = [
-        models.NovaStatus.objects.first().status,
-        models.CephStatus.objects.first().status,
-        models.NeutronStatus.objects.first().status,
-        models.CinderStatus.objects.first().status,
+        openstack_models.NovaStatus.objects.first().status,
+        storage_models.CephStatus.objects.first().status,
+        openstack_models.NeutronStatus.objects.first().status,
+        openstack_models.CinderStatus.objects.first().status,
     ]
-    if not models.CloudStatus.objects.filter():
-        cloud_db_obj = models.CloudStatus(status='null')
+    if not openstack_models.CloudStatus.objects.filter():
+        cloud_db_obj = openstack_models.CloudStatus(status='null')
         cloud_db_obj.save()
 
-    cloud_db_obj = models.CloudStatus.objects.first()
+    cloud_db_obj = openstack_models.CloudStatus.objects.first()
     # import pdb
     # pdb.set_trace()
 
@@ -57,27 +59,27 @@ def check_db_update(dbobj, status):
 
 def check_nova():
     print '\033[32mcheck_nova\033[0m'
-    nc = nova.Check(models)
+    nc = nova.Check(openstack_models)
 
     time.sleep(10)
 
 
 def check_neutron():
     print '\033[32mcheck_neutron\033[0m'
-    nc = neutron.Check(models)
+    nc = neutron.Check()
     time.sleep(10)
 
 
 def check_cinder():
     print '\033[32mcheck_cinder\033[0m'
 
-    nc = cinder.Check(models)
+    nc = cinder.Check(openstack_models)
     time.sleep(10)
 
 
 def check_ceph():
     print '\033[32mcheck_ceph\033[0m'
-    ce = ceph.Check(models)
+    ce = ceph.Check(storage_models)
     time.sleep(10)
 
 
@@ -88,12 +90,13 @@ if __name__ == "__main__":
         check_cinder,
         check_ceph,
     ]
-    # for service in service_list:
-    #     service()
+    # service_list = [check_neutron]
+    # # for service in service_list:
+    # #     service()
     th_list = []
 
     while True:
-        th_list = []
+        # th_list = []
         for service in service_list:
             t = threading.Thread(target=service)
             t.start()
@@ -113,7 +116,7 @@ if __name__ == "__main__":
     #     t.start()
     #     th_list.append(t)
     #
-    # for th in th_list:
-    #     th.join()
-    #     th_list.remove(th)
-    # print 'th_list:', th_list
+    for th in th_list:
+        th.join()
+        th_list.remove(th)
+    print 'th_list:', th_list

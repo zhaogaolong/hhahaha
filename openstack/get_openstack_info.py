@@ -10,8 +10,11 @@ import pdb
 
 from django.conf import settings
 # in local models########
+from asset import models as asset_models
+from storage import models as storage_models
 from openstack.api import opentack_ansible
-from openstack.api import keystone, nova as nova_hosts, cinder ,neutron, ceph
+from openstack.api import keystone, nova as nova_hosts, cinder ,neutron
+from storage.ceph.api import  ceph
 from one_finger import models as one_finger_models
 from openstack import models as openstack_models
 from one_finger.cloud_logging import cloud_logging as logging
@@ -98,9 +101,9 @@ class GetOpenStackInfo():
     def add_hosts(self, ip):
         host_list = nova_hosts.host_list()
         for host in host_list:
-            if not openstack_models.Host.objects.filter(hostname=host):
+            if not asset_models.Host.objects.filter(hostname=host):
                 # 监测该主机是否存在数据库中
-                openstack_models.Host.objects.create(hostname=host)
+                asset_models.Host.objects.create(hostname=host)
         log_info = 'Create Host: %s to DB' % ' '.join(host_list)
         log.info(log_info)
         self.add_hosts_ip(ip)
@@ -182,7 +185,7 @@ class GetOpenStackInfo():
                 continue
             else:
                 host_list.append(item['host'])
-                host_db_list[item['host']] = openstack_models.Host.objects.get(hostname=item['host'])
+                host_db_list[item['host']] = asset_models.Host.objects.get(hostname=item['host'])
 
         # pdb.set_trace()
         # 定义角色的服务，稍后根据不同规划不同的角色
@@ -247,11 +250,15 @@ class GetOpenStackInfo():
         # print 'compute_db_dic', compute_db_dic
 
 
-        if not openstack_models.Group.objects.filter(name='Manager'):
-            openstack_models.Group.objects.create(name='Manager')
+        if not asset_models.Group.objects.filter(name='Manager'):
+            asset_models.Group.objects.create(name='Manager',
+                                              remark='Openstack Manager Group'
+                                              )
 
-        if not openstack_models.Group.objects.filter(name='Compute'):
-            openstack_models.Group.objects.create(name='Compute')
+        if not asset_models.Group.objects.filter(name='Compute'):
+            asset_models.Group.objects.create(name='Compute',
+                                              remark='Openstack Compute Group'
+                                              )
 
 
         # 把数据存储到数据库中
@@ -259,15 +266,15 @@ class GetOpenStackInfo():
             # print 'k--->', k
             # print 'v--->', v
             if not openstack_models.NovaManagerServiceStatus.objects.filter(
-                    host_id=openstack_models.Host.objects.get(hostname=k).id):
+                    host_id=asset_models.Host.objects.get(hostname=k).id):
 
                 # 把数据存储到数据库中
                 openstack_models.NovaManagerServiceStatus.objects.create(**v)
 
                 # 把主机添加相应的组中
-                group_obj = openstack_models.Group.objects.get(name='Manager')
-                manager_obj = openstack_models.Host.objects.get(hostname=k)
-                manager_obj.host_group_id = group_obj.id
+                group_obj = asset_models.Group.objects.get(name='Manager')
+                manager_obj = asset_models.Host.objects.get(hostname=k)
+                manager_obj.host_group.add(group_obj)
                 manager_obj.save()
 
         log_info = 'Add Nova Compute Service to DB %s IP'
@@ -278,14 +285,12 @@ class GetOpenStackInfo():
             # print k
             # print v
             if not openstack_models.NovaComputeServiceStatus.objects.filter(
-                    host_id=openstack_models.Host.objects.get(hostname=k).id):
+                    host_id=asset_models.Host.objects.get(hostname=k).id):
                 openstack_models.NovaComputeServiceStatus.objects.create(**v)
 
-
-
-                group_obj = openstack_models.Group.objects.get(name='Compute')
-                compute_obj = openstack_models.Host.objects.get(hostname=k)
-                compute_obj.host_group_id = group_obj.id
+                group_obj = asset_models.Group.objects.get(name='Compute')
+                compute_obj = asset_models.Host.objects.get(hostname=k)
+                compute_obj.host_group.add(group_obj)
                 compute_obj.save()
 
                 # openstack_models.Host.objects.update_or_create(
@@ -303,10 +308,10 @@ class GetOpenStackInfo():
 
         for item in host_data['services']:
             # 获取信息
-            manager_group_db_obj = openstack_models.Group.objects.get(
+            manager_group_db_obj = asset_models.Group.objects.get(
                 name='Manager')
-            manager_list = openstack_models.Host.objects.filter(
-                host_group_id=manager_group_db_obj.id)
+            manager_list = asset_models.Host.objects.filter(
+                host_group=manager_group_db_obj)
             # 获取所有主机信息
             for host in manager_list:
                 if not openstack_models.CinderManagerStatus.objects.filter(
@@ -332,7 +337,7 @@ class GetOpenStackInfo():
 
         for item in data['agents']:
             # 获取该主机的id
-            host_id = openstack_models.Host.objects.get(
+            host_id = asset_models.Host.objects.get(
                 hostname=item['host']).id
 
             if not item['host'] in db_dic:
@@ -350,31 +355,35 @@ class GetOpenStackInfo():
             db_dic[item['host']][binary_name] = status
         # print db_dic
 
-        manager_group_id = openstack_models.Group.objects.get(name='Manager').id
-        compute_group_id = openstack_models.Group.objects.get(name='Compute').id
+        manager_group_obj = asset_models.Group.objects.get(name='Manager')
+        manager_group_node_list = manager_group_obj.host_set.select_related()
+        compute_group_obj = asset_models.Group.objects.get(name='Compute')
+        compute_group_node_list = compute_group_obj.host_set.select_related()
 
         for host, item in db_dic.items():
-            compute_obj = openstack_models.Host.objects.get(hostname=host)
+            compute_obj = asset_models.Host.objects.get(hostname=host)
             # print item
-            if compute_obj.host_group_id == manager_group_id:
+            if compute_obj in manager_group_node_list:
                 # 该主机就是manager主机
                 nm_obj = openstack_models.NeutronManagerServiceStatus
                 if not nm_obj.objects.filter(
-                        host_id=openstack_models.Host.objects.get(
+                        host_id=asset_models.Host.objects.get(
                             hostname=host).id
                 ):
+                    print item
                     nm_obj.objects.create(**item)
                 # else:
                 #   openstack_models.NeutronManagerServiceStatus.objects.filter(
                 #         host_id=openstack_models.Host.objects.get(
                 #             hostname=item['host']).id
                 #     ).update(**item)
-            elif compute_obj.host_group_id == compute_group_id:
+            elif compute_obj in compute_group_node_list:
                 # 该主机就是compute主机
                 nc_obj = openstack_models.NeutronComputeServiceStatus
                 if not nc_obj.objects.filter(
-                        host_id=openstack_models.Host.objects.get(
+                        host_id=asset_models.Host.objects.get(
                             hostname=host).id):
+                    print item
                     nc_obj.objects.create(**item)
 
     def add_ceph_osd_host(self):
@@ -383,9 +392,9 @@ class GetOpenStackInfo():
             data = cc.osd_list()
 
             for k, v in data.items():
-                if not openstack_models.CephOsdStatus.objects.filter(
+                if not storage_models.CephOsdStatus.objects.filter(
                         osd_name=k):
-                    openstack_models.CephOsdStatus.objects.create(**v)
+                    storage_models.CephOsdStatus.objects.create(**v)
 
     def add_ceph_mon_host(self):
         if settings.CEPH_ENABLED == True:
@@ -398,16 +407,16 @@ class GetOpenStackInfo():
             if data:
                 for host_ip, v in data.items():
                     mon_db_dic[host_ip] = {}
-                    host_id = openstack_models.Host.objects.get(
+                    host_id = asset_models.Host.objects.get(
                         ip_storage=host_ip).id
                     mon_db_dic[host_ip]['host_id'] = host_id
                     mon_db_dic[host_ip]['mon_id'] = v['id']
                 # pdb.set_trace()
                 for host, val in mon_db_dic.items():
-                    if not openstack_models.CephMonitorStatus.objects.filter(
+                    if not storage_models.CephMonitorStatus.objects.filter(
                       mon_id=val['mon_id']
                     ):
-                        openstack_models.CephMonitorStatus.objects.create(**val)
+                        storage_models.CephMonitorStatus.objects.create(**val)
 
     def add_mysql_host(self):
         pass

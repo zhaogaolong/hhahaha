@@ -39,9 +39,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'asset',
+    'basic_service',
+    'storage',
     'openstack',
     'one_finger',
     'check',
+    'event',
     # 'djcelery',
     # 'kombu.transport.django',
 )
@@ -85,7 +89,7 @@ WSGI_APPLICATION = 'one_finger.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'six',
+        'NAME': 'asset',
         # 'NAME': 'one_finger',
         'USER': 'root',
         'PASSWORD': '',
@@ -134,7 +138,7 @@ ACCEPT_URL = 'publicurl'
 REGION = 'RegionOne'
 
 # 设置neutron 使用什么模式
-# 可选: Open_vSwitch, Linux_bridge
-NEUTRON_RIVER = 'Open_vSwitch'
+# 可选: neutron_linuxbridge_agent, neutron_openvswitch_agent
+NEUTRON_RIVER_TYPE = 'neutron_linuxbridge_agent'
 
 

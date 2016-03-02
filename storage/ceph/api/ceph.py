@@ -1,21 +1,22 @@
-#!/usr/bin/env python
+# /usr/bin/env python
 # coding:utf8
-
-#import pdb
+import pdb
 import json
 ###
 from openstack import models as openstack_models
 from asset import models as asset_models
-from opentack_ansible import CmmAndRun
+from storage import models as storage_models
+from openstack.api.opentack_ansible import CmmAndRun
 
 
 class Ceph():
-    def __init__(self,):
+    def __init__(self):
         self.ip = asset_models.Host.objects.first().ip_manager
 
     def osd_list(self):
         osd_dic = {}
         cm = "ceph osd dump| grep osd | awk '{print $1}' | grep -v max"
+        # pdb.set_trace()
         ac = CmmAndRun(
             cmd=cm,
             host=self.ip,
@@ -62,6 +63,8 @@ class Ceph():
     def mon_list(self):
         mon_dic = {}
         cm = "ceph mon_status"
+        print 'ceph_cmd_ip:', self.ip
+
         ac = CmmAndRun(
             cmd=cm,
             host=self.ip,
@@ -110,7 +113,7 @@ class Ceph():
         if len(quorum)>1:
             quorum = quorum.split(',')
 
-        mon_obj = openstack_models.CephMonitorStatus.objects.all()
+        mon_obj = storage_models.CephMonitorStatus.objects.all()
         for mon in mon_obj:
             if mon.id in quorum:
                 mon.status = 'up'
@@ -128,4 +131,3 @@ class Ceph():
         data = ac.start()
         if 'down' in data:
             pass
-

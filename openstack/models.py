@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding:utf8
 from django.db import models
-
+from asset.models import Host
 
 status_level = (
     ("up", "up"),
@@ -53,7 +53,7 @@ class CinderStatus(models.Model):
 
 
 class CinderManagerStatus(models.Model):
-    host = models.ForeignKey('Host')
+    host = models.ForeignKey(Host)
     status_level = (
         ('up', "up"),
         ("waring", "waring"),
@@ -75,39 +75,6 @@ class CinderManagerStatus(models.Model):
     def __unicode__(self):
         return self.host.hostname
 
-
-# ####ceph##########
-class CephStatus(models.Model):
-    # this is a ceph service tables
-    status = models.CharField(choices=mode_status_level, max_length=64)
-    monitor_status = models.CharField(choices=status_level, max_length=64)
-    osd_status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.status
-
-
-class CephMonitorStatus(models.Model):
-    # this is a ceph monitor service tables
-    host = models.ForeignKey('Host')
-    mon_id = models.IntegerField()
-    status = models.CharField(choices=status_level,
-                              max_length=64,
-                              blank=True,
-                              null=True)
-
-    def __unicode__(self):
-        return self.host.hostname
-
-
-class CephOsdStatus(models.Model):
-    # this is a ceph osd service tables
-    osd_name = models.CharField(max_length=64)
-    host = models.ForeignKey('Host')
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.osd_name
 
 
 # ####nova##########
@@ -154,7 +121,7 @@ class NovaStatus(models.Model):
 
 
 class NovaManagerServiceStatus(models.Model):
-    host = models.ForeignKey('Host')
+    host = models.ForeignKey(Host)
     status = models.CharField(choices=status_level, max_length=64)
     nova_api_status = models.CharField(choices=status_level,
                                        max_length=64,
@@ -187,118 +154,13 @@ class NovaManagerServiceStatus(models.Model):
 
 class NovaComputeServiceStatus(models.Model):
     # compute node nova status
-    host = models.ForeignKey('Host')
+    host = models.ForeignKey(Host)
     nova_compute_status = models.CharField(choices=status_level, max_length=64)
     enabled_nova_compute = models.BooleanField()
 
     def __unicode__(self):
         return self.host.hostname
 
-
-# ####openstack_mode: rabbitmq##########
-class RabbitMqStatus(models.Model):
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.name
-
-
-class RabbitmqServiceStatus(models.Model):
-    host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.host.name
-
-
-# ####openstack_mode: Pacemaker##########
-class PacemakerStatus(models.Model):
-    host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.host.name
-
-
-class PacemakerServiceStatus(models.Model):
-    host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.host.name
-
-
-# ####openstack_mode: redis##########
-class RedisStatus(models.Model):
-    host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.host.name
-
-
-class RedisServiceStatus(models.Model):
-    host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.host.name
-
-
-# ####openstack_mode: Mysql Service##########
-class MysqlStatus(models.Model):
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.status
-
-
-class MysqlServiceStatus(models.Model):
-    host = models.ForeignKey('Host')
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64)
-
-    def __unicode__(self):
-        return self.mysql_group.name
 
 
 # ####openstack Neutron##########
@@ -341,14 +203,18 @@ class NeutronStatus(models.Model):
 
 
 class NeutronManagerServiceStatus(models.Model):
-    host = models.ForeignKey('Host')
+    host = models.ForeignKey(Host)
     status = models.CharField(choices=status_level,
                               max_length=64,
                               blank=True,
                               null=True,
                               )
     neutron_openvswitch_agent = models.CharField(choices=status_level,
-                                                 max_length=64)
+                                                 max_length=64,
+                                                 blank=True, null=True)
+    neutron_linuxbridge_agent = models.CharField(choices=status_level,
+                                                 max_length=64,
+                                                 blank=True, null=True)
     system_river_type_choices = (
         ('Open_vSwitch', "Open_vSwitch"),
         ('Linux_bridge ', "Linux_bridge"),
@@ -376,9 +242,13 @@ class NeutronManagerServiceStatus(models.Model):
 
 
 class NeutronComputeServiceStatus(models.Model):
-    host = models.ForeignKey('Host')
+    host = models.ForeignKey(Host)
     neutron_openvswitch_agent = models.CharField(choices=status_level,
-                                                 max_length=64)
+                                                 max_length=64,
+                                                 blank=True, null=True)
+    neutron_linuxbridge_agent = models.CharField(choices=status_level,
+                                                 max_length=64,
+                                                 blank=True, null=True)
     # river 是底层模式 ： ovs linux-bridge 等
     # river 的存储模式
     system_river_type_choices = (
@@ -390,49 +260,4 @@ class NeutronComputeServiceStatus(models.Model):
 
     def __unicode__(self):
         return self.host.hostname
-
-
-class Host(models.Model):
-    hostname = models.CharField(max_length=64)
-    host_group = models.ForeignKey('Group', blank=True, null=True)
-    ip_manager = models.GenericIPAddressField(max_length=64, blank=True, null=True)
-    ip_storage = models.GenericIPAddressField(max_length=64, blank=True, null=True)
-    ip_public = models.GenericIPAddressField(max_length=64, blank=True, null=True)
-    ip_pxe = models.GenericIPAddressField(max_length=64, blank=True, null=True)
-    username = models.CharField(max_length=64, blank=True, null=True)
-    # password = models.CharField(max_length=64, blank=True, null=True)
-
-    status_level = (
-        ('Ok', "ok"),
-        ('Warning ', "Warning"),
-        ('Error ', "Error"),
-    )
-    status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
-
-    def __unicode__(self):
-        return self.hostname
-
-
-class Group(models.Model):
-    name = models.CharField(max_length=64)
-
-    def __unicode__(self):
-        return self.name
-
-
-class SystemInfo(models.Model):
-    host = models.ForeignKey('Host')
-    cpu_status = models.FloatField(max_length=10, default=00.00)
-    mem_status = models.FloatField(max_length=10, default=00.00)
-    uptime = models.CharField(max_length=64)
-
-    def __unicode__(self):
-        return self.host_id
-
-
-
-
-
-
-
 

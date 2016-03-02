@@ -11,6 +11,7 @@ from openstack.api.base import NovaBase
 from openstack.api import keystone
 from openstack import models as openstack_models
 from one_finger import models as one_finger_models
+from asset import models as asset_models
 
 
 def host_list():
@@ -98,7 +99,7 @@ def mgmt_api_status(host):
 
 
 def host_db_list():
-    return openstack_models.Host.objects.all()
+    return asset_models.Host.objects.all()
 
 
 def link_hosts(data, ):

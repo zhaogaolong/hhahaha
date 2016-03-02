@@ -49,7 +49,7 @@ class CmmAndRun():
 
         log.debug('ansible sttout %s' % datastructure)
 
-        print datastructure
+        # print datastructure
         if datastructure['dark']:
             pass
         else:

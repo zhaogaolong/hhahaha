@@ -5,14 +5,15 @@ from django.db import models
 
 class Host(models.Model):
     hostname = models.CharField(max_length=64)
-    host_group = models.ForeignKey('Group', blank=True, null=True)
+    host_group = models.ManyToManyField('Group')
     ip_manager = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     ip_storage = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     ip_public = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     ip_pxe = models.GenericIPAddressField(max_length=64, blank=True, null=True)
     username = models.CharField(max_length=64, blank=True, null=True)
     # password = models.CharField(max_length=64, blank=True, null=True)
-
+    remark = models.CharField(max_length=1024,
+                              null=True,blank=True)
     status_level = (
         ('Ok', "ok"),
         ('Warning ', "Warning"),
@@ -26,7 +27,8 @@ class Host(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=64)
-
+    remark = models.CharField(max_length=1024,
+                              null=True,blank=True)
     def __unicode__(self):
         return self.name
 

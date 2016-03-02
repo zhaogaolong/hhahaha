@@ -9,7 +9,7 @@ from openstack.page import cloud, ceph, nova, neutron, cinder
 from one_finger.cloud_logging import cloud_logging as logging
 log = logging.logger
 # from check.cloud import start
-
+from asset import models as asset_models
 from openstack import models as openstack_models
 
 
@@ -88,8 +88,8 @@ def dashboards_node_status(request):
 
 
 def dashboards_neutron_status(request):
-    manager_obj = openstack_models.Group.objects.get(name='Manager')
-    compute_obj = openstack_models.Group.objects.get(name='Compute')
+    manager_obj = asset_models.Group.objects.get(name='Manager')
+    compute_obj = asset_models.Group.objects.get(name='Compute')
     manager_nodes = manager_obj.host_set.select_related()
     compute_nodes = compute_obj.host_set.select_related()
 
@@ -101,8 +101,8 @@ def dashboards_neutron_status(request):
 
 
 def dashboards_nova_status(request):
-    manager_obj = openstack_models.Group.objects.get(name='Manager')
-    compute_obj = openstack_models.Group.objects.get(name='Compute')
+    manager_obj = asset_models.Group.objects.get(name='Manager')
+    compute_obj = asset_models.Group.objects.get(name='Compute')
     manager_nodes = manager_obj.host_set.select_related()
     compute_nodes = compute_obj.host_set.select_related()
 
@@ -118,8 +118,8 @@ def dashboards_cinder_status(request):
 
 
 def dashboards_ceph_status(request):
-    mon_obj = openstack_models.Group.objects.get(name='Manager')
-    osd_obj = openstack_models.Group.objects.get(name='Compute')
+    mon_obj = asset_models.Group.objects.get(name='Manager')
+    osd_obj = asset_models.Group.objects.get(name='Compute')
     mon_nodes = mon_obj.host_set.select_related()
     osd_nodes = osd_obj.host_set.select_related()
 
