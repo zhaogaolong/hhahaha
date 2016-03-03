@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding:utf8
 from openstack.api import ceph
-
+from event.ceph import osd as event_osd, monitor as event_mon, \
+    ceph as event_ceph
 
 class Check():
     def __init__(self, models):
@@ -20,28 +21,36 @@ class Check():
         for node, val in self.cm.mon_list().items():
             if not val['id'] in online:
                 # 检查现在的状态和数据库状态是否一致
-                self._update_mon_status(val['id'], 'down')
+                self._update_mon_node_status(val['id'], 'down')
             else:
-                self._update_mon_status(val['id'], 'up')
+                self._update_mon_node_status(val['id'], 'up')
 
-    def _update_mon_status(self, id, status):
+    def _update_mon_node_status(self, id, status):
         mon = self.models.CephMonitorStatus.objects.get(mon_id=id)
         if mon.status != status:
             mon.status = status
             mon.save()
+            if status == 'up':
+                event_mon.up(mon.host.hostname)
+            elif status == 'down':
+                event_mon.down(mon.host.hostname)
 
     def _check_osd(self):
         # 检查每一个osd
         for item, v in self.cm.osd_list().items():
             # 检查现在的状态和数据库状态是否一致
             # print item, v['status']
-            self._update_osd_status(item, v['status'])
+            self._update_osd_node_status(item, v['status'])
 
-    def _update_osd_status(self, osd_name, status):
+    def _update_osd_node_status(self, osd_name, status):
         osd = self.models.CephOsdStatus.objects.get(osd_name=osd_name)
         if osd.status != status:
             osd.status = status
             osd.save()
+            if status == 'up':
+                event_osd.up(osd.host.hostname)
+            elif status == 'down':
+                event_osd.down(osd.host.hostname)
 
     def _check_ceph_mon_status(self):
         # 检查整个ceph节点的mon
@@ -54,12 +63,18 @@ class Check():
 
         # 开始对比状态是否正常
         if len(status_list) == status_list.count('up'):
-            ceph_db_obj.monitor_status = 'up'
+            # ceph_db_obj.monitor_status = 'up'
+            self._update_ceph_cluster_status('monitor_status', ceph_db_obj,
+                                             'up')
         elif len(status_list) > status_list.count('up') > 0:
-            ceph_db_obj.monitor_status = 'warning'
+            # ceph_db_obj.monitor_status = 'warning'
+            self._update_ceph_cluster_status('monitor_status', ceph_db_obj,
+                                             'warning')
         else:
-            ceph_db_obj.monitor_status = 'down'
-        ceph_db_obj.save()
+            # ceph_db_obj.monitor_status = 'down'
+            self._update_ceph_cluster_status('monitor_status', ceph_db_obj,
+                                             'down')
+        # ceph_db_obj.save()
 
     def _check_ceph_osd_status(self):
         # 检查整个ceph节点的osd
@@ -70,10 +85,18 @@ class Check():
             status_list.append(osd.status)
         ceph_db_obj = self.models.CephStatus.objects.first()
         if len(status_list) == status_list.count('up'):
-            ceph_db_obj.osd_status = 'up'
+            # ceph_db_obj.osd_status = 'up'
+            self._update_ceph_cluster_status('osd_status', ceph_db_obj, 'up')
+
         elif len(status_list) > status_list.count('up') > 0:
-            ceph_db_obj.osd_status = 'warning'
-        ceph_db_obj.save()
+            # ceph_db_obj.osd_status = 'warning'
+            self._update_ceph_cluster_status('osd_status', ceph_db_obj,
+                                             'warning')
+        else:
+            # ceph_db_obj.monitor_status = 'down'
+            self._update_ceph_cluster_status('osd_status', ceph_db_obj,
+                                             'down')
+        # ceph_db_obj.save()
 
     def _check_ceph_status(self):
         # 检查整个ceph status
@@ -93,10 +116,35 @@ class Check():
             ceph_db_obj.osd_status,
         ]
         if 'down' in status:
-            ceph_db_obj.status = 'down'
+            # ceph_db_obj.status = 'down'
+            self._update_ceph_cluster_status('status', ceph_db_obj, 'down')
+
         elif 'warning' in status:
-            ceph_db_obj.status = 'warning'
+            #　ceph_db_obj.status = 'warning'
+            self._update_ceph_cluster_status('status', ceph_db_obj,
+                                             'warning')
         else:
-            ceph_db_obj.status = 'up'
-        ceph_db_obj.save()
+            # ceph_db_obj.status = 'up'
+            self._update_ceph_cluster_status('status', ceph_db_obj, 'up')
+        # ceph_db_obj.save()
+
+    def _update_ceph_cluster_status(self, item_name, item_obj, status):
+        # 该条记录是更新整个ceph status table 的方法
+        # print 'update item %s %s %s' % (item_name, item_obj, status)
+        # 所以触发事件记录的时候不属于任何主机
+        if getattr(item_obj, item_name) != status:
+            setattr(item_obj, item_name, status)
+            item_obj.save()
+            if item_name == 'monitor_status':
+                print 'start monitor log'
+                getattr(event_mon, status)()
+            elif item_name == 'osd_status':
+                print 'start osd log'
+                getattr(event_osd, status)()
+            elif item_name == 'status':
+                # 检查是否是ceph的状态主表
+                print 'start ceph log'
+                getattr(event_ceph, status)()
+
+
 
