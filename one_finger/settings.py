@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'one_finger.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'asset',
+        'NAME': 'event',
         # 'NAME': 'one_finger',
         'USER': 'root',
         'PASSWORD': '',
@@ -141,4 +141,14 @@ REGION = 'RegionOne'
 # 可选: neutron_linuxbridge_agent, neutron_openvswitch_agent
 NEUTRON_RIVER_TYPE = 'neutron_linuxbridge_agent'
 
+
+event_type = {
+    'ceph': ['ceph_mon', 'ceph_osd'],
+    'openstack': ['neutron', 'nova', 'cinder'],
+    'mysql': [],
+    'redis': [],
+    'rabbitmq': [],
+    'pacemaker': [],
+    'basic_service': []
+}
 

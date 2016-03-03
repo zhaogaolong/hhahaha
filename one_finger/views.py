@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from models import OpenStackKeystoneAuth, OpenStackKeyStoneEndpoint
 from models import UserProfile
 from openstack.views import info
-
+from event.openstack import keystone as event_keystone
 
 # ----------用户登录登出-----------
 def account_login(request):
@@ -78,10 +78,9 @@ def input_info(request):
         }
 
         OpenStackKeystoneAuth.objects.create(**auth_dic)
-
         return render(request,
                       'one_finger/openstack_info.html', {
-            'manager_ip': request.POST.get('manager_ip')
+                'manager_ip': request.POST.get('manager_ip')
         })
 
 

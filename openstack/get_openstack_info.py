@@ -17,8 +17,17 @@ from openstack.api import keystone, nova as nova_hosts, cinder ,neutron
 from storage.ceph.api import  ceph
 from one_finger import models as one_finger_models
 from openstack import models as openstack_models
+
 from one_finger.cloud_logging import cloud_logging as logging
 log = logging.logger
+
+####event ####
+from event.node import hw_node as event_hw_node
+from event.openstack import nova as event_nova
+from event.openstack import cinder as event_cinder
+from event.openstack import neutron as event_neutron
+from event.ceph import monitor as event_monitor
+from event.ceph import osd as event_osd
 
 
 
@@ -26,11 +35,13 @@ class GetOpenStackInfo():
     def __init__(self):
         # 实例化存储对象
         # 获取管理员的用户名
-        self.admin_obj = one_finger_models.OpenStackKeystoneAuth.objects.filter(os_tenant_name='admin')
+        self.admin_obj = one_finger_models.OpenStackKeystoneAuth.objects.filter(
+            os_tenant_name='admin')
         # 这是数据结构:[{'os_username': u'admin'}]
         self.username = self.admin_obj.values('os_username')[0]['os_username']
         self.password = self.admin_obj.values('os_password')[0]['os_password']
-        self.tenant_name = self.admin_obj.values('os_tenant_name')[0]['os_tenant_name']
+        self.tenant_name = \
+            self.admin_obj.values('os_tenant_name')[0]['os_tenant_name']
         self.auth_url = self.admin_obj.values('auth_url')[0]['auth_url']
         self.token = self.admin_obj.values('token')[0]['token']
         self.tenant_id = self.admin_obj.values('tenant_id')[0]['tenant_id']
@@ -66,6 +77,7 @@ class GetOpenStackInfo():
             # print '%s_save' % endpoint_data['id']
             endpoint_data = {}
             endpoint_obj.save()
+
             log_info = 'Storage Endpoint to DB:' + json.dumps(endpoint_db_data)
             log.info(log_info)
 
@@ -104,6 +116,13 @@ class GetOpenStackInfo():
             if not asset_models.Host.objects.filter(hostname=host):
                 # 监测该主机是否存在数据库中
                 asset_models.Host.objects.create(hostname=host)
+
+                # 添加INFO事件
+                event_hw_node.node_info(
+                    host,
+                    'add host: %s ' % host
+                )
+
         log_info = 'Create Host: %s to DB' % ' '.join(host_list)
         log.info(log_info)
         self.add_hosts_ip(ip)
@@ -141,6 +160,15 @@ class GetOpenStackInfo():
             host.ip_public = host_ip_info['br-ex']
             host.save()
 
+            event_hw_node.node_info(
+                host.hostname,
+                'add host ip: %s %s %s %s ' % (
+                    host_ip_info['br-mgmt'],
+                    host_ip_info['br-fw-admin'],
+                    host_ip_info['br-storage'],
+                    host_ip_info['br-ex'],
+                )
+            )
             log_info = ('Save Host:%s  to DB' % host.hostname)
             log.info(log_info)
 
@@ -165,7 +193,7 @@ class GetOpenStackInfo():
             else:
                 host_ip_dic[interface_name] = None
 
-        print host_ip_dic
+        # print host_ip_dic
         # pdb.set_trace()
         log_info = 'Get Host %s IP' % manager_ip
         log.info(log_info)
@@ -263,8 +291,8 @@ class GetOpenStackInfo():
 
         # 把数据存储到数据库中
         for k, v in manager_db_dic.items():
-            # print 'k--->', k
-            # print 'v--->', v
+            print 'k--->', k
+            print 'v--->', v
             if not openstack_models.NovaManagerServiceStatus.objects.filter(
                     host_id=asset_models.Host.objects.get(hostname=k).id):
 
@@ -276,6 +304,8 @@ class GetOpenStackInfo():
                 manager_obj = asset_models.Host.objects.get(hostname=k)
                 manager_obj.host_group.add(group_obj)
                 manager_obj.save()
+                content = 'Add Nova Manager %s ' % k
+                event_nova.nova_info(k, content)
 
         log_info = 'Add Nova Compute Service to DB %s IP'
         log.info(log_info)
@@ -292,6 +322,10 @@ class GetOpenStackInfo():
                 compute_obj = asset_models.Host.objects.get(hostname=k)
                 compute_obj.host_group.add(group_obj)
                 compute_obj.save()
+
+                # 触发事件日志
+                content = 'Add Nova Compute %s ' % k
+                event_nova.nova_info(k, content)
 
                 # openstack_models.Host.objects.update_or_create(
                 #     host_group_id=openstack_models.Group.objects.get(name='Compute').id)
@@ -322,12 +356,16 @@ class GetOpenStackInfo():
                         db_dic[host.hostname] = {}
                         db_dic[host.hostname]['host_id'] = host.id
                     binary_name = '%s' % '_'.join(item['binary'].split('-'))
-                    print binary_name
+                    # print binary_name
                     db_dic[host.hostname][binary_name] =  item['state']
         if db_dic == None:
             return None
         for host, item in db_dic.items():
             openstack_models.CinderManagerStatus.objects.create(**item)
+
+            # 触发事件
+            content = 'Add Cinder Host: %s ' % host
+            event_cinder.cinder_info(host, content)
 
     def add_neutron_host(self):
         data = neutron.agent_list()
@@ -345,7 +383,7 @@ class GetOpenStackInfo():
                 db_dic[item['host']] = {}
                 db_dic[item['host']]['host_id'] = host_id
                 db_dic[item['host']]['neutron_river_type'] = \
-                    settings.NEUTRON_RIVER
+                    settings.NEUTRON_RIVER_TYPE
 
             binary_name = '%s' % '_'.join(item['binary'].split('-'))
             if item['alive']:
@@ -372,6 +410,11 @@ class GetOpenStackInfo():
                 ):
                     print item
                     nm_obj.objects.create(**item)
+
+                    # 触发事件
+                    content = 'Add Neutron Manager: %s' % host
+                    event_neutron.neutron_info(host, content)
+
                 # else:
                 #   openstack_models.NeutronManagerServiceStatus.objects.filter(
                 #         host_id=openstack_models.Host.objects.get(
@@ -386,15 +429,28 @@ class GetOpenStackInfo():
                     print item
                     nc_obj.objects.create(**item)
 
+                    # 触发事件
+                    content = 'Add Neutron Compute: %s' % host
+                    event_neutron.neutron_info(host, content)
+
     def add_ceph_osd_host(self):
         if settings.CEPH_ENABLED == True:
             cc = ceph.Ceph()
             data = cc.osd_list()
+            # print data
 
             for k, v in data.items():
+                # print k
+                # print v
                 if not storage_models.CephOsdStatus.objects.filter(
                         osd_name=k):
                     storage_models.CephOsdStatus.objects.create(**v)
+
+                    # 触发记录日志
+                    hostname = \
+                        asset_models.Host.objects.get(id=v['host_id']).hostname
+                    content = '%s add osd: %s' % (hostname, k)
+                    event_osd.osd_info(hostname, content)
 
     def add_ceph_mon_host(self):
         if settings.CEPH_ENABLED == True:
@@ -413,10 +469,20 @@ class GetOpenStackInfo():
                     mon_db_dic[host_ip]['mon_id'] = v['id']
                 # pdb.set_trace()
                 for host, val in mon_db_dic.items():
+                    print host,
+                    print val
                     if not storage_models.CephMonitorStatus.objects.filter(
                       mon_id=val['mon_id']
                     ):
                         storage_models.CephMonitorStatus.objects.create(**val)
+
+                        # 触发记录日志
+                        hostname = asset_models.Host.objects.get(
+                            id=val['host_id']).hostname
+                        content = 'add ceph monitor %s , mon_id: %s' % (
+                            hostname,
+                            val['mon_id'])
+                        event_osd.osd_info(hostname, content)
 
     def add_mysql_host(self):
         pass

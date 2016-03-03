@@ -11,12 +11,11 @@ log = logging.logger
 # from check.cloud import start
 from asset import models as asset_models
 from openstack import models as openstack_models
-
-
+from event.openstack import keystone as event_keystone
 
 
 def info(request, ip):
-    print 'ip:', ip
+    # print 'ip:', ip
 
     log.info('get GetOpenStackInfo')
     b = get_openstack_info.GetOpenStackInfo()
@@ -24,8 +23,20 @@ def info(request, ip):
     log.info('get get_endpoint')
     b.get_endpoint()
 
+    # 触发事件
+    event_keystone.add_keystone_info(
+        'keystone',
+        'add openstack Endpoint Information',
+        'INFO'
+    )
+
     log.info('get get_service')
     b.get_service()
+    event_keystone.add_keystone_info(
+        'keystone',
+        'add openstack Service Information',
+        'INFO'
+    )
 
     log.info('get add_hosts')
     b.add_hosts(ip)
