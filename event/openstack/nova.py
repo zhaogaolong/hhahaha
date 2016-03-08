@@ -29,6 +29,82 @@ def nova_info(hostname, content):
     event_keystone_obj.save()
 
 
+def down(hostname, service_name):
+    check_event_type()
+    event_dic = {
+        'event_content': '%s host nova service %s status:down' % (
+            hostname, service_name),
+        'event_type_id': event_models.SecondType.objects.get(
+            name='nova'
+        ).id,
+        'level': 'ERROR',
+        'event_node_id': asset_models.Host.objects.get(hostname=hostname).id
+    }
+    event_db_obj = event_models.Event(**event_dic)
+    event_db_obj.save()
 
 
+def up(hostname, service_name):
+    check_event_type()
+    event_dic = {
+        'event_content': '%s host nova service %s status:up' % (
+            hostname, service_name),
+        'event_type_id': event_models.SecondType.objects.get(
+            name='nova'
+        ).id,
+        'level': 'WARNING',
+        'event_node_id': asset_models.Host.objects.get(hostname=hostname).id
+    }
+    event_db_obj = event_models.Event(**event_dic)
+    event_db_obj.save()
+
+
+def warning(hostname, service_name):
+    check_event_type()
+    event_dic = {
+        'event_content': '%s host nova service %s status:warning' % (
+            hostname, service_name),
+        'event_type_id': event_models.SecondType.objects.get(
+            name='nova'
+        ).id,
+        'level': 'WARNING',
+        'event_node_id': asset_models.Host.objects.get(hostname=hostname).id
+    }
+    event_db_obj = event_models.Event(**event_dic)
+    event_db_obj.save()
+
+
+class CloudStatus():
+    def __init__(self, service_name, status):
+        self.service_name = service_name
+        self.status = status
+
+    def up(self):
+        data = self.parse_data()
+        data['level'] = 'WARNING'
+        event_db_obj = event_models.Event(**data)
+        event_db_obj.save()
+
+    def down(self):
+        data = self.parse_data()
+        data['level'] = 'ERROR'
+        event_db_obj = event_models.Event(**data)
+        event_db_obj.save()
+
+    def warning(self):
+        data = self.parse_data()
+        data['level'] = 'WARNING'
+        event_db_obj = event_models.Event(**data)
+        event_db_obj.save()
+
+    def parse_data(self):
+        data = {
+            'event_content': 'cloud nova %s status:%s' % (
+                self.service_name, self.status),
+            'event_type_id': event_models.SecondType.objects.get(
+                name='nova'
+            ).id,
+            'level': 'WARNING',
+        }
+        return data
 

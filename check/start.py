@@ -59,7 +59,8 @@ def check_db_update(dbobj, status):
 
 def check_nova():
     print '\033[32mcheck_nova\033[0m'
-    nc = nova.Check(openstack_models)
+    nc = nova.Check()
+    nc.start()
 
     time.sleep(10)
 
@@ -90,7 +91,7 @@ if __name__ == "__main__":
     #     check_cinder,
     #     check_ceph,
     # ]
-    service_list = [check_ceph]
+    service_list = [check_nova]
     # # for service in service_list:
     # #     service()
     th_list = []
