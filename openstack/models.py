@@ -189,6 +189,10 @@ class NeutronStatus(models.Model):
                                         max_length=64,
                                         blank=True,
                                         null=True)
+    neutron_l3_start_node = models.CharField(max_length=64,
+                                             blank=True, null=True)
+    neutron_dhcp_start_node = models.CharField(max_length=64,
+                                               blank=True, null=True)
     neutron_dhcp_agent = models.CharField(choices=status_level,
                                           max_length=64,
                                           blank=True,
@@ -225,14 +229,6 @@ class NeutronManagerServiceStatus(models.Model):
                                               max_length=64,)
     neutron_lbaas_agent = models.CharField(choices=status_level,
                                            max_length=64)
-    neutron_l3_agent = models.CharField(choices=status_level,
-                                        max_length=64,
-                                        blank=True,
-                                        null=True)
-    neutron_dhcp_agent = models.CharField(choices=status_level,
-                                          max_length=64,
-                                          blank=True,
-                                          null=True)
     neutron_api_status = models.CharField(choices=status_level,
                                           max_length=64,
                                           blank=True,

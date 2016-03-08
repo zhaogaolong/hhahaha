@@ -68,6 +68,7 @@ def check_nova():
 def check_neutron():
     print '\033[32mcheck_neutron\033[0m'
     nc = neutron.Check()
+    nc.start()
     time.sleep(10)
 
 
@@ -91,7 +92,7 @@ if __name__ == "__main__":
     #     check_cinder,
     #     check_ceph,
     # ]
-    service_list = [check_nova]
+    service_list = [check_neutron]
     # # for service in service_list:
     # #     service()
     th_list = []

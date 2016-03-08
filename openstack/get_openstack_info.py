@@ -374,6 +374,11 @@ class GetOpenStackInfo():
 
 
         for item in data['agents']:
+            if item['binary'] == 'neutron-dhcp-agent' or \
+                item['binary'] == 'neutron-l3-agent':
+                print 'slllllllllllllllllll%s' % item['binary']
+                continue
+
             # 获取该主机的id
             host_id = asset_models.Host.objects.get(
                 hostname=item['host']).id
@@ -409,6 +414,8 @@ class GetOpenStackInfo():
                             hostname=host).id
                 ):
                     print item
+                    # import pdb
+                    # pdb.set_trace()
                     nm_obj.objects.create(**item)
 
                     # 触发事件
