@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding:utf8
 from openstack import models
-
+from one_finger import settings
 
 class Neutron():
     def __init__(self):
@@ -29,7 +29,7 @@ class Neutron():
             status_dic['manager_node'][manager_hostname] = mg.status
 
         for compute in self.neutron_cp_obj:
-            status = compute.neutron_openvswitch_agent
+            status = getattr(compute, settings.NEUTRON_RIVER_TYPE)
             compute_name = compute.host.hostname.split('.')[0]
             status_dic['compute_node'][compute_name] = status
         return status_dic

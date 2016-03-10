@@ -59,6 +59,7 @@ def ceph_mon_info(hostname, content):
 
 def down(hostname=None):
 
+    check_event_type()
     event_dic = {
         'event_content': 'ceph monitor status: down',
         'event_type_id': event_models.SecondType.objects.get(
@@ -76,6 +77,7 @@ def down(hostname=None):
 
 
 def up(hostname=None):
+    check_event_type()
     event_dic = {
         'event_content': 'ceph monitor status: up',
         'event_type_id': event_models.SecondType.objects.get(
@@ -91,6 +93,7 @@ def up(hostname=None):
 
 
 def warning():
+    check_event_type()
     event_dic = {
         'event_content': 'ceph monitor status: warning',
         'event_type_id': event_models.SecondType.objects.get(

@@ -14,21 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
-from one_finger import views as one_finger_views
-from openstack import urls as openstack_url
-from event import urls as event_urls
-
+from event import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^openstack/', include(openstack_url)),
-    url(r'^event/', include(event_urls)),
-    url(r'^input/', one_finger_views.input_info, name='input_info'),
-    url(r'^login/', one_finger_views.account_login, name='login'),
-    url(r'^logout/', one_finger_views.user_logout, name='user_logout'),
-    url(r'^$', one_finger_views.index, name='index'),
-    # url(r'^base/', one_finger_views.base, name='base'),
-    url(r'^back/', one_finger_views.back, name='back'),
-
+    url(r'^check_log/', views.check_event_log, name='event_check_log'),
 ]

@@ -86,39 +86,39 @@ def check_ceph():
 
 
 if __name__ == "__main__":
-    # service_list = [
-    #     check_nova,
-    #     check_neutron,
-    #     check_cinder,
-    #     check_ceph,
-    # ]
-    service_list = [check_neutron]
+    service_list = [
+        check_nova,
+        check_neutron,
+        check_cinder,
+        check_ceph,
+    ]
+    # service_list = [check_neutron]
     # # for service in service_list:
     # #     service()
     th_list = []
 
-    # while True:
-    #     # th_list = []
-    #     for service in service_list:
-    #         t = threading.Thread(target=service)
-    #         t.start()
-    #         th_list.append(t)
+    while True:
+        # th_list = []
+        for service in service_list:
+            t = threading.Thread(target=service)
+            t.start()
+            th_list.append(t)
 
-    #     for th in th_list:
-    #         th.join()
-    #         th_list.remove(th)
-    #     cloud = threading.Thread(target=check_cloud)
-    #     cloud.start()
-    #     cloud.join()
-    #     print 'th_list:', th_list
+        for th in th_list:
+            th.join()
+            th_list.remove(th)
+        cloud = threading.Thread(target=check_cloud)
+        cloud.start()
+        cloud.join()
+        print 'th_list:', th_list
 
     #
-    for service in service_list:
-        t = threading.Thread(target=service)
-        t.start()
-        th_list.append(t)
-    #
-    for th in th_list:
-        th.join()
-        th_list.remove(th)
-    print 'th_list:', th_list
+    # for service in service_list:
+    #     t = threading.Thread(target=service)
+    #     t.start()
+    #     th_list.append(t)
+    # #
+    # for th in th_list:
+    #     th.join()
+    #     th_list.remove(th)
+    # print 'th_list:', th_list

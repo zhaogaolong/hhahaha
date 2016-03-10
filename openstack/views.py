@@ -3,6 +3,7 @@
 import json
 
 #####
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from openstack import get_openstack_info
 from openstack.page import cloud, ceph, nova, neutron, cinder
@@ -13,7 +14,7 @@ from asset import models as asset_models
 from openstack import models as openstack_models
 from event.openstack import keystone as event_keystone
 
-
+@login_required
 def info(request, ip):
     # print 'ip:', ip
 
@@ -65,26 +66,31 @@ def test(request):
     return render(request, 'openstack/dashboards/item.html')
 
 
+@login_required
 def cloud_status(request):
     cs = cloud.Cloud()
     return HttpResponse(json.dumps(cs.status()))
 
 
+@login_required
 def nova_status(request):
     nc = nova.Nova()
     return HttpResponse(json.dumps(nc.status()))
 
 
+@login_required
 def neutron_status(request):
     nc = neutron.Neutron()
     return HttpResponse(json.dumps(nc.status()))
 
 
+@login_required
 def cinder_status(request):
     cc = cinder.Cinder()
     return HttpResponse(json.dumps(cc.status()))
 
 
+@login_required
 def ceph_status(request):
     cc = ceph.Ceph()
     return HttpResponse(json.dumps(cc.status()))
@@ -92,12 +98,14 @@ def ceph_status(request):
 
 # dashboards items
 
+@login_required
 def dashboards_node_status(request):
     node_list = openstack_models.Host.objects.all()
     return render(request, 'openstack/dashboards/node_status.html',
                   {'node_list': node_list})
 
 
+@login_required
 def dashboards_neutron_status(request):
     manager_obj = asset_models.Group.objects.get(name='Manager')
     compute_obj = asset_models.Group.objects.get(name='Compute')
@@ -111,6 +119,7 @@ def dashboards_neutron_status(request):
                   })
 
 
+@login_required
 def dashboards_nova_status(request):
     manager_obj = asset_models.Group.objects.get(name='Manager')
     compute_obj = asset_models.Group.objects.get(name='Compute')
@@ -124,10 +133,12 @@ def dashboards_nova_status(request):
                   })
 
 
+@login_required
 def dashboards_cinder_status(request):
     return render(request, 'openstack/dashboards/cinder_status.html')
 
 
+@login_required
 def dashboards_ceph_status(request):
     mon_obj = asset_models.Group.objects.get(name='Manager')
     osd_obj = asset_models.Group.objects.get(name='Compute')

@@ -1,0 +1,113 @@
+第一步：
+安装一个centos7 的操作系统
+
+1）安装系统基础包
+rpm http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+yum install -y wget vim net-tools python-pip
+
+
+升级一下pip工具
+pip install --upgrade pip
+
+2) 系统配置
+
+禁用selinux
+vim /etc/selinux/config
+SELINUX=disabled
+
+修改主机名
+vim /etc/hostname
+one_finger
+
+重启该服务器
+
+3)安装环境软件包
+安装ansibled包
+yum install ansible MySQL-python python-devel  mariadb-server  mariadb
+pip install django==1.8.6 django-celery
+
+
+
+配置数据库：
+添加一下选项
+vim /etc/my.cnf
+[mysqld]
+default-storage-engine=INNODB
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+启动mariadb 服务
+systemctl start mariadb.service
+设置开机自启动
+systemctl enable mariadb.service
+
+
+查看字符集 character_set_database utf8
+mysql
+MariaDB [(none)]> show variables like 'char%';
++--------------------------+----------------------------+
+| Variable_name            | Value                      |
++--------------------------+----------------------------+
+| character_set_client     | utf8                       |
+| character_set_connection | utf8                       |
+| character_set_database   | utf8                       |
+| character_set_filesystem | binary                     |
+| character_set_results    | utf8                       |
+| character_set_server     | utf8                       |
+| character_set_system     | utf8                       |
+| character_sets_dir       | /usr/share/mysql/charsets/ |
++--------------------------+----------------------------+
+8 rows in set (0.00 sec)
+
+创建一个one_finger 的数据库
+MariaDB [(none)]> create database one_finger;
+
+
+
+
+4)安装openstack软件包
+pip install python-cinderclient python-keystoneclient
+pip install python-neutronclient  python-novaclient
+
+
+
+5)下载代码和配置
+cd /opt
+git clone https://github.com/zhaogaolong/oneFinger.git
+
+设置数据库连接
+vim oneFinger/one_finger/settings.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'one_finger',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': 3306,
+    }
+}
+
+cd /opt/oneFinger/
+python manage.py  makemigrations
+python manage.py  migrate
+
+mkdir /var/log/one_finger
+touch /var/log/one_finger/one_finger.log
+
+
+6) 部署nginx
+pip install uwsgi
+yum install nginx
+uwsgi --emperor /etc/uwsgi/vassals --uid root --gid root --daemonize /var/log/uwsgi-emperor.log
+
+
+
+
+
+
+
+
+
