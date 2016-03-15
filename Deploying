@@ -20,13 +20,23 @@ SELINUX=disabled
 vim /etc/hostname
 one_finger
 
+mkdir /var/log/one_finger/
+touch /var/log/one_finger/one_finger.log
+chown nginx:nginx /var/log/one_finger/one_finger.log
+
 重启该服务器
 
 3)安装环境软件包
 安装ansibled包
-yum install ansible MySQL-python python-devel  mariadb-server  mariadb
-pip install django==1.8.6 django-celery
+yum install ansible MySQL-python python-devel  \
+    mariadb-server  mariadb mysql-devel \
+    ansible
 
+
+pip install django==1.8.6 django-celery
+pip install django-celery
+pip install MySQL-python
+pip install python-cephlibs python-cinderclient python-keystoneclient python-neutronclient python-novaclient (3.1.0)
 
 
 配置数据库：
@@ -102,6 +112,8 @@ touch /var/log/one_finger/one_finger.log
 pip install uwsgi
 yum install nginx
 uwsgi --emperor /etc/uwsgi/vassals --uid root --gid root --daemonize /var/log/uwsgi-emperor.log
+
+
 
 
 

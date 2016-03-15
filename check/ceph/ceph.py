@@ -1,15 +1,20 @@
 #!/usr/bin/env python
 # coding:utf8
-from openstack.api import ceph
+from storage.ceph.api import ceph
 from event.ceph import osd as event_osd, monitor as event_mon, \
     ceph as event_ceph
 
+from storage import  models as storage_models
+
+
 class Check():
-    def __init__(self, models):
-        self.models = models
+    def __init__(self):
+        self.models = storage_models
         self.cm = ceph.Ceph()
         # import pdb
         # pdb.set_trace()
+
+    def start(self):
         self._check_mon()
         self._check_osd()
         self._check_ceph_status()
@@ -59,6 +64,14 @@ class Check():
         for mon in mon_db_list:
             # 取出每一个mon状态
             status_list.append(mon.status)
+
+        if not self.models.CephStatus.objects.filter():
+            dic = {
+                'static': 'null',
+                'monitor_status': 'null',
+                'osd_status': 'null',
+            }
+            self.models.CephStatus(**dic)
         ceph_db_obj = self.models.CephStatus.objects.first()
 
         # 开始对比状态是否正常

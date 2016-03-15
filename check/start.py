@@ -81,7 +81,7 @@ def check_cinder():
 
 def check_ceph():
     print '\033[32mcheck_ceph\033[0m'
-    ce = ceph.Check(storage_models)
+    ce = ceph.Check()
     time.sleep(10)
 
 

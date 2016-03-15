@@ -10,6 +10,6 @@ from event import  models
 @login_required
 def check_event_log(request):
     events = models.Event.objects.order_by("-event_time")
-    return render(request, 'event/check_log.html', {
+    return render(request, 'event/check_log_v2.html', {
         'events': events,
     })

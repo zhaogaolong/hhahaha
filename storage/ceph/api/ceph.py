@@ -33,10 +33,10 @@ class Ceph():
 
             # 获取状态和主机的命令列表
             cmd_list = {
-                'status': ("ceph osd dump| grep %s|awk '{print $2}'| \
+                'status': ("ceph osd dump| grep -w %s|awk '{print $2}'| \
                 grep -v max" % osd),
 
-                'host_ip': ("ceph osd dump| grep %s|awk '{print $14}'| \
+                'host_ip': ("ceph osd dump| grep -w %s|awk '{print $14}'| \
                 grep -v max |awk -F ':' '{print $1}'" % osd)
             }
             for name, cmd in cmd_list.items():

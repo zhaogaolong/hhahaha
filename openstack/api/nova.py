@@ -28,7 +28,8 @@ def host_list():
 def host_data():
     kc = keystone.KeyStone()
     # 获取keystone的服务的数据库对象
-    service_obj = one_finger_models.OpenStackKeystoneService.objects.filter(name='nova')
+    service_obj = one_finger_models.OpenStackKeystoneService.objects.filter(
+        name='nova')
 
     # pdb.set_trace()
     # 获取 service id
