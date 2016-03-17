@@ -78,10 +78,10 @@ def check_cinder():
     nc = cinder.Check(openstack_models)
     time.sleep(10)
 
-
 def check_ceph():
     print '\033[32mcheck_ceph\033[0m'
     ce = ceph.Check()
+    ce.start()
     time.sleep(10)
 
 
@@ -103,10 +103,9 @@ if __name__ == "__main__":
             t = threading.Thread(target=service)
             t.start()
             th_list.append(t)
-
         for th in th_list:
             th.join()
-            th_list.remove(th)
+        th_list = []
         cloud = threading.Thread(target=check_cloud)
         cloud.start()
         cloud.join()

@@ -15,7 +15,7 @@ class Ceph():
 
     def osd_list(self):
         osd_dic = {}
-        cm = "ceph osd dump| grep osd | awk '{print $1}' | grep -v max"
+        cm = "ceph osd dump| grep -v max_osd | grep osd | awk '{print $1,$2}'"
         # pdb.set_trace()
         ac = CmmAndRun(
             cmd=cm,
@@ -25,38 +25,19 @@ class Ceph():
         data = ac.start()
         # pdb.set_trace()
 
-        # 这是一个列表：['osd.0', 'osd.1', 'osd.2', 'osd.3']
         data = data.split('\n')
-        for osd in data:
-            osd_dic[osd] = {}
-            osd_dic[osd]['osd_name'] = osd
-
-            # 获取状态和主机的命令列表
-            cmd_list = {
-                'status': ("ceph osd dump| grep -w %s|awk '{print $2}'| \
-                grep -v max" % osd),
-
-                'host_ip': ("ceph osd dump| grep -w %s|awk '{print $14}'| \
-                grep -v max |awk -F ':' '{print $1}'" % osd)
+        # 这是一个列表：['osd.0 up', 'osd.1 down', 'osd.2 up', 'osd.3 up']
+        for item in data:
+            item = item.split()
+            osd_dic[item[0]] = {
+                'name': item[0],
+                'status': item[1],
+                'host_id': storage_models.CephOsdStatus.objects.get(
+                    osd_name=item[0]
+                ).host.id
             }
-            for name, cmd in cmd_list.items():
-                # 生成字典
-                ac = CmmAndRun(
-                    cmd=cmd,
-                    host=self.ip,
-                )
-                data = ac.start()
-                if data:
-                    osd_dic[osd][name] = data
 
-        for osd, val in osd_dic.items():
-            host_id = asset_models.Host.objects.get(
-                ip_storage=val['host_ip']).id
-            # 移除该key
-            del val['host_ip']
 
-            # 添加foreignKey 的host_id
-            osd_dic[osd]['host_id'] = host_id
 
         return osd_dic
 
