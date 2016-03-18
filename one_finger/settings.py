@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'one_finger',
     'check',
     'event',
+    'alarm',
     # 'djcelery',
     # 'kombu.transport.django',
 )
