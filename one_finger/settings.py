@@ -153,3 +153,18 @@ event_type = {
     'basic_service': []
 }
 
+
+ALARM_TYPE = 'Email'
+
+# 发送邮件设置
+MAIL_USER = 'alarm@awcloud.com'
+MAIL_PASSWORD = 'awcloud_123'
+
+# 设置mail服务器的地址
+MAIL_SERVER = 'smtp.exmail.qq.com:25'
+
+# 邮箱收件人
+NOTIFIER = 'zhaogl@awcloud.com'
+
+MAIL_HEARD = u'创客测试环境报警  %(level)s'
+#MAIL_HEARD = u'chuang ke xiang mu status %(level)s'

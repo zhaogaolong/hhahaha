@@ -441,11 +441,13 @@ class GetOpenStackInfo():
                     event_neutron.neutron_info(host, content)
 
     def add_ceph_osd_host(self):
+        print 'start add osd host'
         if settings.CEPH_ENABLED == True:
             cc = ceph.Ceph()
             data = cc.osd_list()
             # print data
-
+            import pdb
+            pdb.set_trace()
             for k, v in data.items():
                 # print k
                 # print v

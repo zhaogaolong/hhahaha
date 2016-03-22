@@ -15,13 +15,13 @@ class Ceph():
 
     def osd_list(self):
         osd_dic = {}
-        cm = "ceph osd dump| grep -v max_osd | grep osd | awk '{print $1,$2}'"
+        cm = "ceph osd dump| grep -v max_osd | grep osd | " \
+             "awk '{print $1,$2,$14}'"
         # pdb.set_trace()
         ac = CmmAndRun(
             cmd=cm,
             host=self.ip,
         )
-
         data = ac.start()
         # pdb.set_trace()
 
@@ -30,14 +30,12 @@ class Ceph():
         for item in data:
             item = item.split()
             osd_dic[item[0]] = {
-                'name': item[0],
+                'osd_name': item[0],
                 'status': item[1],
-                'host_id': storage_models.CephOsdStatus.objects.get(
-                    osd_name=item[0]
-                ).host.id
+                'host_id': asset_models.Host.objects.get(
+                    ip_storage=item[2].split(':')[0]
+                ).id
             }
-
-
 
         return osd_dic
 

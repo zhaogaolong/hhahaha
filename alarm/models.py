@@ -31,7 +31,11 @@ class Event(models.Model):
     # 所以就把主机给注释掉了
     # host = models.ForeignKey(asset_models.Host)
     description = models.ForeignKey(event_models.Event)
-    status = models.CharField(max_length=64)
 
+    # 填写联系人
+    # notifier = models.ForeignKey('UserProfile')
+    # email 的内容
+    mail_msg = models.TextField(u'邮件内容')
+    status = models.CharField(max_length=1024, blank=True, null=True)
 
 
