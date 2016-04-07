@@ -153,8 +153,10 @@ event_type = {
     'basic_service': []
 }
 
-
-ALARM_TYPE = 'Email'
+# 配置报警类型，多个使用列表方式[]
+# 报警类型: email, we_chat, phone
+# ['email', 'we_chat, 'phone']
+ALARM_TYPE = 'email'
 
 # 发送邮件设置
 MAIL_USER = 'alarm@awcloud.com'

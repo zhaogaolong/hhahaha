@@ -1,36 +1,8 @@
 #!/usr/bin/env python
 # coding:utf8
-#####
-# from event import base
-# from asset import models
-
-
-# class Monitor(base):
-#     def __init__(self, host_id):
-#         self.host_id = host_id
-#         self.event_models = base.Base.event_db_obj
-#
-#     def monitor_down(self, ):
-#         data = self.parse_data('down')
-#         osd_obj = self.event_models(**data)
-#         osd_obj.save()
-#
-#     def monitor_up(self):
-#         data = self.parse_data('up')
-#         osd_obj = self.event_models(**data)
-#         osd_obj.save()
-#
-#     def parse_data(self, status):
-#         host_name = models.Host.objects.get(id=self.host_id).hostname
-#         data = {
-#            'event_models': 'Ceph',
-#            'event_content': 'Ceph Monitor: %s, is %s' % (host_name, status),
-#            'event_node_id': self.host_id
-#         }
-#         return data
-
 from event import models as event_models
 from asset import models as asset_models
+from alarm import engine
 
 
 def check_event_type():
@@ -74,6 +46,8 @@ def down(hostname=None):
 
     event_obj = event_models.Event(**event_dic)
     event_obj.save()
+    al = engine.alarm_type()
+    al(event_obj.id, 'down')
 
 
 def up(hostname=None):
@@ -90,6 +64,8 @@ def up(hostname=None):
         event_dic['event_content'] = '%s ceph monitor status: up' % hostname
     event_obj = event_models.Event(**event_dic)
     event_obj.save()
+    al = engine.alarm_type()
+    al(event_obj.id, 'up')
 
 
 def warning():
@@ -102,4 +78,6 @@ def warning():
     }
     event_obj = event_models.Event(**event_dic)
     event_obj.save()
+    al = engine.alarm_type()
+    al(event_obj.id, 'warning')
 

@@ -17,3 +17,11 @@ host_key_checking = False
 监测nova，neutron、cinder、glance、ceph等
 
 注: 如果没有配置在获取主机的时候无法获取信
+
+
+
+shellinaboxd -p 4201 -t -s /192.168.0.3:SSH:192.168.0.3
+ps -ef|grep -e 14244df  |grep -v grep  
+
+
+http://192.168.254.230:4203/?u=root&p=r00tme

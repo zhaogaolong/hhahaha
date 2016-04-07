@@ -167,8 +167,8 @@ class NovaComputeServiceStatus(models.Model):
 class NeutronStatus(models.Model):
 
     system_river_type_choices = (
-        ('Open_vSwitch', "Open_vSwitch"),
-        ('Linux_bridge ', "Linux_bridge"),
+        ('neutron_linuxbridge_agent', "neutron_linuxbridge_agent"),
+        ('neutron_openvswitch_agent', "neutron_openvswitch_agent"),
     )
     status = models.CharField(choices=mode_status_level,
                               max_length=64,
@@ -220,8 +220,8 @@ class NeutronManagerServiceStatus(models.Model):
                                                  max_length=64,
                                                  blank=True, null=True)
     system_river_type_choices = (
-        ('Open_vSwitch', "Open_vSwitch"),
-        ('Linux_bridge ', "Linux_bridge"),
+        ('neutron_linuxbridge_agent', "neutron_linuxbridge_agent"),
+        ('neutron_openvswitch_agent', "neutron_openvswitch_agent"),
     )
     neutron_river_type = models.CharField(choices=system_river_type_choices,
                                           max_length=64)
@@ -248,8 +248,8 @@ class NeutronComputeServiceStatus(models.Model):
     # river 是底层模式 ： ovs linux-bridge 等
     # river 的存储模式
     system_river_type_choices = (
-        ('Open_vSwitch', "Open_vSwitch"),
-        ('Linux_bridge ', "Linux_bridge"),
+        ('neutron_linuxbridge_agent', "neutron_linuxbridge_agent"),
+        ('neutron_openvswitch_agent', "neutron_openvswitch_agent"),
     )
     neutron_river_type = models.CharField(choices=system_river_type_choices,
                                           max_length=64)

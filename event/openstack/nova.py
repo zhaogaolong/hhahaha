@@ -2,7 +2,7 @@
 # coding:utf8
 from event import models as event_models
 from asset import models as asset_models
-from alarm.mail import Mail
+from alarm import engine
 
 
 def check_event_type():
@@ -43,8 +43,10 @@ def down(hostname, service_name):
     }
     event_db_obj = event_models.Event(**event_dic)
     event_db_obj.save()
-    al = Mail(event_db_obj.id)
-    al.send_mail()
+    al = engine.alarm_type()
+    al(event_db_obj.id, 'down')
+    # al = Mail(event_db_obj.id)
+    # al.send_mail()
 
 
 def up(hostname, service_name):
@@ -60,8 +62,10 @@ def up(hostname, service_name):
     }
     event_db_obj = event_models.Event(**event_dic)
     event_db_obj.save()
-    al = Mail(event_db_obj.id)
-    al.send_mail()
+    al = engine.alarm_type()
+    al(event_db_obj.id, 'up')
+    # al = Mail(event_db_obj.id)
+    # al.send_mail()
 
 
 def warning(hostname, service_name):
@@ -77,8 +81,10 @@ def warning(hostname, service_name):
     }
     event_db_obj = event_models.Event(**event_dic)
     event_db_obj.save()
-    al = Mail(event_db_obj.id)
-    al.send_mail()
+    al = engine.alarm_type()
+    al(event_db_obj.id)
+    # al = Mail(event_db_obj.id)
+    # al.send_mail()
 
 
 class CloudStatus():

@@ -80,7 +80,7 @@
                         2d
                     </td>
                     <td class="text-right">
-                        <button class="btn btn-info"> SSH</button>
+                        <button onclick="ssh_host('{{ node.id }}')" class="btn btn-info"> SSH</button>
                         <button class="btn btn-warning"> shutdown</button>
                         <button class="btn btn-danger"> reboot</button>
                     </td>
@@ -150,11 +150,38 @@
         });
 
 
+
+
 {#        选择钮#}
 
 
     });
 
+
+  </script>
+
+  <script>
+
+
+    {#        着是登录ssh的fuc#}
+    function ssh_host(host_id){
+      {#          windows.location.host 是获取url中的域名或者ip#}
+      var url_header = window.location.host;
+      var ssh_url = 'http://' + url_header + '/asset/ssh_host/' + host_id;
+
+{#      // 获取ssh的url#}
+      $.get(ssh_url, function(callback, sta){
+        console.log(ssh_url);
+        console.log(callback);
+        if(sta == 'success'){
+          var url = JSON.parse(callback);
+          console.log(url['url']);
+          window.open(url['url']);
+        }
+      });
+      {#                  $get(ssh_url)#}
+
+    }
 
   </script>
 

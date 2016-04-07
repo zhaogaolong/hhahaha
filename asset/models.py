@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# coding:utf8
 from django.db import models
 
 # Create your models here.
@@ -19,7 +21,15 @@ class Host(models.Model):
         ('Warning ', "Warning"),
         ('Error ', "Error"),
     )
-    status = models.CharField(choices=status_level, max_length=64, blank=True, null=True)
+    status = models.CharField(choices=status_level, max_length=64, blank=True,
+                              null=True)
+
+    # # ssh port 主要是存储shellinabox 生成的端口
+    # ssh_port = models.IntegerField(max_length=65535, null=True, blank=True)
+
+    # # 存储shellinaboxd 的pid ，方便以后清除
+    #　shellinabox_pid = models.IntegerField(max_length=65535, null=True,
+    #                                       #  blank=True)
 
     def __unicode__(self):
         return self.hostname

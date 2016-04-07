@@ -11,18 +11,20 @@ from one_finger import settings
 
 
 class Mail():
-    def __init__(self, event_id):
+    def __init__(self, event_id, status):
         self.mail_user = settings.MAIL_USER
         self.mail_password = settings.MAIL_PASSWORD
         self.mail_server = settings.MAIL_SERVER
         self.event_id = event_id
         ev = event_models.Event.objects.get(id=self.event_id)
         self.notifier = settings.NOTIFIER
+        self.status = status
 
         self.content = u'时间: %s ' % ev.event_time + '<br>' \
                        + u'节点: %s' % ev.event_node.hostname + '<br>' \
                        + u'模块: %s' % ev.event_type.name + '<br>' \
                        + u'级别: %s' % ev.level + '<br>' \
+                       + u'状态: %s' % self.status + '<br>' \
                        + ev.event_content + ' \n\n'
         self.msg = MIMEMultipart()
         self.msg.attach(MIMEText(
@@ -35,8 +37,6 @@ class Mail():
         self.msg['To'] = self.notifier
 
     def send_mail(self):
-        import pdb
-        pdb.set_trace()
         try:
             smtp_server = smtplib.SMTP()
             smtp_server.connect(settings.MAIL_SERVER)

@@ -257,7 +257,6 @@ class Check():
                 openstack_models.NeutronComputeServiceStatus.objects.all():
             st = getattr(compute, settings.NEUTRON_RIVER_TYPE)
             status.append(st)
-
         if len(status) == status.count('up'):
             self._data_check_to_db(neutron_db_obj, 'neutron_compute', 'up')
         elif len(status) > status.count('up') > 0:

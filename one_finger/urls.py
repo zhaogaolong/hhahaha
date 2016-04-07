@@ -18,11 +18,13 @@ from django.contrib import admin
 from one_finger import views as one_finger_views
 from openstack import urls as openstack_url
 from event import urls as event_urls
+from asset import urls as  asset_url
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^openstack/', include(openstack_url)),
+    url(r'^asset/', include(asset_url)),
     url(r'^event/', include(event_urls)),
     url(r'^input/', one_finger_views.input_info, name='input_info'),
     url(r'^login/', one_finger_views.account_login, name='login'),

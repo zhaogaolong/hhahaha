@@ -2,6 +2,7 @@
 # coding:utf8
 from event import models as event_models
 from asset import models as asset_models
+from alarm import engine
 
 
 def neutron_info(hostname, content):
@@ -29,9 +30,6 @@ def check_event_type():
         )
 
 
-
-
-
 def down(hostname, service_name):
     check_event_type()
     event_dic = {
@@ -45,6 +43,8 @@ def down(hostname, service_name):
     }
     event_db_obj = event_models.Event(**event_dic)
     event_db_obj.save()
+    al = engine.alarm_type()
+    al(event_db_obj.id, 'down')
 
 
 def up(hostname, service_name):
@@ -60,6 +60,8 @@ def up(hostname, service_name):
     }
     event_db_obj = event_models.Event(**event_dic)
     event_db_obj.save()
+    al = engine.alarm_type()
+    al(event_db_obj.id, 'up')
 
 
 def warning(hostname, service_name):
@@ -75,6 +77,8 @@ def warning(hostname, service_name):
     }
     event_db_obj = event_models.Event(**event_dic)
     event_db_obj.save()
+    al = engine.alarm_type()
+    al(event_db_obj.id, 'warning')
 
 
 class CloudStatus():
@@ -121,5 +125,10 @@ def neutron_migrate(content):
         ).id,
         'level': 'CRITICAL',
     }
-    event_keystone_obj = event_models.Event(**event_dic)
-    event_keystone_obj.save()
+    event_db_obj = event_models.Event(**event_dic)
+    event_db_obj.save()
+    al = engine.alarm_type()
+    al(event_db_obj.id, 'critical')
+
+
+
